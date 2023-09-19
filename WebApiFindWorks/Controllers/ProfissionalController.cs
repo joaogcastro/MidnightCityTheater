@@ -1,51 +1,49 @@
 using Microsoft.AspNetCore.Mvc;
 using WebApiFindWorks.Models;
-using API_Estacionamento.Data;
+using WebApiFindWorks.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_Estacionamento.Controllers;
+namespace WebApiFindWorks.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class CarroController : ControllerBase
+public class ProfissionalController : ControllerBase
 {
-    private EstacionamentoDbContext? _context;
+    private WebApiFindWorksDbContext? _context;
 
-    public CarroController(EstacionamentoDbContext context)
+    public ProfissionalController(WebApiFindWorksDbContext context)
     {
         _context = context;
     }
 
     [HttpGet]
-    [Route("listar")]
-    public async Task<ActionResult<IEnumerable<Carro>>> Listar()
+[Route("listar")]
+public async Task<ActionResult<IEnumerable<Profissional>>> Listar()
+{
+    if (_context is null)
     {
-        if(_context.Carro is null)
-            return NotFound();
-        return await _context.Carro.ToListAsync();
+        return NotFound();
     }
+    return await _context.Profissional.ToListAsync();
+}
+
     [HttpGet()]
-    [Route("buscar/{placa}")]
-    public async Task<ActionResult<Carro>> Buscar([FromRoute] string placa)
+    [Route("buscar/{nome}")]
+    public async Task<ActionResult<Profissional>> Buscar([FromRoute] string nome)
     {
-        if(_context.Carro is null)
+        if(_context.Profissional is null)
             return NotFound();
-        var carro = await _context.Carro.FindAsync(placa);
-        if (carro is null)
+        var profissional = await _context.Profissional.FindAsync(nome);
+        if (profissional is null)
             return NotFound();
-        return carro;
+        return profissional;
     }
     [HttpPost]
     [Route("cadastrar")]
-    public IActionResult Cadastrar(Carro carro)
+    public IActionResult Cadastrar(Profissional profissional)
     {
-        _context.Add(carro);
+        _context.Add(profissional);
         _context.SaveChanges();
-        return Created("", carro);
+        return Created("", profissional);
     }
 }
-
-
-
-
-

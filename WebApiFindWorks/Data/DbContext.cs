@@ -1,8 +1,8 @@
 using WebApiFindWorks.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace API_Estacionamento.Data;
-public class EstacionamentoDbContext : DbContext
+namespace WebApiFindWorks.Data;
+public class WebApiFindWorksDbContext : DbContext
 {
     public DbSet<Profissional>? Profissional { get; set;}
 
