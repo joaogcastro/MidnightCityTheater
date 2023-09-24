@@ -9,8 +9,10 @@ public class Profissional
     public string? Profissao { get; set; }
     public string? Email { get; set; }
     public string? Telefone { get; set; }
+    public string? Cidade { get; set; }
+    public string? Bairro { get; set; }
     public double ValorHora { get; set; }
-    public double Distancia { get; set; }
+    public double DistanciaDoCentro { get; set; }
 
     public Profissional()
     {
@@ -19,18 +21,22 @@ public class Profissional
         Profissao = null;
         Email = null;
         Telefone = null;
+        Cidade = null;
+        Bairro = null;
         ValorHora = 0.0;
-        Distancia = 0.0;
+        DistanciaDoCentro = 0.0;
     }
     
-    public Profissional(int id, string nome, string profissao, string email, string telefone, double valorHora, double distancia)
+    public Profissional(int id, string nome, string profissao, string email, string telefone, string cidade, string bairro, double valorHora, double distancia)
     {
         Id = id;
         Nome = nome;
         Profissao = profissao;
         Email = email;
         Telefone = telefone;
+        Cidade = cidade;
+        Bairro = bairro;
         ValorHora = valorHora;
-        Distancia = distancia;
+        DistanciaDoCentro = distancia;
     }
 }
