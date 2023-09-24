@@ -50,6 +50,23 @@ namespace WebApiFindWorks.Migrations
 
                     b.ToTable("Profissional");
                 });
+
+            modelBuilder.Entity("WebApiFindWorks.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NomeUsuario")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Senha")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuario");
+                });
 #pragma warning restore 612, 618
         }
     }

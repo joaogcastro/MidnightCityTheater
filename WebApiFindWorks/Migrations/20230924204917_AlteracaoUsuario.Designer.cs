@@ -10,8 +10,8 @@ using WebApiFindWorks.Data;
 namespace WebApiFindWorks.Migrations
 {
     [DbContext(typeof(WebApiFindWorksDbContext))]
-    [Migration("20230920120717_CriacaoInicial")]
-    partial class CriacaoInicial
+    [Migration("20230924204917_AlteracaoUsuario")]
+    partial class AlteracaoUsuario
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,7 +25,13 @@ namespace WebApiFindWorks.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<double>("Distancia")
+                    b.Property<string>("Bairro")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Cidade")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("DistanciaDoCentro")
                         .HasColumnType("REAL");
 
                     b.Property<string>("Email")
@@ -46,6 +52,23 @@ namespace WebApiFindWorks.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Profissional");
+                });
+
+            modelBuilder.Entity("WebApiFindWorks.Models.Usuario", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("NomeUsuario")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Senha")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuario");
                 });
 #pragma warning restore 612, 618
         }
