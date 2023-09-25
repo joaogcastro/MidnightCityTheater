@@ -2,8 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using WebApiFindWorks.Models;
 using WebApiFindWorks.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
-
 namespace WebApiFindWorks.Controllers;
 
 [ApiController]

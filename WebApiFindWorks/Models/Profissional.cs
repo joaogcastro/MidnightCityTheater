@@ -13,6 +13,7 @@ public class Profissional
     public string? Bairro { get; set; }
     public double ValorHora { get; set; }
     public double DistanciaDoCentro { get; set; }
+    public ICollection<Rating>? Ratings { get; set; }
 
     public Profissional()
     {
@@ -25,6 +26,7 @@ public class Profissional
         Bairro = null;
         ValorHora = 0.0;
         DistanciaDoCentro = 0.0;
+        Ratings = null;
     }
     
     public Profissional(int id, string nome, string profissao, string email, string telefone, string cidade, string bairro, double valorHora, double distancia)
