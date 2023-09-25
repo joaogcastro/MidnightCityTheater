@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NV/o6ksiUF/G26ZrVvBBV0fE6zBo2e57ZGLcWfQfHR+uo6t+gV2O4/Tj/3RNYc1wFHH9bYnSHWCi5eXrsrtIfw==",
+  "dgSpecHash": "w+wKykN/JCOpaKl5TGs/mzmlb95vxxGiFxXIV1dnrJ4Y0sCSdh0Fw/J3rVkMmdtkdcA1ARiJKHxqyy6Pj5P+Ng==",
   "success": true,
   "projectFilePath": "C:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
   "expectedPackageFiles": [
@@ -90,11 +90,7 @@
     "C:\\Users\\vinic\\.nuget\\packages\\system.threading.tasks.extensions\\4.3.0\\system.threading.tasks.extensions.4.3.0.nupkg.sha512",
     "C:\\Users\\vinic\\.nuget\\packages\\system.xml.readerwriter\\4.3.0\\system.xml.readerwriter.4.3.0.nupkg.sha512",
     "C:\\Users\\vinic\\.nuget\\packages\\system.xml.xdocument\\4.3.0\\system.xml.xdocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\vinic\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512",
-    "C:\\Users\\vinic\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.22\\microsoft.netcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\vinic\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.22\\microsoft.windowsdesktop.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\vinic\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.22\\microsoft.aspnetcore.app.ref.6.0.22.nupkg.sha512",
-    "C:\\Users\\vinic\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.22\\microsoft.netcore.app.host.win-x64.6.0.22.nupkg.sha512"
+    "C:\\Users\\vinic\\.nuget\\packages\\system.xml.xmldocument\\4.3.0\\system.xml.xmldocument.4.3.0.nupkg.sha512"
   ],
   "logs": []
 }
