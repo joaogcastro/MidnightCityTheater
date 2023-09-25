@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "A+qDM3pgyLajZE5/9b+q9G+bRBX/AiJrqAlFJUbcDWGDcXWuWn7KJzXI+s9Py29EDUt1YPrBFTPITdxdmytUuQ==",
+  "dgSpecHash": "nXtW/IS8fk/UeFUph4n50JuC8/OOC6yii8ALFUaejs0/5acYKKCjWyt7CxMrX+TQJCH9TfpAQ/hY0L2yTinsLA==",
   "success": true,
-  "projectFilePath": "D:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
+  "projectFilePath": "d:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\vinic\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\vinic\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",

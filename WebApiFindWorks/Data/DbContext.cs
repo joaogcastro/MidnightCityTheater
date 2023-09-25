@@ -7,6 +7,7 @@ public class WebApiFindWorksDbContext : DbContext
     public DbSet<Profissional>? Profissional { get; set; }
     public DbSet<Usuario>? Usuario { get; set; }
     public DbSet<Rating>? Rating { get; set; }
+    public DbSet<PedidoServico>? PedidoServico { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
