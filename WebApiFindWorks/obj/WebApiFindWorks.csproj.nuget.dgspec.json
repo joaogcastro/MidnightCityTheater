@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj": {}
+    "D:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj": {}
   },
   "projects": {
-    "C:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj": {
+    "D:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
+        "projectUniqueName": "D:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
         "projectName": "WebApiFindWorks",
-        "projectPath": "C:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
+        "projectPath": "D:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
         "packagesPath": "C:\\Users\\vinic\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\obj\\",
+        "outputPath": "D:\\Trabalhos\\FindWorks\\WebApiFindWorks\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\vinic\\AppData\\Roaming\\NuGet\\NuGet.Config"

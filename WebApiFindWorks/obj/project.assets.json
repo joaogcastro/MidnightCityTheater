@@ -6051,11 +6051,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "c:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
+      "projectUniqueName": "d:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
       "projectName": "WebApiFindWorks",
-      "projectPath": "c:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
+      "projectPath": "d:\\Trabalhos\\FindWorks\\WebApiFindWorks\\WebApiFindWorks.csproj",
       "packagesPath": "C:\\Users\\vinic\\.nuget\\packages\\",
-      "outputPath": "c:\\Users\\vinic\\OneDrive\\Documentos\\GitHub\\FindWorks\\WebApiFindWorks\\obj\\",
+      "outputPath": "d:\\Trabalhos\\FindWorks\\WebApiFindWorks\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\vinic\\AppData\\Roaming\\NuGet\\NuGet.Config"
