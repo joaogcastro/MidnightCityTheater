@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ByR0Rt2BzjWKVxu79IWcPLGFvBZ2wzqL731bshZUvy0dn943HpdU65AgeXtbZsH8/5AWQ5BjKAg/YWtKiEC7cw==",
+  "dgSpecHash": "wP+G2y0YOO2V/8rOvaFamhBVaGhhO4fg2HG4USszOHkm8HqUXlcnZ39IcLfqJsXgNoRfRwCoVYfUwZxlwd9E+w==",
   "success": true,
-  "projectFilePath": "c:\\Users\\joaot\\Desktop\\Nova pasta\\MidnightCityTheater\\MidnightCityTheater.csproj",
+  "projectFilePath": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater\\MidnightCityTheater.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\joaot\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\joaot\\.nuget\\packages\\microsoft.csharp\\4.3.0\\microsoft.csharp.4.3.0.nupkg.sha512",
