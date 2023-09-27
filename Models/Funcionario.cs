@@ -9,13 +9,13 @@ public class Funcionario
 
     [Required] // Not null
     [StringLength(11)] // Define o tamanho máximo da string para 11
-    public string CPF { get; set; }
+    public string CPFfunc { get; set; }
 
     [Required] // Not null
-    public string Nome { get; set; }
+    public string NomeFunc { get; set; }
 
-    public string? Email { get; set; } // Pode ser nulo
+    public string? EmailFunc { get; set; } // Pode ser nulo
 
     [StringLength(11)] // Define o tamanho máximo da string para 11
-    public string? Telefone { get; set; } // Pode ser nulo
+    public string? TelefoneFunc { get; set; } // Pode ser nulo
 }

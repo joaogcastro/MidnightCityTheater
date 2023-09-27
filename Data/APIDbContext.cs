@@ -13,6 +13,7 @@ public class APIDbContext : DbContext
     public DbSet<Bebida> Bebida { get; set; }
     public DbSet<Doce> Doce { get; set; }
     public DbSet<Venda> Venda { get; set; }
+    public DbSet<Funcionario> Funcionario { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -25,7 +26,24 @@ public class APIDbContext : DbContext
         modelBuilder.Entity<Cliente>()
             .HasIndex(c => c.CPF)
             .IsUnique();
-        /*    
+
+
+            
+        /*
+
+        //Define a relação de um para muitos entre Sala e Funcionario
+        modelBuilder.Entity<Sala>()
+            .HasMany(h => h.Funcionario)
+            .WithOne(g => g.Sala)
+            .HasForeignKey(g => g.IdSala);
+
+        //Define a relação de um para muitos entre Sala e Filme
+        modelBuilder.Entity<Sala>()
+            .HasMany(x => x.Filme)
+            .WithOne(z => z.Sala)
+            .HasForeignKey(z => z.IdSala);
+
+
         //Define a relação de um para muitos entre Snack e Pipoca
         modelBuilder.Entity<Snack>()
             .HasMany(s => s.Pipoca)
