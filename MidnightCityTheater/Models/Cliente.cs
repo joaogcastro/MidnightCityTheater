@@ -12,5 +12,7 @@ public class Cliente
     public string Nome { get; set; }
     public string? Email { get; set; } //? significa que pode ser nulo
     [StringLength(11)] //Define o tamanho maximo da string para 11
-    public string? Telefone { get; set;} //? significa que pode ser nulo
+    public string? Telefone { get; set; } //? significa que pode ser nulo
+    public int VendaId { get; set; }
+    public Venda Venda { get; set; }
 }

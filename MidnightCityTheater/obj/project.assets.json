@@ -6046,19 +6046,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\vinic\\.nuget\\packages\\": {}
+    "C:\\Users\\joaot\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater\\MidnightCityTheater.csproj",
+      "projectUniqueName": "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater\\MidnightCityTheater.csproj",
       "projectName": "MidnightCityTheater",
-      "projectPath": "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater\\MidnightCityTheater.csproj",
-      "packagesPath": "C:\\Users\\vinic\\.nuget\\packages\\",
-      "outputPath": "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater\\obj\\",
+      "projectPath": "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater\\MidnightCityTheater.csproj",
+      "packagesPath": "C:\\Users\\joaot\\.nuget\\packages\\",
+      "outputPath": "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\vinic\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\joaot\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net6.0"
@@ -6128,7 +6128,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.413\\RuntimeIdentifierGraph.json"
       }
     }
   }

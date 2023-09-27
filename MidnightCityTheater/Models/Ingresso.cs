@@ -14,6 +14,8 @@ namespace MidnightCityTheater.Models
         //public int IdSala { get; set; }
         //public int IdCliente{ get; set; }
         public string Preco { get; set; }
+        public int VendaId { get; set; }
+        public Venda Venda { get; set; }
 
     }
 }
