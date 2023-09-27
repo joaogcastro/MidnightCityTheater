@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj": {}
+    "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj": {}
   },
   "projects": {
-    "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj": {
+    "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj",
+        "projectUniqueName": "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj",
         "projectName": "MidnightCityTheater",
-        "projectPath": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj",
+        "projectPath": "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj",
         "packagesPath": "C:\\Users\\joaot\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\obj\\",
+        "outputPath": "c:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\joaot\\AppData\\Roaming\\NuGet\\NuGet.Config"
