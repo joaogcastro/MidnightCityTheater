@@ -11,6 +11,22 @@ namespace MidnightCityTheater.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "Cliente",
+                columns: table => new
+                {
+                    IdCliente = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    CPF = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
+                    Nome = table.Column<string>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    Telefone = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Cliente", x => x.IdCliente);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Filme",
                 columns: table => new
                 {
@@ -44,14 +60,23 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Snack",
+                columns: table => new
+                {
+                    IdSnack = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Snack", x => x.IdSnack);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Venda",
                 columns: table => new
                 {
                     IdVenda = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    ClienteId = table.Column<int>(type: "INTEGER", nullable: false),
-                    IngressoId = table.Column<int>(type: "INTEGER", nullable: false),
-                    SnackId = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true)
                 },
                 constraints: table =>
                 {
@@ -80,26 +105,62 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Cliente",
+                name: "Bebida",
                 columns: table => new
                 {
-                    IdCliente = table.Column<int>(type: "INTEGER", nullable: false)
+                    IdBebida = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CPF = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Telefone = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true),
-                    VendaId = table.Column<int>(type: "INTEGER", nullable: false)
+                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
+                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
+                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Cliente", x => x.IdCliente);
+                    table.PrimaryKey("PK_Bebida", x => x.IdBebida);
                     table.ForeignKey(
-                        name: "FK_Cliente_Venda_VendaId",
-                        column: x => x.VendaId,
-                        principalTable: "Venda",
-                        principalColumn: "IdVenda",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Bebida_Snack_SnackIdSnack",
+                        column: x => x.SnackIdSnack,
+                        principalTable: "Snack",
+                        principalColumn: "IdSnack");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doce",
+                columns: table => new
+                {
+                    IdDoce = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: false),
+                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doce", x => x.IdDoce);
+                    table.ForeignKey(
+                        name: "FK_Doce_Snack_SnackIdSnack",
+                        column: x => x.SnackIdSnack,
+                        principalTable: "Snack",
+                        principalColumn: "IdSnack");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pipoca",
+                columns: table => new
+                {
+                    IdPipoca = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
+                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
+                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pipoca", x => x.IdPipoca);
+                    table.ForeignKey(
+                        name: "FK_Pipoca_Snack_SnackIdSnack",
+                        column: x => x.SnackIdSnack,
+                        principalTable: "Snack",
+                        principalColumn: "IdSnack");
                 });
 
             migrationBuilder.CreateTable(
@@ -124,91 +185,10 @@ namespace MidnightCityTheater.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "Snack",
-                columns: table => new
-                {
-                    IdSnack = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    VendaId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Snack", x => x.IdSnack);
-                    table.ForeignKey(
-                        name: "FK_Snack_Venda_VendaId",
-                        column: x => x.VendaId,
-                        principalTable: "Venda",
-                        principalColumn: "IdVenda",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bebida",
-                columns: table => new
-                {
-                    IdBebida = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
-                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
-                    SnackId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bebida", x => x.IdBebida);
-                    table.ForeignKey(
-                        name: "FK_Bebida_Snack_SnackId",
-                        column: x => x.SnackId,
-                        principalTable: "Snack",
-                        principalColumn: "IdSnack",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Doce",
-                columns: table => new
-                {
-                    IdDoce = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    SnackId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doce", x => x.IdDoce);
-                    table.ForeignKey(
-                        name: "FK_Doce_Snack_SnackId",
-                        column: x => x.SnackId,
-                        principalTable: "Snack",
-                        principalColumn: "IdSnack",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pipoca",
-                columns: table => new
-                {
-                    IdPipoca = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
-                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
-                    SnackId = table.Column<int>(type: "INTEGER", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pipoca", x => x.IdPipoca);
-                    table.ForeignKey(
-                        name: "FK_Pipoca_Snack_SnackId",
-                        column: x => x.SnackId,
-                        principalTable: "Snack",
-                        principalColumn: "IdSnack",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
-                name: "IX_Bebida_SnackId",
+                name: "IX_Bebida_SnackIdSnack",
                 table: "Bebida",
-                column: "SnackId");
+                column: "SnackIdSnack");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Cliente_CPF",
@@ -217,37 +197,24 @@ namespace MidnightCityTheater.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Cliente_VendaId",
-                table: "Cliente",
-                column: "VendaId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Doce_SnackId",
+                name: "IX_Doce_SnackIdSnack",
                 table: "Doce",
-                column: "SnackId");
+                column: "SnackIdSnack");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ingresso_VendaId",
                 table: "Ingresso",
-                column: "VendaId",
-                unique: true);
+                column: "VendaId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Pipoca_SnackId",
+                name: "IX_Pipoca_SnackIdSnack",
                 table: "Pipoca",
-                column: "SnackId");
+                column: "SnackIdSnack");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sala_FuncionarioIdFuncionario",
                 table: "Sala",
                 column: "FuncionarioIdFuncionario");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Snack_VendaId",
-                table: "Snack",
-                column: "VendaId",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -275,13 +242,13 @@ namespace MidnightCityTheater.Migrations
                 name: "Sala");
 
             migrationBuilder.DropTable(
+                name: "Venda");
+
+            migrationBuilder.DropTable(
                 name: "Snack");
 
             migrationBuilder.DropTable(
                 name: "Funcionario");
-
-            migrationBuilder.DropTable(
-                name: "Venda");
         }
     }
 }

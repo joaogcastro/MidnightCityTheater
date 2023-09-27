@@ -8,7 +8,7 @@ public class Venda
     public int IdVenda { get; set; }
 
     // Relacionamento um-para-um com Cliente
-    public int ClienteId { get; set; }
+    /*public int ClienteId { get; set; }
     public Cliente Cliente { get; set; }
 
     // Relacionamento um-para-um com Ingresso
@@ -17,5 +17,5 @@ public class Venda
 
     // Relacionamento um-para-um com Snack
     public int SnackId { get; set; }
-    public Snack Snack { get; set; }
+    public Snack Snack { get; set; }*/
 }

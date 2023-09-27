@@ -10,6 +10,6 @@ public class Bebida
     public string Sabor { get; set; }
     [Required]
     public string Tamanho { get; set; }
-    public int SnackId { get; set; }
-    public Snack Snack { get; set; }
+    /*public int SnackId { get; set; }
+    public Snack Snack { get; set; }*/
 }
