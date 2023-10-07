@@ -6,21 +6,18 @@ namespace WebApiFindWorks.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class ClienteController : ControllerBase
+public class ClienteController: ControllerBase
 {
     private APIDbContext _dbContext;
 
-    public ClienteController(APIDbContext context)
-    {
+    public ClienteController(APIDbContext context) {
         _dbContext = context;
     }
 
     [HttpGet]
     [Route("listar")]
-    public async Task<ActionResult<IEnumerable<Cliente>>> Listar()
-    {
-        if (_dbContext is null)
-        {
+    public async Task < ActionResult < IEnumerable < Cliente>>> Listar() {
+        if (_dbContext is null) {
             return NotFound();
         }
         return await _dbContext.Cliente.ToListAsync();
@@ -28,52 +25,51 @@ public class ClienteController : ControllerBase
 
     [HttpPost]
     [Route("cadastrar")]
-    public async Task<IActionResult> Cadastrar(Cliente cliente)
-    {
+    public async Task < IActionResult > Cadastrar(Cliente cliente) {
         if (_dbContext is null) return NotFound();
         _dbContext.Add(cliente);
         await _dbContext.SaveChangesAsync();
         return Created("", cliente);
     }
-    /*
+    
     [HttpGet()]
     [Route("buscar/{id}")]
-    public async Task<ActionResult<Usuario>> Buscar([FromRoute] int id)
+    public async Task<ActionResult<Cliente>> Buscar([FromRoute] int id)
     {
         if (_dbContext is null)
             return NotFound();
-        var usuario = await _dbContext.Usuario.FindAsync(id);
-        if (usuario is null)
+        var cliente = await _dbContext.Cliente.FindAsync(id);
+        if (cliente is null)
             return NotFound();
-        return usuario;
+        return cliente;
     }
 
     [HttpPut()]
     [Route("alterar")]
-    public async Task<ActionResult> Alterar(Usuario usuario)
+    public async Task<ActionResult> Alterar(Cliente cliente)
     {
         if (_dbContext is null)
             return NotFound();
 
         // Busque o registro existente pelo ID (ou outra chave primária) do usuário
-        var existingUsuario = await _dbContext.Usuario.FindAsync(usuario.Id);
+        var existingCliente = await _dbContext.Cliente.FindAsync(cliente.Id);
 
-        if (existingUsuario is null)
+        if (existingCliente is null)
             return NotFound();
 
         // Atualize apenas os campos que foram fornecidos no objeto usuário
-        if (usuario.NomeUsuario != "string")
+        if (cliente.NomeCliente != "string")
         {
-            existingUsuario.NomeUsuario = usuario.NomeUsuario;
+            existingCliente.NomeCliente = cliente.NomeCliente;
         }
 
-        if (usuario.Senha != "string")
+        if (cliente.Senha != "string")
         {
-            existingUsuario.Senha = usuario.Senha;
+            existingCliente.Senha = cliente.Senha;
         }
 
         // Marque o registro como modificado no contexto do EF
-        _dbContext.Entry(existingUsuario).State = EntityState.Modified;
+        _dbContext.Entry(existingCliente).State = EntityState.Modified;
 
         // Salve as alterações no banco de dados
         await _dbContext.SaveChangesAsync();
@@ -86,10 +82,9 @@ public class ClienteController : ControllerBase
     public async Task<ActionResult> Excluir([FromRoute] int id)
     {
         if (_dbContext is null) return NotFound();
-        var usuario = await _dbContext.Usuario.FindAsync(id);
-        if (usuario is null) return NotFound();
-        _dbContext.Usuario.Remove(usuario);
+        var cliente = await _dbContext.Cliente.FindAsync(id);
+        if (cliente is null) return NotFound();
+        _dbContext.Cliente.Remove(cliente);
         await _dbContext.SaveChangesAsync();
         return Ok();
-    }*/
 }
