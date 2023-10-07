@@ -8,15 +8,15 @@ namespace MidnightCityTheater.Models
         public int IdFilme { get; set; }
 
         [Required]
-        public string NomeFilme { get; set; }
+        public string? NomeFilme { get; set; }
 
         [Required]
-        public string Duracao { get; set; }
+        public string? Duracao { get; set; }
 
-        public string Classificacao { get; set; }
+        public string? Classificacao { get; set; }
 
-        public string Diretor { get; set; }
+        public string? Diretor { get; set; }
 
-        public string Categoria { get; set; }
+        public string? Categoria { get; set; }
     }
 }

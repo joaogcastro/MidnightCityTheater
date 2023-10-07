@@ -29,11 +29,11 @@ public class VendaController : ControllerBase
 
     [HttpPost]
     [Route("cadastrar")]
-    public async Task<IActionResult> Cadastrar(Venda Venda)
+    public async Task<IActionResult> Cadastrar(Venda venda)
     {
         if (_dbContext is null) return NotFound();
-        _dbContext.Add(Venda);
+        _dbContext.Add(venda);
         await _dbContext.SaveChangesAsync();
-        return Created("", Venda);
+        return Created("", venda);
     }
 }

@@ -7,14 +7,14 @@ namespace MidnightCityTheater.Models
         [Key]
         public int IdIngresso { get; set; }
         [Required]
-        public string TipoIngresso { get; set; }
+        public string? TipoIngresso { get; set; }
         [Required]
-        public string Data { get; set; }
+        public string? Data { get; set; }
         //public int IdFilme { get; set; }
         //public int IdSala { get; set; }
-        public string Preco { get; set; }
+        public string? Preco { get; set; }
         public int VendaId { get; set; }
-        public Venda Venda { get; set; }
+        public Venda? Venda { get; set; }
 
     }
 }

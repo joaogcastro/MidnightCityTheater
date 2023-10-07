@@ -6,9 +6,9 @@ namespace MidnightCityTheater.Models
     {
         [Key]
         public int IdSala { get; set; }
-        public Funcionario Funcionario { get; set; } //FAÇA A RELAÇÃO NO DBCONTEXT (TA FEITO)
+        public Funcionario? Funcionario { get; set; } //FAÇA A RELAÇÃO NO DBCONTEXT (TA FEITO)
         [Required]
-        public string Capacidade { get; set; }
+        public string? Capacidade { get; set; }
         public string? TipoSala { get; set; }
 
         //public int IdFilme { get; set; }

@@ -1,0 +1,15 @@
+Deve ser implementado:
+
+    Joao:
+        -better http requests
+        -Validacao Email
+        -Formatacao cpf, Telefone
+        -Mais tratamento de erros
+
+    Vinicius:
+        -Fazer alteração nas classes:
+            -Filme
+            -Ingresso
+            -Sala
+            -Funcionario
+        -colocar mensagens alteradas de acordo com o exemplo do Jão
