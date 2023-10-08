@@ -1,11 +1,20 @@
 namespace MidnightCityTheater.Utils;
 
-public class CPFUtils
+internal class CPFUtils
 {
-    public static bool IsCpfValid(string cpf)
+    internal static string FormatCPF(string cpf)
     {
+        // Remove todos os caracteres não numéricos do CPF
+        string numericCPF = new string(cpf.Where(char.IsDigit).ToArray());
+        return numericCPF;
+    }
+
+    internal static bool IsCpfValid(string cpf)
+    {
+        if(cpf == null) return false;
+
         // Remove caracteres não numéricos do CPF
-        cpf = new string(cpf.Where(char.IsDigit).ToArray());
+        cpf = CPFUtils.FormatCPF(cpf);
 
         // Verifica se o CPF possui 11 dígitos
         if (cpf.Length != 11)
@@ -51,4 +60,5 @@ public class CPFUtils
 
         return true;
     }
+    
 }

@@ -20,10 +20,7 @@ public class ClienteController : ControllerBase
     [Route("listar")]
     public async Task<ActionResult<IEnumerable<Cliente>>> Listar()
     {
-        if (_dbContext is null)
-        {
-            return NotFound("Database unavailable");
-        }
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         return await _dbContext.Cliente.ToListAsync();
     }
 
@@ -31,16 +28,18 @@ public class ClienteController : ControllerBase
     [Route("cadastrar")]
     public async Task<IActionResult> Cadastrar(Cliente cliente)
     {
-        if (_dbContext is null) return NotFound("Database unavailable");
-        if (cliente.CPF == null || cliente.CPF == "string") return BadRequest("CPF is null");
-        if (CPFUtils.IsCpfValid(cliente.CPF) == false)
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (cliente.CPF == null || cliente.CPF == "string") return BadRequest(ErrorResponse.CPFisNull);
+        if (CPFUtils.IsCpfValid(cliente.CPF) == false) return UnprocessableEntity(ErrorResponse.CPFisInvalid);
+        cliente.CPF = CPFUtils.FormatCPF(cliente.CPF);
+        if(cliente.Email != null || cliente.Email != "string")
         {
-            var errorObject = new
-            {
-                Message = "CPF inválido. Por favor, insira um CPF válido.",
-                ErrorCode = "INVALID_CPF"
-            };
-            return UnprocessableEntity(errorObject);
+            if(EmailUtils.IsValidEmail(cliente.Email!)==false) return UnprocessableEntity(ErrorResponse.EmailisInvalid);
+        }
+        if(cliente.Telefone !=null || cliente.Telefone != "string")
+        {
+            cliente.Telefone = TelefoneUtils.FormatPhoneNumber(cliente.Telefone!);
+            if(TelefoneUtils.IsValidPhoneNumber(cliente.Telefone) == false) return UnprocessableEntity(ErrorResponse.PhoneisInvalid);
         }
         _dbContext.Add(cliente);
         await _dbContext.SaveChangesAsync();
@@ -51,11 +50,9 @@ public class ClienteController : ControllerBase
     [Route("buscar/{id}")]
     public async Task<ActionResult<Cliente>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var cliente = await _dbContext.Cliente.FindAsync(id);
-        if (cliente is null)
-            return UnprocessableEntity("No entities were found with this ID");
+        if (cliente is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         return cliente;
     }
 
@@ -63,33 +60,35 @@ public class ClienteController : ControllerBase
     [Route("alterar")]
     public async Task<ActionResult> Alterar(Cliente cliente)
     {
-        if (_dbContext is null)
-            return NotFound("Database unavailable");
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
 
         // Busque o registro existente pelo ID (ou outra chave primária) do usuário
         var existingCliente = await _dbContext.Cliente.FindAsync(cliente.IdCliente);
-
-        if (existingCliente is null)
-            return UnprocessableEntity("No entities were found with this ID");
+        if (existingCliente is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
         // Atualize apenas os campos que foram fornecidos no objeto usuário
-        if (cliente.Nome != "string")
+        if (cliente.Nome != "string" || cliente.Nome != null)
         {
             existingCliente.Nome = cliente.Nome;
         }
 
-        if (cliente.CPF != "string")
+        if (cliente.CPF != "string" || cliente.CPF != null)
         {
+            cliente.CPF = CPFUtils.FormatCPF(cliente.CPF!);
+            if (CPFUtils.IsCpfValid(cliente.CPF) == false) return UnprocessableEntity(new ErrorResponse("CPF inválido. Por favor, insira um CPF válido.", "INVALID_CPF"));
             existingCliente.CPF = cliente.CPF;
         }
 
-        if (cliente.Telefone != "string")
+        if (cliente.Telefone != "string" || cliente.Telefone != null)
         {
+            cliente.Telefone = TelefoneUtils.FormatPhoneNumber(cliente.Telefone!);
+            if(TelefoneUtils.IsValidPhoneNumber(cliente.Telefone) == false) return UnprocessableEntity(ErrorResponse.PhoneisInvalid);
             existingCliente.Telefone = cliente.Telefone;
         }
 
-        if (cliente.Email != "string")
+        if (cliente.Email != "string" || cliente.Email != null)
         {
+            if(EmailUtils.IsValidEmail(cliente.Email!)==false) return UnprocessableEntity(ErrorResponse.EmailisInvalid);
             existingCliente.Email = cliente.Email;
         }
 
@@ -106,9 +105,9 @@ public class ClienteController : ControllerBase
     [Route("excluir/{id}")]
     public async Task<ActionResult> Excluir([FromRoute] int id)
     {
-        if (_dbContext is null) return NotFound("Database unavailable");
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var cliente = await _dbContext.Cliente.FindAsync(id);
-        if (cliente is null) return UnprocessableEntity("No entities were found with this ID");
+        if (cliente is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         _dbContext.Cliente.Remove(cliente);
         await _dbContext.SaveChangesAsync();
         return Ok();
