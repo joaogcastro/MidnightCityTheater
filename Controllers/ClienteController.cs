@@ -51,8 +51,7 @@ public class ClienteController : ControllerBase
     [Route("buscar/{id}")]
     public async Task<ActionResult<Cliente>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            return NotFound();
+        if (_dbContext is null) return NotFound("Database unavailable");
         var cliente = await _dbContext.Cliente.FindAsync(id);
         if (cliente is null)
             return UnprocessableEntity("No entities were found with this ID");
