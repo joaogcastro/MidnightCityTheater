@@ -8,6 +8,7 @@ public class Doce
     public int IdDoce { get; set; }
     [Required]
     public string? Nome { get; set; }
+    [Required]
     public double Preco { get; set; }
     /*public int SnackId { get; set; }
     public Snack Snack { get; set; }*/

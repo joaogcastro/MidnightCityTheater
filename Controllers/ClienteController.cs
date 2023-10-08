@@ -29,14 +29,15 @@ public class ClienteController : ControllerBase
     public async Task<IActionResult> Cadastrar(Cliente cliente)
     {
         if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (cliente.Nome == null || cliente.Nome == "string") return BadRequest(ErrorResponse.AttributeisNull);
         if (cliente.CPF == null || cliente.CPF == "string") return BadRequest(ErrorResponse.CPFisNull);
         if (CPFUtils.IsCpfValid(cliente.CPF) == false) return UnprocessableEntity(ErrorResponse.CPFisInvalid);
         cliente.CPF = CPFUtils.FormatCPF(cliente.CPF);
-        if(cliente.Email != null || cliente.Email != "string")
+        if(cliente.Email != null && cliente.Email != "string")
         {
             if(EmailUtils.IsValidEmail(cliente.Email!)==false) return UnprocessableEntity(ErrorResponse.EmailisInvalid);
         }
-        if(cliente.Telefone !=null || cliente.Telefone != "string")
+        if(cliente.Telefone !=null && cliente.Telefone != "string")
         {
             cliente.Telefone = TelefoneUtils.FormatPhoneNumber(cliente.Telefone!);
             if(TelefoneUtils.IsValidPhoneNumber(cliente.Telefone) == false) return UnprocessableEntity(ErrorResponse.PhoneisInvalid);
@@ -61,32 +62,32 @@ public class ClienteController : ControllerBase
     public async Task<ActionResult> Alterar(Cliente cliente)
     {
         if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-
-        // Busque o registro existente pelo ID (ou outra chave primária) do usuário
+        if (cliente is null) return BadRequest(ErrorResponse.ObjectisNull);
+        // Busque o registro existente pelo ID
         var existingCliente = await _dbContext.Cliente.FindAsync(cliente.IdCliente);
         if (existingCliente is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
-        // Atualize apenas os campos que foram fornecidos no objeto usuário
-        if (cliente.Nome != "string" || cliente.Nome != null)
+        // Atualize apenas os campos que foram fornecidos no objeto
+        if (cliente.Nome != "string" && cliente.Nome != null)
         {
             existingCliente.Nome = cliente.Nome;
         }
 
-        if (cliente.CPF != "string" || cliente.CPF != null)
+        if (cliente.CPF != "string" && cliente.CPF != null)
         {
             cliente.CPF = CPFUtils.FormatCPF(cliente.CPF!);
-            if (CPFUtils.IsCpfValid(cliente.CPF) == false) return UnprocessableEntity(new ErrorResponse("CPF inválido. Por favor, insira um CPF válido.", "INVALID_CPF"));
+            if (CPFUtils.IsCpfValid(cliente.CPF) == false) return UnprocessableEntity(ErrorResponse.CPFisInvalid);
             existingCliente.CPF = cliente.CPF;
         }
 
-        if (cliente.Telefone != "string" || cliente.Telefone != null)
+        if (cliente.Telefone != "string" && cliente.Telefone != null)
         {
             cliente.Telefone = TelefoneUtils.FormatPhoneNumber(cliente.Telefone!);
             if(TelefoneUtils.IsValidPhoneNumber(cliente.Telefone) == false) return UnprocessableEntity(ErrorResponse.PhoneisInvalid);
             existingCliente.Telefone = cliente.Telefone;
         }
 
-        if (cliente.Email != "string" || cliente.Email != null)
+        if (cliente.Email != "string" && cliente.Email != null)
         {
             if(EmailUtils.IsValidEmail(cliente.Email!)==false) return UnprocessableEntity(ErrorResponse.EmailisInvalid);
             existingCliente.Email = cliente.Email;

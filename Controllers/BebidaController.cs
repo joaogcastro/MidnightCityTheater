@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MidnightCityTheater.Data;
 using MidnightCityTheater.Models;
+using MidnightCityTheater.Utils;
 
 namespace MidnightCityTheater.Controllers;
 
@@ -20,32 +21,28 @@ public class BebidaController : ControllerBase
     [Route("listar")]
     public async Task<ActionResult<IEnumerable<Bebida>>> Listar()
     {
-        if (_dbContext is null)
-        {
-            return NotFound();
-        }
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         return await _dbContext.Bebida.ToListAsync();
     }
 
     [HttpPost]
     [Route("cadastrar")]
-    public async Task<IActionResult> Cadastrar(Bebida Bebida)
+    public async Task<IActionResult> Cadastrar(Bebida bebida)
     {
-        if (_dbContext is null) return NotFound();
-        _dbContext.Add(Bebida);
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (bebida.Sabor == null || bebida.Tamanho == null || bebida.Preco == 0) return BadRequest(ErrorResponse.AttributeisNull);
+        _dbContext.Add(bebida);
         await _dbContext.SaveChangesAsync();
-        return Created("", Bebida);
+        return Created("", bebida);
     }
 
     [HttpGet()]
     [Route("buscar/{id}")]
     public async Task<ActionResult<Bebida>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var bebida = await _dbContext.Bebida.FindAsync(id);
-        if (bebida is null)
-            return NotFound();
+        if (bebida is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         return bebida;
     }
 
@@ -53,22 +50,18 @@ public class BebidaController : ControllerBase
     [Route("alterar")]
     public async Task<ActionResult> Alterar(Bebida bebida)
     {
-        if (_dbContext is null)
-            return NotFound();
-
-        // Busque o registro existente pelo ID (ou outra chave primária) do usuário 
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (bebida is null) return BadRequest(ErrorResponse.ObjectisNull);
         var existingBebida = await _dbContext.Bebida.FindAsync(bebida.IdBebida);
+        if (existingBebida is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
-        if (existingBebida is null)
-            return NotFound();
-
-        // Atualize apenas os campos que foram fornecidos no objeto usuário 
-        if (bebida.Sabor != "string")
+        // Atualize apenas os campos que foram fornecidos no objeto
+        if (bebida.Sabor != "string" && bebida.Sabor != null)
         {
             existingBebida.Sabor = bebida.Sabor;
         }
 
-        if (bebida.Tamanho != "string")
+        if (bebida.Tamanho != "string" && bebida.Tamanho != null)
         {
             existingBebida.Tamanho = bebida.Tamanho;
         }
@@ -91,9 +84,9 @@ public class BebidaController : ControllerBase
     [Route("excluir/{id}")]
     public async Task<ActionResult> Excluir([FromRoute] int id)
     {
-        if (_dbContext is null) return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var bebida = await _dbContext.Bebida.FindAsync(id);
-        if (bebida is null) return NotFound();
+        if (bebida is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         _dbContext.Bebida.Remove(bebida);
         await _dbContext.SaveChangesAsync();
         return Ok();

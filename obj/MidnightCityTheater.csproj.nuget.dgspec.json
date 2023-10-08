@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater.csproj": {}
+    "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj": {}
   },
   "projects": {
-    "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater.csproj": {
+    "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater.csproj",
+        "projectUniqueName": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj",
         "projectName": "MidnightCityTheater",
-        "projectPath": "D:\\Trabalhos\\MidnightCityTheater\\MidnightCityTheater.csproj",
-        "packagesPath": "C:\\Users\\vinic\\.nuget\\packages\\",
-        "outputPath": "D:\\Trabalhos\\MidnightCityTheater\\obj\\",
+        "projectPath": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\MidnightCityTheater.csproj",
+        "packagesPath": "C:\\Users\\joaot\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\joaot\\Documents\\Github\\MidnightCityTheater\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\vinic\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\joaot\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -63,6 +63,10 @@
             "Swashbuckle.AspNetCore": {
               "target": "Package",
               "version": "[6.5.0, )"
+            },
+            "Swashbuckle.AspNetCore.Annotations": {
+              "target": "Package",
+              "version": "[6.5.0, )"
             }
           },
           "imports": [
@@ -84,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.413\\RuntimeIdentifierGraph.json"
         }
       }
     }

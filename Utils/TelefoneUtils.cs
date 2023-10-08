@@ -16,6 +16,6 @@ internal class TelefoneUtils
         string formattedPhoneNumber = FormatPhoneNumber(phoneNumber);
 
         // Verifique se o número de telefone tem entre 9 e 12 dígitos
-        return formattedPhoneNumber.Length >= 9 && formattedPhoneNumber.Length <= 12;
+        return formattedPhoneNumber.Length >= 9 && formattedPhoneNumber.Length <= 13;
     }
 }

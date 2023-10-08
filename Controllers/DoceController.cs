@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MidnightCityTheater.Data;
 using MidnightCityTheater.Models;
+using MidnightCityTheater.Utils;
 
 namespace MidnightCityTheater.Controllers;
 
@@ -20,10 +21,7 @@ public class DoceController : ControllerBase
     [Route("listar")]
     public async Task<ActionResult<IEnumerable<Doce>>> Listar()
     {
-        if (_dbContext is null)
-        {
-            return NotFound();
-        }
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         return await _dbContext.Doce.ToListAsync();
     }
 
@@ -31,7 +29,8 @@ public class DoceController : ControllerBase
     [Route("cadastrar")]
     public async Task<IActionResult> Cadastrar(Doce doce)
     {
-        if (_dbContext is null) return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (doce.Nome is null || doce.Preco == 0) return BadRequest(ErrorResponse.AttributeisNull);
         _dbContext.Add(doce); 
         await _dbContext.SaveChangesAsync();
         return Created("", doce);
@@ -41,11 +40,9 @@ public class DoceController : ControllerBase
     [Route("buscar/{id}")]
     public async Task<ActionResult<Doce>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var doce = await _dbContext.Doce.FindAsync(id);
-        if (doce is null)
-            return NotFound();
+        if (doce is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         return doce;
     }
 
@@ -53,22 +50,19 @@ public class DoceController : ControllerBase
     [Route("alterar")]
     public async Task<ActionResult> Alterar(Doce doce)
     {
-        if (_dbContext is null)
-            return NotFound();
-
-        // Busque o registro existente pelo ID (ou outra chave primária) do usuário
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (doce is null) return BadRequest(ErrorResponse.ObjectisNull);
+        // Busque o registro existente pelo ID
         var existingDoce = await _dbContext.Doce.FindAsync(doce.IdDoce);
+        if (existingDoce is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
-        if (existingDoce is null)
-            return NotFound();
-
-        // Atualize apenas os campos que foram fornecidos no objeto usuário
-        if (doce.Nome != "string")
+        // Atualize apenas os campos que foram fornecidos no objeto
+        if (doce.Nome != "string" && doce != null)
         {
             existingDoce.Nome = doce.Nome;
         }
 
-        if (doce.Preco != 0)
+        if (doce!.Preco != 0)
         {
             existingDoce.Preco = doce.Preco;
         }
@@ -86,10 +80,10 @@ public class DoceController : ControllerBase
     [Route("excluir/{id}")]
     public async Task<ActionResult> Excluir([FromRoute] int id)
     {
-        if (_dbContext is null) return NotFound();
-        var Doce = await _dbContext.Doce.FindAsync(id);
-        if (Doce is null) return NotFound();
-        _dbContext.Doce.Remove(Doce);
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        var doce = await _dbContext.Doce.FindAsync(id);
+        if (doce is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
+        _dbContext.Doce.Remove(doce);
         await _dbContext.SaveChangesAsync();
         return Ok();
     }

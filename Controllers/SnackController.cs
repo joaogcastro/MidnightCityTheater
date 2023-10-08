@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using MidnightCityTheater.Models;
 using MidnightCityTheater.Data;
 using Microsoft.EntityFrameworkCore;
+using MidnightCityTheater.Utils;
 
 namespace WebApiFindWorks.Controllers
 {
@@ -20,10 +21,7 @@ namespace WebApiFindWorks.Controllers
         [Route("listar")]
         public async Task<ActionResult<IEnumerable<Snack>>> Listar()
         {
-            if (_dbContext is null)
-            {
-                return NotFound();
-            }
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
             return await _dbContext.Snack.ToListAsync();
         }
 
@@ -31,8 +29,7 @@ namespace WebApiFindWorks.Controllers
         [Route("cadastrar")]
         public async Task<IActionResult> Cadastrar(Snack snack)
         {
-            if (_dbContext is null)
-                return NotFound();
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
             _dbContext.Add(snack);
             await _dbContext.SaveChangesAsync();
             return Created("", snack);
@@ -42,26 +39,22 @@ namespace WebApiFindWorks.Controllers
         [Route("buscar/{id}")]
         public async Task<ActionResult<Snack>> Buscar([FromRoute] int id)
         {
-            if (_dbContext is null)
-                return NotFound();
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
             var snack = await _dbContext.Snack.FindAsync(id);
-            if (snack is null)
-                return NotFound();
+            if (snack is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
             return snack;
         }
 
+        /*
         [HttpPut()]
         [Route("alterar")]
         public async Task<ActionResult> Alterar(Snack snack)
         {
-            if (_dbContext is null)
-                return NotFound();
-
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+            if (snack is null) return BadRequest(ErrorResponse.ObjectisNull);
             // Find the existing record by ID (or another primary key) of the snack
             var existingSnack = await _dbContext.Snack.FindAsync(snack.IdSnack);
-
-            if (existingSnack is null)
-                return NotFound();
+            if (existingSnack is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
             // Update only the fields provided in the snack object
             // Modify these conditions according to your actual model properties
@@ -88,14 +81,15 @@ namespace WebApiFindWorks.Controllers
 
             return Ok();
         }
+        */
 
         [HttpDelete()]
         [Route("excluir/{id}")]
         public async Task<ActionResult> Excluir([FromRoute] int id)
         {
-            if (_dbContext is null) return NotFound();
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
             var snack = await _dbContext.Snack.FindAsync(id);
-            if (snack is null) return NotFound();
+            if (snack is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
             _dbContext.Snack.Remove(snack);
             await _dbContext.SaveChangesAsync();
             return Ok();

@@ -5,11 +5,26 @@
 namespace MidnightCityTheater.Migrations
 {
     /// <inheritdoc />
-    public partial class CriacaoDatabase : Migration
+    public partial class CreateDatabase : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "Bebida",
+                columns: table => new
+                {
+                    IdBebida = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
+                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
+                    Preco = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bebida", x => x.IdBebida);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Cliente",
                 columns: table => new
@@ -19,11 +34,25 @@ namespace MidnightCityTheater.Migrations
                     CPF = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Telefone = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true)
+                    Telefone = table.Column<string>(type: "TEXT", maxLength: 13, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cliente", x => x.IdCliente);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doce",
+                columns: table => new
+                {
+                    IdDoce = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Nome = table.Column<string>(type: "TEXT", nullable: false),
+                    Preco = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doce", x => x.IdDoce);
                 });
 
             migrationBuilder.CreateTable(
@@ -34,9 +63,9 @@ namespace MidnightCityTheater.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     NomeFilme = table.Column<string>(type: "TEXT", nullable: false),
                     Duracao = table.Column<string>(type: "TEXT", nullable: false),
-                    Classificacao = table.Column<string>(type: "TEXT", nullable: false),
-                    Diretor = table.Column<string>(type: "TEXT", nullable: false),
-                    Categoria = table.Column<string>(type: "TEXT", nullable: false)
+                    Classificacao = table.Column<string>(type: "TEXT", nullable: true),
+                    Diretor = table.Column<string>(type: "TEXT", nullable: true),
+                    Categoria = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -49,14 +78,29 @@ namespace MidnightCityTheater.Migrations
                 {
                     IdFuncionario = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CPF = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Telefone = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true)
+                    CPFfunc = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
+                    NomeFunc = table.Column<string>(type: "TEXT", nullable: false),
+                    EmailFunc = table.Column<string>(type: "TEXT", nullable: true),
+                    TelefoneFunc = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Funcionario", x => x.IdFuncionario);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pipoca",
+                columns: table => new
+                {
+                    IdPipoca = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
+                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
+                    Preco = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pipoca", x => x.IdPipoca);
                 });
 
             migrationBuilder.CreateTable(
@@ -89,7 +133,7 @@ namespace MidnightCityTheater.Migrations
                 {
                     IdSala = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FuncionarioIdFuncionario = table.Column<int>(type: "INTEGER", nullable: false),
+                    FuncionarioIdFuncionario = table.Column<int>(type: "INTEGER", nullable: true),
                     Capacidade = table.Column<string>(type: "TEXT", nullable: false),
                     TipoSala = table.Column<string>(type: "TEXT", nullable: true)
                 },
@@ -100,67 +144,7 @@ namespace MidnightCityTheater.Migrations
                         name: "FK_Sala_Funcionario_FuncionarioIdFuncionario",
                         column: x => x.FuncionarioIdFuncionario,
                         principalTable: "Funcionario",
-                        principalColumn: "IdFuncionario",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bebida",
-                columns: table => new
-                {
-                    IdBebida = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
-                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
-                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bebida", x => x.IdBebida);
-                    table.ForeignKey(
-                        name: "FK_Bebida_Snack_SnackIdSnack",
-                        column: x => x.SnackIdSnack,
-                        principalTable: "Snack",
-                        principalColumn: "IdSnack");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Doce",
-                columns: table => new
-                {
-                    IdDoce = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Nome = table.Column<string>(type: "TEXT", nullable: false),
-                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doce", x => x.IdDoce);
-                    table.ForeignKey(
-                        name: "FK_Doce_Snack_SnackIdSnack",
-                        column: x => x.SnackIdSnack,
-                        principalTable: "Snack",
-                        principalColumn: "IdSnack");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Pipoca",
-                columns: table => new
-                {
-                    IdPipoca = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    Sabor = table.Column<string>(type: "TEXT", nullable: false),
-                    Tamanho = table.Column<string>(type: "TEXT", nullable: false),
-                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Pipoca", x => x.IdPipoca);
-                    table.ForeignKey(
-                        name: "FK_Pipoca_Snack_SnackIdSnack",
-                        column: x => x.SnackIdSnack,
-                        principalTable: "Snack",
-                        principalColumn: "IdSnack");
+                        principalColumn: "IdFuncionario");
                 });
 
             migrationBuilder.CreateTable(
@@ -171,7 +155,7 @@ namespace MidnightCityTheater.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TipoIngresso = table.Column<string>(type: "TEXT", nullable: false),
                     Data = table.Column<string>(type: "TEXT", nullable: false),
-                    Preco = table.Column<string>(type: "TEXT", nullable: false),
+                    Preco = table.Column<string>(type: "TEXT", nullable: true),
                     VendaId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
@@ -186,30 +170,15 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bebida_SnackIdSnack",
-                table: "Bebida",
-                column: "SnackIdSnack");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Cliente_CPF",
                 table: "Cliente",
                 column: "CPF",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doce_SnackIdSnack",
-                table: "Doce",
-                column: "SnackIdSnack");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Ingresso_VendaId",
                 table: "Ingresso",
                 column: "VendaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Pipoca_SnackIdSnack",
-                table: "Pipoca",
-                column: "SnackIdSnack");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sala_FuncionarioIdFuncionario",
@@ -242,10 +211,10 @@ namespace MidnightCityTheater.Migrations
                 name: "Sala");
 
             migrationBuilder.DropTable(
-                name: "Venda");
+                name: "Snack");
 
             migrationBuilder.DropTable(
-                name: "Snack");
+                name: "Venda");
 
             migrationBuilder.DropTable(
                 name: "Funcionario");

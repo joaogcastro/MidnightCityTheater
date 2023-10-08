@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MidnightCityTheater.Data;
 using MidnightCityTheater.Models;
+using MidnightCityTheater.Utils;
 
 namespace MidnightCityTheater.Controllers;
 
@@ -20,10 +21,7 @@ public class PipocaController : ControllerBase
     [Route("listar")]
     public async Task<ActionResult<IEnumerable<Pipoca>>> Listar()
     {
-        if (_dbContext is null)
-        {
-            return NotFound();
-        }
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         return await _dbContext.Pipoca.ToListAsync();
     }
 
@@ -31,7 +29,8 @@ public class PipocaController : ControllerBase
     [Route("cadastrar")]
     public async Task<IActionResult> Cadastrar(Pipoca pipoca)
     {
-        if (_dbContext is null) return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (pipoca.Sabor == null || pipoca.Tamanho == null || pipoca.Preco == 0) return BadRequest(ErrorResponse.AttributeisNull);
         _dbContext.Add(pipoca);
         await _dbContext.SaveChangesAsync();
         return Created("", pipoca);
@@ -41,11 +40,9 @@ public class PipocaController : ControllerBase
     [Route("buscar/{id}")]
     public async Task<ActionResult<Pipoca>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var pipoca = await _dbContext.Pipoca.FindAsync(id);
-        if (pipoca is null)
-            return NotFound();
+        if (pipoca is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         return pipoca;
     }
 
@@ -53,27 +50,24 @@ public class PipocaController : ControllerBase
     [Route("alterar")]
     public async Task<ActionResult> Alterar(Pipoca pipoca)
     {
-        if (_dbContext is null)
-            return NotFound();
-
-        // Busque o registro existente pelo ID (ou outra chave primária) do usuário 
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (pipoca is null) return BadRequest(ErrorResponse.ObjectisNull);
+        // Busque o registro existente pelo ID
         var existingPipoca = await _dbContext.Pipoca.FindAsync(pipoca.IdPipoca);
+        if (existingPipoca is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
-        if (existingPipoca is null)
-            return NotFound();
-
-        // Atualize apenas os campos que foram fornecidos no objeto usuário 
-        if (pipoca.Sabor != "string")
+        // Atualize apenas os campos que foram fornecidos no objeto
+        if (pipoca.Sabor != "string" && pipoca != null)
         {
             existingPipoca.Sabor = pipoca.Sabor;
         }
 
-        if (pipoca.Tamanho != "string")
+        if (pipoca!.Tamanho != "string" && pipoca != null)
         {
             existingPipoca.Tamanho = pipoca.Tamanho;
         }
 
-        if (pipoca.Preco != 0)
+        if (pipoca!.Preco != 0)
         {
             existingPipoca.Preco = pipoca.Preco;
         }
@@ -83,7 +77,6 @@ public class PipocaController : ControllerBase
 
         // Salve as alterações no banco de dados 
         await _dbContext.SaveChangesAsync();
-
         return Ok();
     }
 
@@ -91,9 +84,9 @@ public class PipocaController : ControllerBase
     [Route("excluir/{id}")]
     public async Task<ActionResult> Excluir([FromRoute] int id)
     {
-        if (_dbContext is null) return NotFound();
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var pipoca = await _dbContext.Pipoca.FindAsync(id);
-        if (pipoca is null) return NotFound();
+        if (pipoca is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
         _dbContext.Pipoca.Remove(pipoca);
         await _dbContext.SaveChangesAsync();
         return Ok();
