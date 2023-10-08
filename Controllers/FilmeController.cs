@@ -21,6 +21,12 @@ public class FilmeController : ControllerBase
         [Route("listar")]
         public async Task<ActionResult<IEnumerable<Filme>>> Listar()
         {
+
+            if(_dbContext is null)
+            {
+                return NotFound("Database unavailable");
+            }
+
             var filmeList = await _dbContext.Filme.ToListAsync();
             return Ok(filmeList);
         }  
@@ -29,7 +35,7 @@ public class FilmeController : ControllerBase
     [Route("cadastrar")]
     public async Task<IActionResult> Cadastrar(Filme filme)
     {
-        if(_dbContext is null) return NotFound();
+        if (_dbContext is null) return NotFound("Database unavailable");
         _dbContext.Add(filme);
         await _dbContext.SaveChangesAsync();
         return Created("", filme);
@@ -39,11 +45,10 @@ public class FilmeController : ControllerBase
     [Route("buscar/{id}")]
     public async Task<ActionResult<Filme>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            return NotFound();
+        if (_dbContext is null) return NotFound("Database unavailable");
         var movie = await _dbContext.Filme.FindAsync(id);
         if (movie is null)
-            return NotFound();
+            return UnprocessableEntity("No entities were found with this ID");
         return movie;
     }
 
@@ -52,39 +57,42 @@ public class FilmeController : ControllerBase
     public async Task<ActionResult> Alterar(Filme filme)
     {
         if (_dbContext is null)
-            return NotFound();
+            return NotFound("Database unavailable");
+
         var existingFilme = await _dbContext.Filme.FindAsync(filme.IdFilme);
 
         if (existingFilme is null)
-            return NotFound();
+            return UnprocessableEntity("No entities were found with this ID");
 
-        if (!string.IsNullOrEmpty(filme.NomeFilme))
+        if (filme.NomeFilme != "string")
         {
             existingFilme.NomeFilme = filme.NomeFilme;
         }
 
-        if (!string.IsNullOrEmpty(filme.Duracao))
+        if (filme.Duracao != "string")
         {
             existingFilme.Duracao = filme.Duracao;
         }
 
-        if (!string.IsNullOrEmpty(filme.Classificacao))
+        if (filme.Classificacao != "string")
         {
             existingFilme.Classificacao = filme.Classificacao;
         }
 
-        if (!string.IsNullOrEmpty(filme.Diretor))
+        if (filme.Diretor != "string")
         {
             existingFilme.Diretor = filme.Diretor;
         }
 
-        if (!string.IsNullOrEmpty(filme.Categoria))
+        if (filme.Categoria != "string")
         {
             existingFilme.Categoria = filme.Categoria;
         }
 
+        // Marque o registro como modificado no contexto do EF
         _dbContext.Entry(existingFilme).State = EntityState.Modified;
 
+        // Salve as alterações no banco de dados
         await _dbContext.SaveChangesAsync();
 
         return Ok();
@@ -94,9 +102,9 @@ public class FilmeController : ControllerBase
     [Route("excluir/{id}")]
     public async Task<ActionResult> Excluir([FromRoute] int id)
     {
-        if (_dbContext is null) return NotFound();
+        if (_dbContext is null) return NotFound("Database unavailable");
         var filmedel = await _dbContext.Filme.FindAsync(id);
-        if (filmedel is null) return NotFound();
+        if (filmedel is null) return UnprocessableEntity("No entities were found with this ID");
         _dbContext.Filme.Remove(filmedel);
         await _dbContext.SaveChangesAsync();
         return Ok();
