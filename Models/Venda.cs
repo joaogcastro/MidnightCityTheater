@@ -6,6 +6,7 @@ public class Venda
 {
     [Key]
     public int IdVenda { get; set; }
+    public List<Snack>? Snacks { get; set; }
 
     // Relacionamento um-para-um com Cliente
     /*public int ClienteId { get; set; }

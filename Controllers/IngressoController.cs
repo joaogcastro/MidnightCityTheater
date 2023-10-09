@@ -4,6 +4,7 @@ using MidnightCityTheater.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using MidnightCityTheater.Utils;
 
 namespace WebApiFindWorks.Controllers
 {
@@ -25,7 +26,7 @@ namespace WebApiFindWorks.Controllers
 
             if (_dbContext is null)
             {
-            return NotFound("Database unavailable");
+            return NotFound(ErrorResponse.DBisUnavailable);
             }
 
             var ingressoList = await _dbContext.Ingresso.ToListAsync();
@@ -36,7 +37,8 @@ namespace WebApiFindWorks.Controllers
         [Route("cadastrar")]
         public async Task<IActionResult> Cadastrar(Ingresso ingresso)
         {
-            if (_dbContext is null) return NotFound("Database unavailable");
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+            if (ingresso.TipoIngresso is null || ingresso.Data is null || ingresso.Preco is null) return BadRequest(ErrorResponse.AttributeisNull);
             _dbContext.Add(ingresso);
             await _dbContext.SaveChangesAsync();
             return Created("", ingresso);
@@ -46,9 +48,9 @@ namespace WebApiFindWorks.Controllers
         [Route("buscar/{id}")]
         public async Task<ActionResult<Ingresso>> Buscar([FromRoute] int id)
         {
-            if (_dbContext is null) return NotFound("Database unavailable");
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
             var ticket = await _dbContext.Ingresso.FindAsync(id);
-            if (ticket is null) return UnprocessableEntity("No entities were found with this ID");
+            if (ticket is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
             return ticket;
         }
 
@@ -57,24 +59,25 @@ namespace WebApiFindWorks.Controllers
         public async Task<ActionResult> Alterar(Ingresso ingresso)
         {
         if (_dbContext is null)
-            return NotFound("Database unavailable");
+            return NotFound(ErrorResponse.DBisUnavailable);
+        if (ingresso is null) return BadRequest(ErrorResponse.ObjectisNull);
 
         var existingIngresso = await _dbContext.Ingresso.FindAsync(ingresso.IdIngresso);
 
         if (existingIngresso is null)
-            return UnprocessableEntity("No entities were found with this ID");
+            return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
-        if (ingresso.Data != "string")
+        if (ingresso.Data != "string"  && ingresso.Data != null)
         {
             existingIngresso.Data = ingresso.Data;
         }
 
-        if (ingresso.TipoIngresso != "string")
+        if (ingresso.TipoIngresso != "string" && ingresso.TipoIngresso != null)
         {
             existingIngresso.TipoIngresso = ingresso.TipoIngresso;
         }
 
-        if (ingresso.Preco != "string")
+        if (ingresso.Preco != "string" && ingresso.Preco != null)
         {
             existingIngresso.Preco = ingresso.Preco;
         }
@@ -107,9 +110,9 @@ namespace WebApiFindWorks.Controllers
         [Route("excluir/{id}")]
         public async Task<ActionResult> Excluir([FromRoute] int id)
         {
-            if (_dbContext is null) return NotFound("Database unavailable");
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
             var ingressoDel = await _dbContext.Ingresso.FindAsync(id);
-            if (ingressoDel is null) return UnprocessableEntity("No entities were found with this ID");
+            if (ingressoDel is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
             _dbContext.Ingresso.Remove(ingressoDel);
             await _dbContext.SaveChangesAsync();
             return Ok();

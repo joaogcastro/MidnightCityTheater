@@ -23,10 +23,7 @@ public class FuncionarioController : ControllerBase
         public async Task<ActionResult<IEnumerable<Funcionario>>> Listar()
         {
 
-            if (_dbContext is null)
-            {
-            return NotFound("Database unavailable");
-            }
+            if (_dbContext is null)return NotFound(ErrorResponse.DBisUnavailable);
 
             var funcList = await _dbContext.Funcionario.ToListAsync();
             return Ok(funcList);
@@ -36,16 +33,19 @@ public class FuncionarioController : ControllerBase
     [Route("cadastrar")]
     public async Task<IActionResult> Cadastrar(Funcionario funcionario)
     {
-        if (_dbContext is null) return NotFound("Database unavailable");
-        if (funcionario.CPFfunc == null || funcionario.CPFfunc == "string") return BadRequest("CPF is null");
-        if (CPFUtils.IsCpfValid(funcionario.CPFfunc) == false)
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (funcionario.NomeFunc == null || funcionario.NomeFunc == "string") return BadRequest(ErrorResponse.AttributeisNull);
+        if (funcionario.CPFfunc == null || funcionario.CPFfunc == "string") return BadRequest(ErrorResponse.CPFisNull);
+        if (CPFUtils.IsCpfValid(funcionario.CPFfunc) == false) return UnprocessableEntity(ErrorResponse.CPFisInvalid);
+        funcionario.CPFfunc = CPFUtils.FormatCPF(funcionario.CPFfunc);
+        if(funcionario.EmailFunc != null && funcionario.EmailFunc != "string")
         {
-            var errorObject = new
-            {
-                Message = "CPF inválido. Por favor, insira um CPF válido.",
-                ErrorCode = "INVALID_CPF"
-            };
-            return UnprocessableEntity(errorObject);
+            if(EmailUtils.IsValidEmail(funcionario.EmailFunc!)==false) return UnprocessableEntity(ErrorResponse.EmailisInvalid);
+        }
+            if(funcionario.TelefoneFunc !=null && funcionario.TelefoneFunc != "string")
+        {
+            funcionario.TelefoneFunc = TelefoneUtils.FormatPhoneNumber(funcionario.TelefoneFunc!);
+            if(TelefoneUtils.IsValidPhoneNumber(funcionario.TelefoneFunc) == false) return UnprocessableEntity(ErrorResponse.PhoneisInvalid);
         }
         _dbContext.Add(funcionario);
         await _dbContext.SaveChangesAsync();
@@ -56,11 +56,10 @@ public class FuncionarioController : ControllerBase
     [Route("buscar/{id}")]
     public async Task<ActionResult<Funcionario>> Buscar([FromRoute] int id)
     {
-        if (_dbContext is null)
-            if (_dbContext is null) return NotFound("Database unavailable");
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
         var employee = await _dbContext.Funcionario.FindAsync(id);
         if (employee is null)
-            return UnprocessableEntity("No entities were found with this ID");
+            return UnprocessableEntity(ErrorResponse.EntityNotFound);
         return employee;
     }
 
@@ -68,33 +67,38 @@ public class FuncionarioController : ControllerBase
     [Route("alterar")]
     public async Task<ActionResult> Alterar(Funcionario funcionario)
     {
-        if (_dbContext is null)
-            return NotFound("Database unavailable");
+        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+        if (funcionario is null) return BadRequest(ErrorResponse.ObjectisNull);
 
         // Busque o registro existente pelo ID (ou outra chave primária) do usuário
         var existingFuncionario = await _dbContext.Funcionario.FindAsync(funcionario.IdFuncionario);
 
         if (existingFuncionario is null)
-            return UnprocessableEntity("No entities were found with this ID");
+            return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
         // Atualize apenas os campos que foram fornecidos no objeto usuário
-        if (funcionario.NomeFunc != "string")
+        if (funcionario.NomeFunc != "string" && funcionario.NomeFunc != null)
         {
             existingFuncionario.NomeFunc = funcionario.NomeFunc;
         }
 
-        if (funcionario.CPFfunc != "string")
+        if (funcionario.CPFfunc != "string" && funcionario.CPFfunc != null)
         {
+            funcionario.CPFfunc = CPFUtils.FormatCPF(funcionario.CPFfunc!);
+            if (CPFUtils.IsCpfValid(funcionario.CPFfunc) == false) return UnprocessableEntity(ErrorResponse.CPFisInvalid);
             existingFuncionario.CPFfunc = funcionario.CPFfunc;
         }
 
-        if (funcionario.TelefoneFunc != "string")
+        if (funcionario.TelefoneFunc != "string" && funcionario.TelefoneFunc != null)
         {
+            funcionario.TelefoneFunc = TelefoneUtils.FormatPhoneNumber(funcionario.TelefoneFunc!);
+            if(TelefoneUtils.IsValidPhoneNumber(funcionario.TelefoneFunc) == false) return UnprocessableEntity(ErrorResponse.PhoneisInvalid);
             existingFuncionario.TelefoneFunc = funcionario.TelefoneFunc;
         }
 
-        if (funcionario.EmailFunc != "string")
+        if (funcionario.EmailFunc != "string" && funcionario.EmailFunc != null)
         {
+            if(EmailUtils.IsValidEmail(funcionario.EmailFunc!)==false) return UnprocessableEntity(ErrorResponse.EmailisInvalid);
             existingFuncionario.EmailFunc = funcionario.EmailFunc;
         }
 
