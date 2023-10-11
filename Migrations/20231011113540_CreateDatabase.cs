@@ -31,10 +31,10 @@ namespace MidnightCityTheater.Migrations
                 {
                     IdCliente = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CPF = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
+                    CPF = table.Column<string>(type: "TEXT", nullable: false),
                     Nome = table.Column<string>(type: "TEXT", nullable: false),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    Telefone = table.Column<string>(type: "TEXT", maxLength: 13, nullable: true)
+                    Telefone = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -78,10 +78,10 @@ namespace MidnightCityTheater.Migrations
                 {
                     IdFuncionario = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    CPFfunc = table.Column<string>(type: "TEXT", maxLength: 11, nullable: false),
+                    CPFfunc = table.Column<string>(type: "TEXT", nullable: false),
                     NomeFunc = table.Column<string>(type: "TEXT", nullable: false),
                     EmailFunc = table.Column<string>(type: "TEXT", nullable: true),
-                    TelefoneFunc = table.Column<string>(type: "TEXT", maxLength: 11, nullable: true)
+                    TelefoneFunc = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -108,7 +108,8 @@ namespace MidnightCityTheater.Migrations
                 columns: table => new
                 {
                     IdSnack = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Preco = table.Column<decimal>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

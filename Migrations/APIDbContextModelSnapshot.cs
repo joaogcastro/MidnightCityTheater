@@ -47,7 +47,6 @@ namespace MidnightCityTheater.Migrations
 
                     b.Property<string>("CPF")
                         .IsRequired()
-                        .HasMaxLength(11)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
@@ -58,7 +57,6 @@ namespace MidnightCityTheater.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Telefone")
-                        .HasMaxLength(13)
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdCliente");
@@ -123,7 +121,6 @@ namespace MidnightCityTheater.Migrations
 
                     b.Property<string>("CPFfunc")
                         .IsRequired()
-                        .HasMaxLength(11)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("EmailFunc")
@@ -134,7 +131,6 @@ namespace MidnightCityTheater.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("TelefoneFunc")
-                        .HasMaxLength(11)
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdFuncionario");
@@ -219,6 +215,9 @@ namespace MidnightCityTheater.Migrations
                     b.Property<int>("IdSnack")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<decimal>("Preco")
+                        .HasColumnType("TEXT");
 
                     b.HasKey("IdSnack");
 

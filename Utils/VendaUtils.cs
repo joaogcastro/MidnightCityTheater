@@ -5,6 +5,7 @@ namespace MidnightCityTheater.Utils
     public static class VendaUtils
     {
         private const decimal ComissaoFuncionario = 2.0m;
+        /*
 
         public static decimal CalcularPrecoTotal(Ingresso ingresso)
         {
@@ -86,5 +87,6 @@ namespace MidnightCityTheater.Utils
 
             return precoTotalSnack;
         }
+        */
     }
 }

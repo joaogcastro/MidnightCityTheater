@@ -1,16 +1,7 @@
 Deve ser implementado:
 
     Joao:
-        -better http requests
-        -Validacao Email
-        -Formatacao cpf, Telefone
-        -Mais tratamento de erros
+        Ok
 
     Vinicius:
-        -Fazer alteração nas classes:
-            -Filme (Alterado e testado com sucesso) ♠
-            -Ingresso (Alterado e testado com sucesso) ♠
-            -Sala (Alterado e testado com sucesso) ♠
-            -Funcionario(Alterado e testado com sucesso) ♠
-            -(Alteração na classe ClienteController [Buscar agora está com frase de erro]) ♠
-        -colocar mensagens alteradas de acordo com o exemplo do Jão
+        Ok
