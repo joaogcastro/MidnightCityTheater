@@ -404,3 +404,4 @@ D:\Trabalhos\MidnightCityTheater\obj\Debug\net6.0\MidnightCityTheater.pdb
 D:\Trabalhos\MidnightCityTheater\obj\Debug\net6.0\MidnightCityTheater.genruntimeconfig.cache
 D:\Trabalhos\MidnightCityTheater\obj\Debug\net6.0\ref\MidnightCityTheater.dll
 C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
