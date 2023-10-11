@@ -1,0 +1,7 @@
+Alunos Engenharia de Software, Ecoville, Manhã:
+João Otavio Gurski Castro
+Vinícius Prado Batista
+
+Onde estão as coisas:
+-Documentação: pasta Documents
+-Videos de cada integrante: pasta Videos.
