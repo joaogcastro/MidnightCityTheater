@@ -405,3 +405,11 @@ D:\Trabalhos\MidnightCityTheater\obj\Debug\net6.0\MidnightCityTheater.genruntime
 D:\Trabalhos\MidnightCityTheater\obj\Debug\net6.0\ref\MidnightCityTheater.dll
 C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
 D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Swashbuckle.AspNetCore.Annotations.dll
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\package-lock.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\package.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\angular.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\package-lock.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\package.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.app.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.json
+D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.spec.json

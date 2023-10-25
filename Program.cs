@@ -6,6 +6,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddDbContext<APIDbContext>();
+builder.Services.AddCors();
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "MidnightCityTheater", Version = "v1" });
@@ -21,6 +22,7 @@ if (app.Environment.IsDevelopment())
     });
 }
 app.UseHttpsRedirection(); 
-app.UseAuthorization(); 
+app.UseAuthorization();
+app.UseCors(opcoes => opcoes.AllowAnyOrigin().AllowAnyHeader()); 
 app.MapControllers(); 
 app.Run();
