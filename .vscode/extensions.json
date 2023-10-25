@@ -5,6 +5,7 @@
         "ms-dotnettools.csdevkit",
         "ms-dotnettools.vscodeintellicode-csharp",
         "natqe.reload",
-        "vscode-icons-team.vscode-icons"        
+        "vscode-icons-team.vscode-icons",  
+        "angular.ng-template"  
     ]
 }
