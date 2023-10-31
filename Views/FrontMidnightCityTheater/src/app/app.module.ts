@@ -12,11 +12,14 @@ import { ModalModule} from 'ngx-bootstrap/modal';
 
 import { FilmesService } from './filmes.service';
 import { FilmesComponent } from './components/filmes/filmes.component';
+import { ClientesService } from './clientes.service';
+import { ClientesComponent } from './components/clientes/clientes.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    FilmesComponent
+    FilmesComponent,
+    ClientesComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +29,7 @@ import { FilmesComponent } from './components/filmes/filmes.component';
     ReactiveFormsModule,
     ModalModule.forRoot()
   ],
-  providers: [HttpClientModule, FilmesService],
+  providers: [HttpClientModule, FilmesService, ClientesService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

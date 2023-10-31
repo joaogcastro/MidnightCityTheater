@@ -413,3 +413,11 @@ D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater
 D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.app.json
 D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.json
 D:\Trabalhos\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.spec.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\angular.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\package-lock.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\package.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.app.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\Views\FrontMidnightCityTheater\tsconfig.spec.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\package-lock.json
+C:\Users\joaot\Documents\Github\MidnightCityTheater\bin\Debug\net6.0\package.json
