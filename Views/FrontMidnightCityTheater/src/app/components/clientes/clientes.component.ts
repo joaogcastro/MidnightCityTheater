@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observer } from 'rxjs';
 import { ClientesService } from 'src/app/clientes.service';
 import { Cliente } from 'src/app/Cliente';
 
@@ -23,10 +24,24 @@ export class ClientesComponent implements OnInit {
       Telefone: new FormControl(null)
     })
   }
+
   enviarFormulario(): void {
-    const cliente : Cliente = this.formulario.value;
-    this.clientesService.cadastrar(cliente).subscribe(result => {
-      alert('Cliente inserido com sucesso.');
-    })
-  } 
+    const cliente: Cliente = this.formulario.value;
+    const observer: Observer<Cliente> = {
+      next(_result): void {
+        alert('Modelo salvo com sucesso.');
+      },
+      error(error): void {
+        console.error(error);
+        alert('Erro ao salvar!');
+      },
+      complete(): void {
+      },
+    };
+    /*if (cliente.IdCliente && !isNaN(Number(cliente.IdCliente))) {
+      this.clientesService.alterar(cliente).subscribe(observer);
+    } else {*/
+      this.clientesService.cadastrar(cliente).subscribe(observer);
+    //}
+  }
 }

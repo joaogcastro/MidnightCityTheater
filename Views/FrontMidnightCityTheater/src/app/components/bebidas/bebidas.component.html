@@ -1,0 +1,49 @@
+<div class="container p-5">
+  <div class="row">
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6>{{ tituloFormulario }}</h6>
+      <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()">
+        <!--
+        <div class="form-group">
+          <label>IdBebida</label>
+          <input type="number" class="form-control form-control-sm" formControlName="IdBebida"/>
+        </div>
+        -->
+        <div class="form-group">
+          <label>Sabor</label>
+          <input type="text" class="form-control form-control-sm" formControlName="Sabor"/>
+        </div>
+        <div class="form-group">
+          <label>Tamanho</label>
+          <input type="text" class="form-control form-control-sm" formControlName="Tamanho"/>
+        </div>
+        <!--
+        <div class="form-group">
+          <label>Tamanho</label>
+          <select class="form-control form-control-sm" formControlName="Tamanho">
+            <option *ngFor="let tamanho of tamanhos" [value]="tamanho.Tamanho">
+              {{ tamanho.Tamanho }}
+            </option>
+          </select>
+        </div>
+        -->
+        <div class="form-group">
+          <label>Preço</label>
+          <input type="text" class="form-control form-control-sm" formControlName="Preco"/>
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-outline-secondary">
+                Salvar
+              </button>
+            </div>
+            <div class="pl-1">
+              <button type="button" class="btn btn-sm btn-light">Voltar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

@@ -11,8 +11,8 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20231011113540_CreateDatabase")]
-    partial class CreateDatabase
+    [Migration("20231105014705_DatabaseCreation")]
+    partial class DatabaseCreation
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,11 +33,16 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("SnackIdSnack")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Tamanho")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdBebida");
+
+                    b.HasIndex("SnackIdSnack");
 
                     b.ToTable("Bebida");
                 });
@@ -83,7 +88,12 @@ namespace MidnightCityTheater.Migrations
                     b.Property<double>("Preco")
                         .HasColumnType("REAL");
 
+                    b.Property<int?>("SnackIdSnack")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("IdDoce");
+
+                    b.HasIndex("SnackIdSnack");
 
                     b.ToTable("Doce");
                 });
@@ -181,11 +191,16 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("SnackIdSnack")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Tamanho")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdPipoca");
+
+                    b.HasIndex("SnackIdSnack");
 
                     b.ToTable("Pipoca");
                 });
@@ -219,7 +234,7 @@ namespace MidnightCityTheater.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<decimal>("Preco")
+                    b.Property<decimal>("PrecoTotal")
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdSnack");
@@ -238,6 +253,20 @@ namespace MidnightCityTheater.Migrations
                     b.ToTable("Venda");
                 });
 
+            modelBuilder.Entity("MidnightCityTheater.Models.Bebida", b =>
+                {
+                    b.HasOne("MidnightCityTheater.Models.Snack", null)
+                        .WithMany("Bebidas")
+                        .HasForeignKey("SnackIdSnack");
+                });
+
+            modelBuilder.Entity("MidnightCityTheater.Models.Doce", b =>
+                {
+                    b.HasOne("MidnightCityTheater.Models.Snack", null)
+                        .WithMany("Doces")
+                        .HasForeignKey("SnackIdSnack");
+                });
+
             modelBuilder.Entity("MidnightCityTheater.Models.Ingresso", b =>
                 {
                     b.HasOne("MidnightCityTheater.Models.Venda", "Venda")
@@ -249,6 +278,13 @@ namespace MidnightCityTheater.Migrations
                     b.Navigation("Venda");
                 });
 
+            modelBuilder.Entity("MidnightCityTheater.Models.Pipoca", b =>
+                {
+                    b.HasOne("MidnightCityTheater.Models.Snack", null)
+                        .WithMany("Pipocas")
+                        .HasForeignKey("SnackIdSnack");
+                });
+
             modelBuilder.Entity("MidnightCityTheater.Models.Sala", b =>
                 {
                     b.HasOne("MidnightCityTheater.Models.Funcionario", "Funcionario")
@@ -256,6 +292,15 @@ namespace MidnightCityTheater.Migrations
                         .HasForeignKey("FuncionarioIdFuncionario");
 
                     b.Navigation("Funcionario");
+                });
+
+            modelBuilder.Entity("MidnightCityTheater.Models.Snack", b =>
+                {
+                    b.Navigation("Bebidas");
+
+                    b.Navigation("Doces");
+
+                    b.Navigation("Pipocas");
                 });
 #pragma warning restore 612, 618
         }

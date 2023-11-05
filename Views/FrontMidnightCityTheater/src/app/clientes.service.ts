@@ -2,6 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Cliente } from './Cliente';
+
 const httpOptions = {
   headers: new HttpHeaders({
     'Content-Type' : 'application/json'
@@ -11,6 +12,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+
 export class ClientesService {
   apiUrl = 'http://localhost:5000/Cliente';
   constructor(private http: HttpClient) { }
@@ -18,8 +20,8 @@ export class ClientesService {
     const url = `${this.apiUrl}/listar`;
     return this.http.get<Cliente[]>(url);
   }
-  buscar(IdCliente: number): Observable<Cliente> {
-    const url = `${this.apiUrl}/buscar/${IdCliente}`;
+  buscar(idCliente: number): Observable<Cliente> {
+    const url = `${this.apiUrl}/buscar/${idCliente}`;
     return this.http.get<Cliente>(url);
   }
   cadastrar(Cliente: Cliente): Observable<any> {
@@ -30,8 +32,8 @@ export class ClientesService {
     const url = `${this.apiUrl}/atualizar`;
     return this.http.put<Cliente>(url, Cliente, httpOptions);
   }
-  excluir(nomeCliente: string): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${nomeCliente}`;
+  excluir(idCliente: string): Observable<any> {
+    const url = `${this.apiUrl}/buscar/${idCliente}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }
