@@ -11,8 +11,7 @@ namespace MidnightCityTheater.Models
         public string? Capacidade { get; set; }
         public string? TipoSala { get; set; }
 
-        //public int IdFilme { get; set; }
-        //public Filme Filme { get; set; }
+        public List<Filme>? Filmes {get; set;}
 
     }
 }

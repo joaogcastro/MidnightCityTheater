@@ -1,5 +1,5 @@
 export class Filme{
-    //idfilme: int = '';
+    idfilme: number = 0;
     nomefilme: string = '';
     duracao: string = '';
     classificacao: string = '';

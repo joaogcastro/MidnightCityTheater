@@ -26,9 +26,9 @@ export class FilmesService {
     const url = `${this.apiUrl}/cadastrar`;
     return this.http.post<Filme>(url, filme, httpOptions);
   }
-  atualizar(filme: Filme): Observable<any> {
+  alterar(filme: Filme): Observable<any> {
     const url = `${this.apiUrl}/atualizar`;
-    return this.http.put<Filme>(url, Filme, httpOptions);
+    return this.http.put<Filme>(url, filme, httpOptions);
   }
   excluir(nomefilme: string): Observable<any> {
     const url = `${this.apiUrl}/buscar/${nomefilme}`;
