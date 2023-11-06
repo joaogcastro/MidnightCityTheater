@@ -1,1 +1,33 @@
-<p>salas works!</p>
+<div>
+    <h2>Lista de Salas</h2>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Capacidade</th>
+        <th>Tipo</th>
+        <th>Ações</th>
+      </tr>
+      <tr *ngFor="let sala of salas">
+        <td>{{ sala.idsala }}</td>
+        <td>{{ sala.capacidade }}</td>
+        <td>{{ sala.tiposala }}</td>
+        <td>
+          <button (click)="editarSala(sala)">Editar</button>
+          <button (click)="excluirSala(sala.idsala)">Excluir</button>
+        </td>
+      </tr>
+    </table>
+  </div>
+  
+  <div>
+    <h2>Cadastrar Sala</h2>
+    <form (submit)="cadastrarSala()">
+      <label for="capacidade">Capacidade:</label>
+      <input type="text" id="capacidade" [(ngModel)]="novaSala.capacidade" required>
+      <br>
+      <label for="tiposala">Tipo de Sala:</label>
+      <input type="text" id="tiposala" [(ngModel)]="novaSala.tiposala" required>
+      <br>
+      <button type="submit">Cadastrar Sala</button>
+    </form>
+  </div>
