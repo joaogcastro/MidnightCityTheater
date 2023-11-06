@@ -33,7 +33,7 @@ export class BebidasService {
     return this.http.put<Bebida>(url, bebida, httpOptions);
   }
   excluir(idBebida: number): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${idBebida}`;
+    const url = `${this.apiUrl}/excluir/${idBebida}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

@@ -11,7 +11,7 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20231105014705_DatabaseCreation")]
+    [Migration("20231106025445_DatabaseCreation")]
     partial class DatabaseCreation
     {
         /// <inheritdoc />

@@ -1,45 +1,92 @@
 <div class="container p-5">
   <div class="row">
+    <!--Cadastrar Bebida-->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-      <h6>{{ tituloFormulario }}</h6>
-      <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()">
-        <!--
+      <h6 class="title-fontsize">Cadastrar Bebida</h6>
+      <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
         <div class="form-group">
-          <label>IdBebida</label>
-          <input type="number" class="form-control form-control-sm" formControlName="IdBebida"/>
-        </div>
-        -->
-        <div class="form-group">
-          <label>Sabor</label>
-          <input type="text" class="form-control form-control-sm" formControlName="Sabor"/>
+          <label class="bold">IdBebida</label>
+          <div>Preenchido automaticamente</div>
         </div>
         <div class="form-group">
-          <label>Tamanho</label>
-          <input type="text" class="form-control form-control-sm" formControlName="Tamanho"/>
+          <label class="bold">Sabor</label>
+          <input type="text" class="form-control form-control-sm" formControlName="Sabor" />
         </div>
-        <!--
         <div class="form-group">
-          <label>Tamanho</label>
+          <label class="bold">Tamanho</label>
           <select class="form-control form-control-sm" formControlName="Tamanho">
             <option *ngFor="let tamanho of tamanhos" [value]="tamanho.Tamanho">
               {{ tamanho.Tamanho }}
             </option>
           </select>
         </div>
-        -->
         <div class="form-group">
-          <label>Preço</label>
-          <input type="text" class="form-control form-control-sm" formControlName="Preco"/>
+          <label class="bold">Preço</label>
+          <input type="number" class="form-control form-control-sm" formControlName="Preco" />
         </div>
         <div class="container">
           <div class="row">
             <div>
-              <button type="submit" class="btn btn-sm btn-outline-secondary">
-                Salvar
-              </button>
+              <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
             </div>
             <div class="pl-1">
-              <button type="button" class="btn btn-sm btn-light">Voltar</button>
+              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--Alterar Bebida-->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Alterar Bebida</h6>
+      <form [formGroup]="formulario" (ngSubmit)="alterar()">
+        <div class="form-group">
+          <label class="bold">IdBebida</label>
+          <input type="number" class="form-control form-control-sm" formControlName="IdBebida" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Sabor</label>
+          <input type="text" class="form-control form-control-sm" formControlName="Sabor" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Tamanho</label>
+          <select class="form-control form-control-sm" formControlName="Tamanho">
+            <option *ngFor="let tamanho of tamanhos" [value]="tamanho.Tamanho">
+              {{ tamanho.Tamanho }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="bold">Preço</label>
+          <input type="number" class="form-control form-control-sm" formControlName="Preco" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--Excluir Bebida-->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Excluir Bebida</h6>
+      <form [formGroup]="formulario" (ngSubmit)="excluir()">
+        <div class="form-group">
+          <label class="bold">IdBebida</label>
+          <input type="number" class="form-control form-control-sm" formControlName="IdBebida" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-primary">Excluir</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
             </div>
           </div>
         </div>

@@ -38,10 +38,6 @@ export class ClientesComponent implements OnInit {
       complete(): void {
       },
     };
-    /*if (cliente.IdCliente && !isNaN(Number(cliente.IdCliente))) {
-      this.clientesService.alterar(cliente).subscribe(observer);
-    } else {*/
-      this.clientesService.cadastrar(cliente).subscribe(observer);
-    //}
+    this.clientesService.cadastrar(cliente).subscribe(observer);
   }
 }
