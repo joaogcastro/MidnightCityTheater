@@ -3,7 +3,7 @@
     <!-- Cadastrar Sala -->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6>Cadastrar Sala</h6>
-      <form [formGroup]="formulario" (ngSubmit)="cadastrarSala()">
+      <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
         <div class="form-group">
           <label>Capacidade</label>
           <input type="text" class="form-control form-control-sm" formControlName="capacidade" />

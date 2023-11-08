@@ -5,7 +5,7 @@
 namespace MidnightCityTheater.Migrations
 {
     /// <inheritdoc />
-    public partial class DatabaseCreation : Migration
+    public partial class ModelAlterada1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -90,13 +90,20 @@ namespace MidnightCityTheater.Migrations
                 {
                     IdSala = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FuncionarioIdFuncionario = table.Column<int>(type: "INTEGER", nullable: true),
                     Capacidade = table.Column<string>(type: "TEXT", nullable: false),
-                    TipoSala = table.Column<string>(type: "TEXT", nullable: true)
+                    TipoSala = table.Column<string>(type: "TEXT", nullable: false),
+                    FuncionarioIdFuncionario = table.Column<int>(type: "INTEGER", nullable: true),
+                    IdFuncionario = table.Column<int>(type: "INTEGER", nullable: true),
+                    FilmeId = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Sala", x => x.IdSala);
+                    table.ForeignKey(
+                        name: "FK_Sala_Filme_FilmeId",
+                        column: x => x.FilmeId,
+                        principalTable: "Filme",
+                        principalColumn: "IdFilme");
                     table.ForeignKey(
                         name: "FK_Sala_Funcionario_FuncionarioIdFuncionario",
                         column: x => x.FuncionarioIdFuncionario,
@@ -174,12 +181,26 @@ namespace MidnightCityTheater.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     TipoIngresso = table.Column<string>(type: "TEXT", nullable: false),
                     Data = table.Column<string>(type: "TEXT", nullable: false),
+                    FilmeId = table.Column<int>(type: "INTEGER", nullable: false),
+                    SalaId = table.Column<int>(type: "INTEGER", nullable: false),
                     Preco = table.Column<string>(type: "TEXT", nullable: true),
                     VendaId = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Ingresso", x => x.IdIngresso);
+                    table.ForeignKey(
+                        name: "FK_Ingresso_Filme_FilmeId",
+                        column: x => x.FilmeId,
+                        principalTable: "Filme",
+                        principalColumn: "IdFilme",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Ingresso_Sala_SalaId",
+                        column: x => x.SalaId,
+                        principalTable: "Sala",
+                        principalColumn: "IdSala",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Ingresso_Venda_VendaId",
                         column: x => x.VendaId,
@@ -205,6 +226,16 @@ namespace MidnightCityTheater.Migrations
                 column: "SnackIdSnack");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Ingresso_FilmeId",
+                table: "Ingresso",
+                column: "FilmeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ingresso_SalaId",
+                table: "Ingresso",
+                column: "SalaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ingresso_VendaId",
                 table: "Ingresso",
                 column: "VendaId");
@@ -213,6 +244,11 @@ namespace MidnightCityTheater.Migrations
                 name: "IX_Pipoca_SnackIdSnack",
                 table: "Pipoca",
                 column: "SnackIdSnack");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Sala_FilmeId",
+                table: "Sala",
+                column: "FilmeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Sala_FuncionarioIdFuncionario",
@@ -233,9 +269,6 @@ namespace MidnightCityTheater.Migrations
                 name: "Doce");
 
             migrationBuilder.DropTable(
-                name: "Filme");
-
-            migrationBuilder.DropTable(
                 name: "Ingresso");
 
             migrationBuilder.DropTable(
@@ -249,6 +282,9 @@ namespace MidnightCityTheater.Migrations
 
             migrationBuilder.DropTable(
                 name: "Snack");
+
+            migrationBuilder.DropTable(
+                name: "Filme");
 
             migrationBuilder.DropTable(
                 name: "Funcionario");

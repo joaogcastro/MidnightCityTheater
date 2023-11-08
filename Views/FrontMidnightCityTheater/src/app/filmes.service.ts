@@ -27,11 +27,11 @@ export class FilmesService {
     return this.http.post<Filme>(url, filme, httpOptions);
   }
   alterar(filme: Filme): Observable<any> {
-    const url = `${this.apiUrl}/atualizar`;
+    const url = `${this.apiUrl}/alterar`;
     return this.http.put<Filme>(url, filme, httpOptions);
   }
-  excluir(nomefilme: string): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${nomefilme}`;
+  excluir(idfilme: number): Observable<any> {
+    const url = `${this.apiUrl}/excluir/${idfilme}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Observer } from 'rxjs';
 import { Sala } from 'src/app/Sala';
 import { SalasService } from 'src/app/salas.service';
 
@@ -32,24 +33,21 @@ export class SalasComponent implements OnInit {
     });
   }
 
-  cadastrarSala(): void {
-    const sala: Sala = this.novaSala;
-    if (!sala.idsala) {
-      sala.idsala = 0;
-    }
-
-    this.salasService.cadastrar(sala).subscribe({
-      next: (_result: Sala) => {
-        alert('Sala cadastrada com sucesso.');
-        this.listarSalas();
+  cadastrar(): void {
+    const sala: Sala = this.formulario.value;
+    if (!sala.idsala) {sala.idsala=0}
+    const observer: Observer<Sala> = {
+      next(_result): void {
+        alert('sala cadastrada com sucesso.' + sala.idsala + sala.capacidade + sala.tiposala);
       },
-      error: (error) => {
+      error(error): void {
         console.error(error);
         alert('Erro ao cadastrar!');
       },
-      complete: () => {
+      complete(): void {
       },
-    });
+    };
+    this.salasService.cadastrar(sala).subscribe(observer);
   }
 
   editarSala(sala: Sala): void {

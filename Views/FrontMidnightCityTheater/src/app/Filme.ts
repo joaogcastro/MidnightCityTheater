@@ -5,5 +5,4 @@ export class Filme {
   classificacao: string = '';
   diretor: string = '';
   categoria: string = '';
-  salaId: number | null = null; // Adicione a propriedade salaId
 }

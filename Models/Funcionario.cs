@@ -17,3 +17,4 @@ public class Funcionario
 
     public string? TelefoneFunc { get; set; } // Pode ser nulo
 }
+

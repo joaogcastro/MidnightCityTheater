@@ -19,9 +19,5 @@ namespace MidnightCityTheater.Models
         public string? Diretor { get; set; }
 
         public string? Categoria { get; set; }
-
-        public int SalaId { get; set; } // Adicione a propriedade SalaId como chave estrangeira
-
-        public Sala? Sala { get; set; } // Adicione a propriedade de navegação para a sala
     }
 }

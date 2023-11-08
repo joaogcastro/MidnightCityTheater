@@ -25,6 +25,7 @@ import { SalasService } from './salas.service';
 import { SalasComponent } from './components/salas/salas.component';
 import { IngressosService } from './ingressos.service';
 import { IngressosComponent } from './components/ingressos/ingressos.component';
+import { FuncionariosComponent } from './components/funcionarios/funcionarios.component';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { IngressosComponent } from './components/ingressos/ingressos.component';
     PipocasComponent,
     SnacksComponent,
     SalasComponent,
-    IngressosComponent
+    IngressosComponent,
+    FuncionariosComponent
   ],
   imports: [
     BrowserModule,
