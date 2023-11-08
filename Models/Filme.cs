@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MidnightCityTheater.Models
@@ -6,9 +7,6 @@ namespace MidnightCityTheater.Models
     {
         [Key]
         public int IdFilme { get; set; }
-
-        public int? SalaId { get; set; }
-        public Sala? Sala { get; set; }
 
         [Required]
         public string? NomeFilme { get; set; }
@@ -22,6 +20,8 @@ namespace MidnightCityTheater.Models
 
         public string? Categoria { get; set; }
 
-        public List<Sala>? Salas { get; set; }
+        public int SalaId { get; set; } // Adicione a propriedade SalaId como chave estrangeira
+
+        public Sala? Sala { get; set; } // Adicione a propriedade de navegação para a sala
     }
 }

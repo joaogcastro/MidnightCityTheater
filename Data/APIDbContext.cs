@@ -5,15 +5,15 @@ namespace MidnightCityTheater.Data;
 public class APIDbContext : DbContext
 {
     public DbSet<Cliente> Cliente { get; set; }
-    public DbSet<Filme>? Filme { get; set; }
-    public DbSet<Sala>? Sala { get; set; }
-    public DbSet<Ingresso>? Ingresso { get; set; }
-    public DbSet<Snack> Snack { get; set; }
-    public DbSet<Pipoca> Pipoca { get; set; }
-    public DbSet<Bebida> Bebida { get; set; }
-    public DbSet<Doce> Doce { get; set; }
-    public DbSet<Venda> Venda { get; set; }
-    public DbSet<Funcionario> Funcionario { get; set; }
+        public DbSet<Filme> Filme { get; set; }
+        public DbSet<Sala> Sala { get; set; }
+        public DbSet<Ingresso> Ingresso { get; set; }
+        public DbSet<Snack> Snack { get; set; }
+        public DbSet<Pipoca> Pipoca { get; set; }
+        public DbSet<Bebida> Bebida { get; set; }
+        public DbSet<Doce> Doce { get; set; }
+        public DbSet<Venda> Venda { get; set; }
+        public DbSet<Funcionario> Funcionario { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -28,6 +28,20 @@ public class APIDbContext : DbContext
             .IsUnique();
 
 
+        /*modelBuilder.Entity<Sala>()
+            .HasOne(s => s.Filme)
+            .WithMany()
+            .HasForeignKey(s => s.FilmeId);*/
+    
+        modelBuilder.Entity<Ingresso>()
+            .HasOne(i => i.Filme)
+            .WithMany()
+            .HasForeignKey(i => i.FilmeId);
+
+        /*modelBuilder.Entity<Ingresso>()
+            .HasOne(i => i.Sala)
+            .WithMany(s => s.Ingressos)
+            .HasForeignKey(i => i.SalaId);*/
             
         /*
 

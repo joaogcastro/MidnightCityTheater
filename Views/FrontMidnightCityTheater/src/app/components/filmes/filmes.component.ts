@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { FilmesService } from 'src/app/filmes.service';
 import { Filme } from 'src/app/Filme';
@@ -12,44 +12,97 @@ import { Observer } from 'rxjs';
   styleUrls: ['./filmes.component.css']
 })
 export class FilmesComponent implements OnInit {
-  formulario: any;
-  tituloFormulario: string = '';
-  salas: Array<Sala> | undefined;
-  
-  constructor(private filmesService : FilmesService, private salasService: SalasService) { }
-
-  ngOnInit(): void {
-    this.tituloFormulario = 'Novo Filme';
-    this.salasService.listar().subscribe((salas: Sala[] | undefined) => {
-      this.salas = salas;
-      if (this.salas && this.salas.length > 0) {
-      this.formulario.get('salaId')?.setValue(this.salas[0].idsala);
-      }
-      });
+  @ViewChild('cancelarButton') cancelarButton!: ElementRef;
+  formulario: FormGroup;
+  tituloFormulario: string = 'Novo Filme';
+  salas: Sala[] = []; // Adicione o atributo para armazenar a lista de salas
+  constructor(private filmesService: FilmesService, private salasService: SalasService) {
     this.formulario = new FormGroup({
+      idfilme: new FormControl(null),
+      categoria: new FormControl(null),
       nomefilme: new FormControl(null),
-      duracao: new FormControl(null),
       classificacao: new FormControl(null),
       diretor: new FormControl(null),
-      categoria: new FormControl(null)
-    })
+      duracao: new FormControl(null),
+      salaId: new FormControl(null) // Adicione o campo para a seleção da sala
+    });
   }
-  enviarFormulario(): void {
-    const filme : Filme = this.formulario.value;
+  ngOnInit(): void {
+    // Carregue a lista de salas ao inicializar o componente
+    this.salasService.listar().subscribe((result: Sala[]) => {
+      this.salas = result;
+    });
+  }
+  cadastrar(): void {
+    const filme: Filme = this.formulario.value;
+    if (!filme.idfilme) {
+      filme.idfilme = 0;
+    }
+  
     const observer: Observer<Filme> = {
-      next(_result: any): void{
-        alert('Filme salvo com sucesso.');
+      next(_result): void {
+        alert('Filme cadastrado com sucesso.');
       },
-      error(_error: any): void {
-        alert('Erro ao salvar!');
+      error(error): void {
+        console.error(error);
+        alert('Erro ao cadastrar!');
       },
-      complete():void{
+      complete(): void {},
+    };
+  
+    this.filmesService.cadastrar(filme).subscribe(observer);
+  }
+
+  alterar(): void {
+    const filme: Filme = this.formulario.value;
+    if (!filme.categoria) {
+      filme.categoria = 'string';
+    }
+    if (!filme.nomefilme) {
+      filme.nomefilme = 'string';
+    }
+    if (!filme.classificacao) {
+      filme.classificacao = 'string';
+    }
+    if (!filme.diretor) {
+      filme.diretor = 'string';
+    }
+    if (!filme.duracao) {
+      filme.duracao = 'string';
+    }
+
+    const observer: Observer<Filme> = {
+      next(_result): void {
+        alert('Filme alterado com sucesso.');
+      },
+      error(error): void {
+        console.error(error);
+        alert('Erro ao alterar!');
+      },
+      complete(): void {},
+    };
+    this.filmesService.alterar(filme).subscribe(observer);
+  }
+
+  excluir(): void {
+    const filme: Filme = this.formulario.value;
+    const observer: Observer<Filme> = {
+      next(_result): void {
+        alert('Filme excluído com sucesso.');
+      },
+      error(error): void {
+        console.error(error);
+        alert('Erro ao excluir!');
+      },
+      complete(): void {
       },
     };
-    if (filme.idfilme && !isNaN(Number(filme.idfilme))){
-      this.filmesService.alterar(filme).subscribe(observer);
-    } else {
-      this.filmesService.cadastrar(filme).subscribe(observer);
-    }
-  } 
+    this.filmesService.excluir(filme.nomefilme).subscribe(observer);
+  }
+
+  reloadPage(): void {
+    window.location.reload();
+
+    
+  }
 }
