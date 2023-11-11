@@ -31,7 +31,7 @@ export class PipocasService {
     return this.http.put<Pipoca>(url, pipoca, httpOptions);
   }
   excluir(idPipoca: number): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${idPipoca}`;
+    const url = `${this.apiUrl}/excluir/${idPipoca}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

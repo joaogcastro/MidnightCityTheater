@@ -1,5 +1,27 @@
 <div class="container p-5">
   <div class="row">
+    <!--Listar-->
+    <div class="col-6 border border-light rounded p-5 shadow">
+      <h6 class="title-fontsize">Lista Bebidas</h6>
+      <table class="table table-striped" *ngIf="ListBebidas && ListBebidas.length > 0">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Sabor</th>
+            <th>Tamanho</th>
+            <th>Preço</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let bebida of ListBebidas">
+            <td>{{ bebida?.IdBebida }}</td>
+            <td>{{ bebida?.Sabor }}</td>
+            <td>{{ bebida?.Tamanho }}</td>
+            <td>{{ bebida?.Preco }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
     <!--Cadastrar Bebida-->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Cadastrar Bebida</h6>
@@ -36,7 +58,7 @@
         </div>
       </form>
     </div>
-    <!--Alterar Bebida-->
+    <!--Alterar-->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Alterar Bebida</h6>
       <form [formGroup]="formulario" (ngSubmit)="alterar()">
@@ -72,7 +94,7 @@
         </div>
       </form>
     </div>
-    <!--Excluir Bebida-->
+    <!--Excluir-->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Excluir Bebida</h6>
       <form [formGroup]="formulario" (ngSubmit)="excluir()">

@@ -1,1 +1,100 @@
-<p>doces works!</p>
+<div class="container p-5">
+    <div class="row">
+      <!--Listar-->
+      <div class="col-6 border border-light rounded p-5 shadow">
+        <h6 class="title-fontsize">Lista Doces</h6>
+        <table class="table table-striped" *ngIf="ListDoces && ListDoces.length > 0">
+          <thead>
+            <tr>
+              <th>Id</th>
+              <th>Nome</th>
+              <th>Preço</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let doce of ListDoces">
+              <td>{{ doce.IdDoce}}</td>
+              <td>{{ doce.Nome }}</td>
+              <td>{{ doce.Preco }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!--Cadastrar-->
+      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+        <h6 class="title-fontsize">Cadastrar Doce</h6>
+        <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+          <div class="form-group">
+            <label class="bold">IdDoce</label>
+            <div>Preenchido automaticamente</div>
+          </div>
+          <div class="form-group">
+            <label class="bold">Nome</label>
+            <input type="text" class="form-control form-control-sm" formControlName="Nome" />
+          </div>
+          <div class="form-group">
+            <label class="bold">Preço</label>
+            <input type="number" class="form-control form-control-sm" formControlName="Preco" />
+          </div>
+          <div class="container">
+            <div class="row">
+              <div>
+                <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
+              </div>
+              <div class="pl-1">
+                <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--Alterar-->
+      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+        <h6 class="title-fontsize">Alterar Bebida</h6>
+        <form [formGroup]="formulario" (ngSubmit)="alterar()">
+          <div class="form-group">
+            <label class="bold">IdDoce</label>
+            <input type="number" class="form-control form-control-sm" formControlName="IdDoce" />
+          </div>
+          <div class="form-group">
+            <label class="bold">Nome</label>
+            <input type="text" class="form-control form-control-sm" formControlName="Nome" />
+          </div>
+          <div class="form-group">
+            <label class="bold">Preço</label>
+            <input type="number" class="form-control form-control-sm" formControlName="Preco" />
+          </div>
+          <div class="container">
+            <div class="row">
+              <div>
+                <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
+              </div>
+              <div class="pl-1">
+                <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!--Excluir-->
+      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+        <h6 class="title-fontsize">Excluir Doce</h6>
+        <form [formGroup]="formulario" (ngSubmit)="excluir()">
+          <div class="form-group">
+            <label class="bold">IdDoce</label>
+            <input type="number" class="form-control form-control-sm" formControlName="IdDoce" />
+          </div>
+          <div class="container">
+            <div class="row">
+              <div>
+                <button type="submit" class="btn btn-sm btn-primary">Excluir</button>
+              </div>
+              <div class="pl-1">
+                <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>

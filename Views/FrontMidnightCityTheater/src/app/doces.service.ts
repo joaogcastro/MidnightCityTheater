@@ -33,7 +33,7 @@ export class DocesService {
     return this.http.put<Doce>(url, doce, httpOptions);
   }
   excluir(idDoce: number): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${idDoce}`;
+    const url = `${this.apiUrl}/excluir/${idDoce}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

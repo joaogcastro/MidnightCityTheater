@@ -13,6 +13,7 @@ import { Bebida } from 'src/app/Bebida';
 export class BebidasComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
+  ListBebidas: Bebida[] = [];
 
   tamanhos = [
     { Tamanho: 'Pequeno' },
@@ -27,16 +28,53 @@ export class BebidasComponent implements OnInit {
       IdBebida: new FormControl(null),
       Sabor: new FormControl(null),
       Tamanho: new FormControl(null),
-      Preco: new FormControl(null)
+      Preco: new FormControl(null),
     });
+    this.listar();
   }
 
+  listar(): void {
+    this.bebidasService.listar().subscribe(
+      (bebidas: Bebida[]) => {
+        this.ListBebidas = bebidas;
+        console.log("Array Back Bebidas;:",bebidas);
+        console.log("Array Front Bebidas:",this.ListBebidas);
+      },
+      (error) => {
+        console.error(error);
+        alert('Erro ao carregar a lista de Bebidas!');
+      }
+    );
+  }
+
+  /*buscar(): void {
+    const id: number = this.formulario.get('IdBebida').value;
+    if (id) {
+      this.bebidasService.buscar(id).subscribe(
+        (resultadoBusca: Bebida) => {
+          if (resultadoBusca) {
+            this.formulario.patchValue(resultadoBusca);
+            alert('Filme encontrado: ' + resultadoBusca.IdBebida);
+          } else {
+            alert('Id não encontrado.');
+          }
+        },
+        (error) => {
+          console.error(error);
+          alert('Erro na busca!');
+        }
+      );
+    } else {
+      alert('Por favor, insira um ID válido para buscar.');
+    }
+  }
+*/
   cadastrar(): void {
     const bebida: Bebida = this.formulario.value;
     if (!bebida.IdBebida) {bebida.IdBebida=0}
     const observer: Observer<Bebida> = {
       next(_result): void {
-        alert('Bebida cadastrada com sucesso.' + bebida.IdBebida + bebida.Sabor + bebida.Tamanho + bebida.Preco);
+        alert('Bebida cadastrada com sucesso.');
       },
       error(error): void {
         console.error(error);
@@ -46,6 +84,7 @@ export class BebidasComponent implements OnInit {
       },
     };
     this.bebidasService.cadastrar(bebida).subscribe(observer);
+    this.reloadPage()
   }
 
   alterar(): void {
@@ -65,6 +104,7 @@ export class BebidasComponent implements OnInit {
       complete(): void {},
     };
     this.bebidasService.alterar(bebida).subscribe(observer);
+    this.reloadPage();
   }  
 
   excluir(): void {
@@ -81,6 +121,7 @@ export class BebidasComponent implements OnInit {
       },
     };
     this.bebidasService.excluir(bebida.IdBebida).subscribe(observer);
+    this.reloadPage()
   }
 
   reloadPage(): void {
