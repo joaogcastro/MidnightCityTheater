@@ -18,8 +18,8 @@ export class FilmesService {
     const url = `${this.apiUrl}/listar`;
     return this.http.get<Filme[]>(url);
   }
-  buscar(nomefilme: string): Observable<Filme> {
-    const url = `${this.apiUrl}/buscar/${nomefilme}`;
+  buscar(idFilme: number): Observable<Filme> {
+    const url = `${this.apiUrl}/buscar/${idFilme}`;
     return this.http.get<Filme>(url);
   }
   cadastrar(filme: Filme): Observable<any> {
@@ -30,8 +30,8 @@ export class FilmesService {
     const url = `${this.apiUrl}/alterar`;
     return this.http.put<Filme>(url, filme, httpOptions);
   }
-  excluir(idfilme: number): Observable<any> {
-    const url = `${this.apiUrl}/excluir/${idfilme}`;
+  excluir(idFilme: number): Observable<any> {
+    const url = `${this.apiUrl}/excluir/${idFilme}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

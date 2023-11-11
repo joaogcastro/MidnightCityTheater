@@ -13,12 +13,8 @@ import { Filme } from 'src/app/Filme';
 export class FilmesComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
-
-  tamanhos = [
-    { Tamanho: 'Pequeno' },
-    { Tamanho: 'Medio' },
-    { Tamanho: 'Grande' }
-  ]
+  filmes: Filme[] = [];
+  nomeFilmeEncontrado: string = '';
 
   constructor(private filmesService: FilmesService) { }
 
@@ -31,17 +27,19 @@ export class FilmesComponent implements OnInit {
       diretor: new FormControl(null),
       categoria: new FormControl(null)
     });
+    this.listar();
+
   }
 
   cadastrar(): void {
     const filme: Filme = this.formulario.value;
-    if (!filme.idfilme) {filme.idfilme=0}
+    if (!filme.idFilme) {filme.idFilme=0}
     const observer: Observer<Filme> = {
       next(_result): void {
-        alert('Filme cadastrado com sucesso.' + filme.idfilme + filme.nomefilme + filme.duracao + filme.classificacao + filme.diretor + filme.categoria);
+        alert('Filme cadastrado com sucesso.' + filme.idFilme + filme.nomeFilme + filme.duracao + filme.classificacao + filme.diretor + filme.categoria);
       },
       error(error): void {
-        alert('DEU ERRO CORNO.' + filme.idfilme + filme.nomefilme + filme.duracao + filme.classificacao + filme.diretor + filme.categoria);
+        alert('Erro de cadastro.' + filme.idFilme + filme.nomeFilme + filme.duracao + filme.classificacao + filme.diretor + filme.categoria);
         console.error(error);
         
         alert('Erro ao cadastrar!');
@@ -52,9 +50,48 @@ export class FilmesComponent implements OnInit {
     this.filmesService.cadastrar(filme).subscribe(observer);
   }
 
+  listar(): void {
+    this.filmesService.listar().subscribe(
+      (filmes: Filme[]) => {
+        this.filmes = filmes;
+        console.log(filmes);
+      },
+      (error) => {
+        console.error(error);
+        alert('Erro ao carregar a lista de filmes!');
+      }
+    );
+  }
+
+  buscar(): void {
+    const idFilme: number = this.formulario.get('idfilme').value;
+
+    if (idFilme) {
+      this.filmesService.buscar(idFilme).subscribe(
+        (filmeEncontrado: Filme) => {
+          if (filmeEncontrado) {
+            this.formulario.patchValue(filmeEncontrado);
+            this.nomeFilmeEncontrado = filmeEncontrado.nomeFilme;
+            alert('Filme encontrado: ' + this.nomeFilmeEncontrado);
+          } else {
+            this.nomeFilmeEncontrado = '';
+            alert('Filme não encontrado.');
+          }
+        },
+        (error) => {
+          console.error(error);
+          alert('Erro ao buscar filme!');
+        }
+      );
+    } else {
+      this.nomeFilmeEncontrado = '';
+      alert('Por favor, insira um ID válido para buscar.');
+    }
+  }
+
   alterar(): void {
     const filme: Filme = this.formulario.value;
-    if (!filme.nomefilme) {filme.nomefilme = "string"}
+    if (!filme.nomeFilme) {filme.nomeFilme = "string"}
     if (!filme.duracao) {filme.duracao = "string"}
     if (!filme.classificacao) {filme.classificacao = "string"}
     if (!filme.diretor) {filme.diretor = "string"}
@@ -74,19 +111,24 @@ export class FilmesComponent implements OnInit {
   }  
 
   excluir(): void {
-    const filme: Filme = this.formulario.value;
-    const observer: Observer<Filme> = {
-      next(_result): void {
-        alert('Filme excluído com sucesso.');
-      },
-      error(error): void {
-        console.error(error);
-        alert('Erro ao excluir!');
-      },
-      complete(): void {
-      },
-    };
-    this.filmesService.excluir(filme.idfilme).subscribe(observer);
+    const idFilme: number = this.formulario.get('idfilme').value;
+  
+    if (idFilme) {
+      if (confirm('Tem certeza que deseja excluir o filme?')) {
+        this.filmesService.excluir(idFilme).subscribe(
+          () => {
+            alert('Filme excluído com sucesso.');
+            this.reloadPage();
+          },
+          (error) => {
+            console.error(error);
+            alert('Erro ao excluir filme!');
+          }
+        );
+      }
+    } else {
+      alert('Por favor, insira um ID válido para excluir.');
+    }
   }
 
   reloadPage(): void {

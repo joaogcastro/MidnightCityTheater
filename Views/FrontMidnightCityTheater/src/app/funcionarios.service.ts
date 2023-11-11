@@ -14,7 +14,7 @@ const httpOptions = {
 })
 
 export class FuncionariosService {
-  apiUrl = 'http://localhost:5000/Bebida';
+  apiUrl = 'http://localhost:5000/Funcionario';
   constructor(private http: HttpClient) { }
   listar(): Observable<Funcionario[]> {
     const url = `${this.apiUrl}/listar`;

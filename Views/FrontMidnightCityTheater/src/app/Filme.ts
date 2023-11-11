@@ -1,6 +1,6 @@
 export class Filme {
-  idfilme: number = 0;
-  nomefilme: string = '';
+  idFilme: number = 0;
+  nomeFilme: string = '';
   duracao: string = '';
   classificacao: string = '';
   diretor: string = '';

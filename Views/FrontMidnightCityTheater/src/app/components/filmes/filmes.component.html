@@ -1,5 +1,33 @@
 <div class="container p-5">
+  
   <div class="row">
+    <div class="col-12 border border-light rounded p-5 shadow">
+      <h6 class="title-fontsize">Lista de Filmes</h6>
+      
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>Duração</th>
+            <th>Classificação</th>
+            <th>Diretor</th>
+            <th>Categoria</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let filme of filmes">
+            <td>{{ filme.idFilme }}</td>
+            <td>{{ filme.nomeFilme }}</td>
+            <td>{{ filme.duracao }}</td>
+            <td>{{ filme.classificacao }}</td>
+            <td>{{ filme.diretor }}</td>
+            <td>{{ filme.categoria }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
     <!-- Cadastrar Filme -->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Cadastrar Filme</h6>
@@ -39,6 +67,31 @@
           </div>
         </div>
       </form>
+    </div>
+    <div class="row">
+      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+        <h6 class="title-fontsize">Buscar Filme por ID</h6>
+        <form [formGroup]="formulario" (ngSubmit)="buscar()">
+          <div class="form-group">
+            <label class="bold">ID do Filme</label>
+            <input type="number" class="form-control form-control-sm" formControlName="idfilme" />
+          </div>
+          <div class="container">
+            <div class="row">
+              <div>
+                <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
+              </div>
+              <div class="pl-1">
+                <!-- Adicione esta div para exibir o nome do filme encontrado -->
+                <div *ngIf="nomeFilmeEncontrado" class="mt-2">
+                  <label class="bold">Nome do Filme Encontrado:</label>
+                  <input type="text" class="form-control form-control-sm" [value]="nomeFilmeEncontrado" readonly />
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
     <!-- Alterar Filme -->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
@@ -91,7 +144,7 @@
         <div class="container">
           <div class="row">
             <div>
-              <button type="submit" class="btn btn-sm btn-primary">Excluir</button>
+              <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
             </div>
             <div class="pl-1">
               <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
@@ -101,4 +154,3 @@
       </form>
     </div>
   </div>
-</div>
