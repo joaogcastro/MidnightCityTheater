@@ -15,12 +15,12 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let funcionario of funcionarios">
-              <td>{{ funcionario.IdFuncionario }}</td>
-              <td>{{ funcionario.CPFfunc }}</td>
-              <td>{{ funcionario.NomeFunc }}</td>
-              <td>{{ funcionario.EmailFunc }}</td>
-              <td>{{ funcionario.TelefoneFunc }}</td>
+            <tr *ngFor="let funcionario of Funcionarios">
+              <td>{{ funcionario?.idFuncionario }}</td>
+              <td>{{ funcionario?.cpffunc }}</td>
+              <td>{{ funcionario?.nomeFunc }}</td>
+              <td>{{ funcionario?.emailFunc }}</td>
+              <td>{{ funcionario?.telefoneFunc }}</td>
             </tr>
           </tbody>
         </table>
@@ -76,9 +76,9 @@
                   <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
                 </div>
                 <div class="pl-1">
-                  <div *ngIf="nomeFuncionarioEncontrado" class="mt-2">
-                    <label class="bold">Nome do Filme Encontrado:</label>
-                    <input type="text" class="form-control form-control-sm" [value]="nomeFuncionarioEncontrado" readonly />
+                  <div *ngIf="nomeFuncionarioEncontrado">
+                    <label class="bold">Nome do Funcionário Encontrado:</label>
+                    {{ nomeFuncionarioEncontrado }}
                   </div>
                 </div>
               </div>

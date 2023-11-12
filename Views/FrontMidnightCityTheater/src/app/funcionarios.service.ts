@@ -20,8 +20,8 @@ export class FuncionariosService {
     const url = `${this.apiUrl}/listar`;
     return this.http.get<Funcionario[]>(url);
   }
-  buscar(idfuncionario: number): Observable<Funcionario> {
-    const url = `${this.apiUrl}/buscar/${idfuncionario}`;
+  buscar(idFuncionario: number): Observable<Funcionario> {
+    const url = `${this.apiUrl}/buscar/${idFuncionario}`;
     return this.http.get<Funcionario>(url);
   }
   cadastrar(funcionario: Funcionario): Observable<any> {

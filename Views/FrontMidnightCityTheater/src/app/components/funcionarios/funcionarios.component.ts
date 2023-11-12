@@ -12,7 +12,7 @@ import { FuncionariosService } from 'src/app/funcionarios.service';
 export class FuncionariosComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
-  funcionarios: Funcionario[] = [];
+  Funcionarios: Funcionario[] = [];
   nomeFuncionarioEncontrado: string = '';
 
   constructor(private funcionariosService: FuncionariosService) { }
@@ -31,13 +31,13 @@ export class FuncionariosComponent implements OnInit {
 
   cadastrar(): void {
     const funcionario: Funcionario = this.formulario.value;
-    if (!funcionario.IdFuncionario) {funcionario.IdFuncionario=0}
+    if (!funcionario.idFuncionario) {funcionario.idFuncionario=0}
     const observer: Observer<Funcionario> = {
       next(_result): void {
-        alert('Funcionario cadastrado com sucesso.' + funcionario.IdFuncionario + funcionario.CPFfunc + funcionario.NomeFunc + funcionario.EmailFunc + funcionario.TelefoneFunc);
+        alert('Funcionario cadastrado com sucesso.' + funcionario.idFuncionario + funcionario.cpffunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
       },
       error(error): void {
-        alert('Erro de cadastro.' + funcionario.IdFuncionario + funcionario.CPFfunc + funcionario.NomeFunc + funcionario.EmailFunc + funcionario.TelefoneFunc);
+        alert('Erro de cadastro.' + funcionario.idFuncionario + funcionario.cpffunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
         console.error(error);
         
         alert('Erro ao cadastrar!');
@@ -51,8 +51,9 @@ export class FuncionariosComponent implements OnInit {
   listar(): void {
     this.funcionariosService.listar().subscribe(
       (funcionarios: Funcionario[]) => {
-        this.funcionarios = funcionarios;
+        this.Funcionarios = funcionarios;
         console.log(funcionarios);
+        console.log(this.Funcionarios);
       },
       (error) => {
         console.error(error);
@@ -62,17 +63,18 @@ export class FuncionariosComponent implements OnInit {
   }
 
   buscar(): void {
-    const IdFuncionario: number = this.formulario.get('IdFuncionario').value;
-  
-    if (IdFuncionario) {
-      this.funcionariosService.buscar(IdFuncionario).subscribe(
-        (funcionarioEncontrado: Funcionario) => {
+    const idFuncionario: number = this.formulario.get('IdFuncionario').value;
+    
+    if (idFuncionario) {
+      this.funcionariosService.buscar(idFuncionario).subscribe(
+        (funcionarioEncontrado: any) => {
+          console.log(funcionarioEncontrado);
           if (funcionarioEncontrado) {
             this.formulario.patchValue(funcionarioEncontrado);
-            this.nomeFuncionarioEncontrado = funcionarioEncontrado.NomeFunc;
+            this.nomeFuncionarioEncontrado = funcionarioEncontrado.nomeFunc;
             alert('Funcionario encontrado: ' + this.nomeFuncionarioEncontrado);
           } else {
-            this.nomeFuncionarioEncontrado = ''; // Limpar o nome se não encontrar
+            this.nomeFuncionarioEncontrado = '';
             alert('Funcionario não encontrado.');
           }
         },
@@ -89,10 +91,10 @@ export class FuncionariosComponent implements OnInit {
 
   alterar(): void {
     const funcionario: Funcionario = this.formulario.value;
-    if (!funcionario.NomeFunc) {funcionario.NomeFunc = "string"}
-    if (!funcionario.CPFfunc) {funcionario.CPFfunc = "string"}
-    if (!funcionario.EmailFunc) {funcionario.EmailFunc = "string"}
-    if (!funcionario.TelefoneFunc) {funcionario.TelefoneFunc = "string"}
+    if (!funcionario.nomeFunc) {funcionario.nomeFunc = "string"}
+    if (!funcionario.cpffunc) {funcionario.cpffunc = "string"}
+    if (!funcionario.emailFunc) {funcionario.emailFunc = "string"}
+    if (!funcionario.telefoneFunc) {funcionario.telefoneFunc = "string"}
   
     const observer: Observer<Funcionario> = {
       next(_result): void {

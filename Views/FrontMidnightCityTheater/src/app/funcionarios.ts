@@ -1,7 +1,7 @@
 export class Funcionario{
-    IdFuncionario: number = 0;
-    CPFfunc: string = '';
-    NomeFunc: string = '';
-    EmailFunc: string = '';
-    TelefoneFunc: string = '';
+    idFuncionario: number = 0;
+    cpffunc: string = '';
+    nomeFunc: string = '';
+    emailFunc: string = '';
+    telefoneFunc: string = '';
 }
