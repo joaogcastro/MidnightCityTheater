@@ -8,9 +8,11 @@ import { PipocasComponent } from './components/pipocas/pipocas.component';
 import { SnacksComponent } from './components/snacks/snacks.component';
 import { SalasComponent } from './components/salas/salas.component';
 import { IngressosComponent } from './components/ingressos/ingressos.component';
+import { FuncionariosComponent } from './components/funcionarios/funcionarios.component';
 
 const routes: Routes = [
   {path: 'filmes', component:FilmesComponent},
+  {path: 'Funcionario', component:FuncionariosComponent},
   {path: 'Clientes', component:ClientesComponent},
   {path: 'Bebidas', component: BebidasComponent},
   {path: 'Doces', component: DocesComponent},
