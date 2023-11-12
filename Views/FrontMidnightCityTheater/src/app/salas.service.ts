@@ -31,7 +31,7 @@ export class SalasService {
     return this.http.put<Sala>(url, sala, httpOptions);
   }
   excluir(idSala: number): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${idSala}`;
+    const url = `${this.apiUrl}/excluir/${idSala}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

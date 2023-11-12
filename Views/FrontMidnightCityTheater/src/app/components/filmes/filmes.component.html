@@ -69,9 +69,9 @@
       </form>
     </div>
     <div class="row">
-      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
         <h6 class="title-fontsize">Buscar Filme por ID</h6>
-        <form [formGroup]="formulario" (ngSubmit)="buscar()">
+        <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
           <div class="form-group">
             <label class="bold">ID do Filme</label>
             <input type="number" class="form-control form-control-sm" formControlName="idfilme" />

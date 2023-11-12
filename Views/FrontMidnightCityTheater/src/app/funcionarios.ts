@@ -1,6 +1,6 @@
 export class Funcionario{
     idFuncionario: number = 0;
-    cpffunc: string = '';
+    cpFfunc: string = '';
     nomeFunc: string = '';
     emailFunc: string = '';
     telefoneFunc: string = '';

@@ -11,81 +11,130 @@ import { SalasService } from 'src/app/salas.service';
 })
 export class SalasComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
-  formulario!: FormGroup;
-  salas: Sala[] = [];
-  novaSala: Sala = new Sala(); // Adicione uma nova instância de Sala
+  formulario: any;
+  formularioBuscar: any;
+  Salas: Sala[] = [];
+  nomeSalaEncontrado: string = '';
 
   constructor(private salasService: SalasService) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
-      idsala: new FormControl(null),
-      tiposala: new FormControl(null),
-      capacidade: new FormControl(null)
+      idSala: new FormControl(null),
+      capacidade: new FormControl(null),
+      tipoSala: new FormControl(null)
     });
-
-    this.listarSalas(); // Carregue a lista de salas quando o componente for inicializado
-  }
-
-  listarSalas(): void {
-    this.salasService.listar().subscribe((result: Sala[]) => {
-      this.salas = result;
+    this.listar();
+    this.formularioBuscar = new FormGroup({
+      idSala: new FormControl(null),
     });
   }
 
   cadastrar(): void {
     const sala: Sala = this.formulario.value;
-    if (!sala.idsala) {sala.idsala=0}
+    if (!sala.idSala) {
+      sala.idSala = 0;
+    }
     const observer: Observer<Sala> = {
       next(_result): void {
-        alert('sala cadastrada com sucesso.' + sala.idsala + sala.capacidade + sala.tiposala);
+        alert('Sala cadastrada com sucesso.' + sala.idSala + sala.capacidade + sala.tipoSala);
       },
       error(error): void {
+        alert('Erro de cadastro.' + sala.idSala + sala.capacidade + sala.tipoSala);
         console.error(error);
         alert('Erro ao cadastrar!');
       },
-      complete(): void {
-      },
+      complete(): void {},
     };
     this.salasService.cadastrar(sala).subscribe(observer);
   }
 
-  editarSala(sala: Sala): void {
-    const sala1: Sala = this.formulario.value;
-    if (!sala1.capacidade) {
-      sala1.capacidade = "string";
-    }
-    if (!sala1.tiposala) {
-      sala1.tiposala = "string";
-    }
-
-    this.salasService.alterar(sala).subscribe({
-      next: (_result: Sala) => {
-        alert('Sala alterada com sucesso.');
-        this.listarSalas();
+  listar(): void {
+    this.salasService.listar().subscribe(
+      (salas: Sala[]) => {
+        this.Salas = salas;
+        console.log(salas);
+        console.log(this.Salas);
       },
-      error: (error) => {
+      (error) => {
+        console.error(error);
+        alert('Erro ao carregar a lista de salas!');
+      }
+    );
+  }
+
+  buscar(): void {
+    const idSala: number = this.formularioBuscar.get('idSala').value;
+    
+    if (idSala) {
+      this.salasService.buscar(idSala).subscribe(
+        (salaEncontrado: any) => {
+          console.log(salaEncontrado);
+          if (salaEncontrado) {
+            this.formularioBuscar.get('idSala')?.setValue(salaEncontrado.idSala);
+            this.nomeSalaEncontrado = salaEncontrado.tipoSala;
+            
+          } else {
+            this.nomeSalaEncontrado = '';
+            alert('Sala não encontrada.');
+          }
+        },
+        (error) => {
+          console.error(error);
+          alert('Erro ao buscar sala!');
+        }
+      );
+    } else {
+      this.nomeSalaEncontrado = '';
+      alert('Por favor, insira um ID válido para buscar.');
+    }
+  }
+
+  alterar(): void {
+    const sala: Sala = this.formulario.value;
+    if (sala.idSala === null) {
+      alert('Por favor, busque uma sala antes de tentar alterar.');
+      return;
+    }
+    if (!sala.capacidade) {
+      sala.capacidade = 'string';
+    }
+    if (!sala.tipoSala) {
+      sala.tipoSala = 'string';
+    }
+  
+    const observer: Observer<Sala> = {
+      next(_result): void {
+        alert('Sala alterada com sucesso.');
+      },
+      error(error): void {
         console.error(error);
         alert('Erro ao alterar!');
       },
-      complete: () => {
-      },
-    });
-  }
+      complete(): void {},
+    };
+    this.salasService.alterar(sala).subscribe(observer);
+  }  
 
-  excluirSala(idSala: number): void {
-    this.salasService.excluir(idSala).subscribe({
-      next: (_result: Sala) => {
-        alert('Sala excluída com sucesso.');
-        this.listarSalas();
-      },
-      error: (error) => {
-        console.error(error);
-        alert('Erro ao excluir!');
-      },
-      complete: () => {
-      },
-    });
+  excluir(): void {
+    const idSala: number = this.formulario.get('idSala').value;
+  
+    if (idSala) {
+      if (confirm('Tem certeza que deseja excluir a sala?')) {
+        this.salasService.excluir(idSala).subscribe(
+          () => {
+            alert('Sala excluída com sucesso.');
+            this.reloadPage();
+          },
+          (error) => {
+            console.error(error);
+            alert('Erro ao excluir sala!');
+          }
+        );
+      }
+    } else {
+      alert('Por favor, insira um ID válido para excluir.');
+    }
   }
 
   reloadPage(): void {

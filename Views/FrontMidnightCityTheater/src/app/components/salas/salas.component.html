@@ -1,53 +1,130 @@
 <div class="container p-5">
+  
   <div class="row">
-    <!-- Cadastrar Sala -->
-    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-      <h6>Cadastrar Sala</h6>
-      <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
-        <div class="form-group">
-          <label>Capacidade</label>
-          <input type="text" class="form-control form-control-sm" formControlName="capacidade" />
+    <div class="col-12 border border-light rounded p-5 shadow">
+      <h6 class="title-fontsize">Lista de Salas</h6>
+      
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Capacidade</th>
+            <th>Tipo Sala</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let sala of Salas">
+            <td>{{ sala?.idSala }}</td>
+            <td>{{ sala?.capacidade }}</td>
+            <td>{{ sala?.tipoSala }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Cadastrar Sala -->
+  <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+    <h6 class="title-fontsize">Cadastrar Sala</h6>
+    <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+      <div class="form-group">
+        <label class="bold">Id Sala</label>
+        <div>Preenchido automaticamente</div>
+      </div>
+      <div class="form-group">
+        <label class="bold">Capacidade da sala</label>
+        <input type="text" class="form-control form-control-sm" formControlName="capacidade" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Tipo da Sala</label>
+        <input type="text" class="form-control form-control-sm" formControlName="tipoSala" />
+      </div>
+      <div class="container">
+        <div class="row">
+          <div>
+            <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
+          </div>
+          <div class="pl-1">
+            <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+          </div>
         </div>
+      </div>
+    </form>
+  </div>
+
+  <div class="row">
+    <!-- Buscar Sala por ID -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
+      <h6 class="title-fontsize">Buscar Sala por ID</h6>
+      <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
         <div class="form-group">
-          <label>Tipo de Sala</label>
-          <input type="text" class="form-control form-control-sm" formControlName="tiposala" />
+          <label class="bold">ID da Sala</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idSala" />
         </div>
         <div class="container">
           <div class="row">
             <div>
-              <button type="submit" class="btn btn-sm btn-outline-secondary">Cadastrar Sala</button>
+              <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
+            </div>
+            <div class="pl-1">
+              <div *ngIf="nomeSalaEncontrado">
+                <label class="bold">Tipo da Sala Encontrada:</label>
+                {{ nomeSalaEncontrado }}
+              </div>
             </div>
           </div>
         </div>
       </form>
     </div>
-  </div>
 
-  <!-- Lista de Salas -->
-  <div class="row mt-4">
-    <div class="col-12">
-      <h6>Lista de Salas</h6>
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>ID</th>
-            <th>Capacidade</th>
-            <th>Tipo de Sala</th>
-            <th>Ações</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let sala of salas">
-            <td>{{ sala.idsala }}</td>
-            <td>{{ sala.capacidade }}</td>
-            <td>{{ sala.tiposala }}</td>
-            <td>
-              <button (click)="editarSala(sala)" class="btn btn-sm btn-warning">Editar</button>
-              <button (click)="excluirSala(sala.idsala)" class="btn btn-sm btn-danger">Excluir</button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Alterar Sala -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Alterar Sala</h6>
+      <form [formGroup]="formulario" (ngSubmit)="alterar()">
+        <div class="form-group">
+          <label class="bold">Id da Sala</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idSala" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Capacidade da Sala</label>
+          <input type="text" class="form-control form-control-sm" formControlName="capacidade" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Tipo da Sala</label>
+          <input type="text" class="form-control form-control-sm" formControlName="tipoSala" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Excluir Sala -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Excluir Sala</h6>
+      <form [formGroup]="formulario" (ngSubmit)="excluir()">
+        <div class="form-group">
+          <label class="bold">Id da Sala</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idSala" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
     </div>
   </div>
 </div>

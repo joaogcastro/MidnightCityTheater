@@ -12,6 +12,7 @@ import { FuncionariosService } from 'src/app/funcionarios.service';
 export class FuncionariosComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
+  formularioBuscar: any;
   Funcionarios: Funcionario[] = [];
   nomeFuncionarioEncontrado: string = '';
 
@@ -19,31 +20,35 @@ export class FuncionariosComponent implements OnInit {
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
-      IdFuncionario: new FormControl(null),
-      CPFfunc: new FormControl(null),
-      NomeFunc: new FormControl(null),
-      EmailFunc: new FormControl(null),
-      TelefoneFunc: new FormControl(null)
+      idFuncionario: new FormControl(null),
+      cpFfunc: new FormControl(null),
+      nomeFunc: new FormControl(null),
+      emailFunc: new FormControl(null),
+      telefoneFunc: new FormControl(null)
     });
     this.listar();
+    this.formularioBuscar = new FormGroup({
+      idFuncionario: new FormControl(null),
+    });
 
   }
 
   cadastrar(): void {
     const funcionario: Funcionario = this.formulario.value;
-    if (!funcionario.idFuncionario) {funcionario.idFuncionario=0}
+    if (!funcionario.idFuncionario) {
+      funcionario.idFuncionario = 0;
+    }
     const observer: Observer<Funcionario> = {
       next(_result): void {
-        alert('Funcionario cadastrado com sucesso.' + funcionario.idFuncionario + funcionario.cpffunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
+        alert('Funcionário cadastrado com sucesso.' + funcionario.idFuncionario + funcionario.cpFfunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
+        
       },
       error(error): void {
-        alert('Erro de cadastro.' + funcionario.idFuncionario + funcionario.cpffunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
+        alert('Erro de cadastro.' + funcionario.idFuncionario + funcionario.cpFfunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
         console.error(error);
-        
         alert('Erro ao cadastrar!');
       },
-      complete(): void {
-      },
+      complete(): void {},
     };
     this.funcionariosService.cadastrar(funcionario).subscribe(observer);
   }
@@ -57,22 +62,22 @@ export class FuncionariosComponent implements OnInit {
       },
       (error) => {
         console.error(error);
-        alert('Erro ao carregar a lista de funcionarios!');
+        alert('Erro ao carregar a lista de funcionários!');
       }
     );
   }
 
   buscar(): void {
-    const idFuncionario: number = this.formulario.get('IdFuncionario').value;
+    const idFuncionario: number = this.formularioBuscar.get('idFuncionario').value;
     
     if (idFuncionario) {
       this.funcionariosService.buscar(idFuncionario).subscribe(
         (funcionarioEncontrado: any) => {
           console.log(funcionarioEncontrado);
           if (funcionarioEncontrado) {
-            this.formulario.patchValue(funcionarioEncontrado);
+            this.formularioBuscar.get('idFuncionario')?.setValue(funcionarioEncontrado.idFuncionario);
             this.nomeFuncionarioEncontrado = funcionarioEncontrado.nomeFunc;
-            alert('Funcionario encontrado: ' + this.nomeFuncionarioEncontrado);
+            
           } else {
             this.nomeFuncionarioEncontrado = '';
             alert('Funcionario não encontrado.');
@@ -92,7 +97,7 @@ export class FuncionariosComponent implements OnInit {
   alterar(): void {
     const funcionario: Funcionario = this.formulario.value;
     if (!funcionario.nomeFunc) {funcionario.nomeFunc = "string"}
-    if (!funcionario.cpffunc) {funcionario.cpffunc = "string"}
+    if (!funcionario.cpFfunc) {funcionario.cpFfunc = "string"}
     if (!funcionario.emailFunc) {funcionario.emailFunc = "string"}
     if (!funcionario.telefoneFunc) {funcionario.telefoneFunc = "string"}
   

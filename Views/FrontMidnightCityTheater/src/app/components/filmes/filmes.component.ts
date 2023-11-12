@@ -13,6 +13,7 @@ import { Filme } from 'src/app/Filme';
 export class FilmesComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
+  formularioBuscar: any;
   filmes: Filme[] = [];
   nomeFilmeEncontrado: string = '';
 
@@ -28,6 +29,9 @@ export class FilmesComponent implements OnInit {
       categoria: new FormControl(null)
     });
     this.listar();
+    this.formularioBuscar = new FormGroup({
+      idfilme: new FormControl(null)
+    });
 
   }
 
@@ -64,15 +68,15 @@ export class FilmesComponent implements OnInit {
   }
 
   buscar(): void {
-    const idFilme: number = this.formulario.get('idfilme').value;
+    const idFilme: number = this.formularioBuscar.get('idfilme').value;
 
     if (idFilme) {
       this.filmesService.buscar(idFilme).subscribe(
         (filmeEncontrado: Filme) => {
           if (filmeEncontrado) {
-            this.formulario.patchValue(filmeEncontrado);
+            this.formularioBuscar.get('idfilme')?.setValue(filmeEncontrado.idFilme);
             this.nomeFilmeEncontrado = filmeEncontrado.nomeFilme;
-            alert('Filme encontrado: ' + this.nomeFilmeEncontrado);
+            
           } else {
             this.nomeFilmeEncontrado = '';
             alert('Filme não encontrado.');

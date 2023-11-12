@@ -1,146 +1,150 @@
 <div class="container p-5">
   
-    <div class="row">
-      <div class="col-12 border border-light rounded p-5 shadow">
-        <h6 class="title-fontsize">Lista de Funcionarios</h6>
-        
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th>Id</th>
-              <th>CPF</th>
-              <th>Nome</th>
-              <th>Email</th>
-              <th>Telefone</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let funcionario of Funcionarios">
-              <td>{{ funcionario?.idFuncionario }}</td>
-              <td>{{ funcionario?.cpffunc }}</td>
-              <td>{{ funcionario?.nomeFunc }}</td>
-              <td>{{ funcionario?.emailFunc }}</td>
-              <td>{{ funcionario?.telefoneFunc }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+  <div class="row">
+    <div class="col-12 border border-light rounded p-5 shadow">
+      <h6 class="title-fontsize">Lista de Funcionarios</h6>
+      
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>CPF do funcionario</th>
+            <th>Nome</th>
+            <th>Email</th>
+            <th>Telefone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let funcionario of Funcionarios">
+            <td>{{ funcionario?.idFuncionario }}</td>
+            <td>{{ funcionario?.cpFfunc }}</td>
+            <td>{{ funcionario?.nomeFunc }}</td>
+            <td>{{ funcionario?.emailFunc }}</td>
+            <td>{{ funcionario?.telefoneFunc }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-      <!-- Cadastrar Funcionario -->
-      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-        <h6 class="title-fontsize">Cadastrar Funcionario</h6>
-        <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
-          <div class="form-group">
-            <label class="bold">idfilme</label>
-            <div>Preenchido automaticamente</div>
-          </div>
-          <div class="form-group">
-            <label class="bold">CPF do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="CPFfunc" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Nome do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="NomeFunc" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Email do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="EmailFunc" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Telefone do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="TelefoneFunc" />
-          </div>
-          <div class="container">
-            <div class="row">
-              <div>
-                <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
-              </div>
-              <div class="pl-1">
-                <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
-              </div>
-            </div>
-          </div>
-        </form>
+  </div>
+
+  <!-- Cadastrar Funcionario -->
+  <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+    <h6 class="title-fontsize">Cadastrar Funcionario</h6>
+    <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+      <div class="form-group">
+        <label class="bold">Id Funcionario</label>
+        <div>Preenchido automaticamente</div>
       </div>
-      <div class="row">
-        <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-          <h6 class="title-fontsize">Buscar Funcionario por ID</h6>
-          <form [formGroup]="formulario" (ngSubmit)="buscar()">
-            <div class="form-group">
-              <label class="bold">ID do Funcionario</label>
-              <input type="number" class="form-control form-control-sm" formControlName="IdFuncionario" />
-            </div>
-            <div class="container">
-              <div class="row">
-                <div>
-                  <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
-                </div>
-                <div class="pl-1">
-                  <div *ngIf="nomeFuncionarioEncontrado">
-                    <label class="bold">Nome do Funcionário Encontrado:</label>
-                    {{ nomeFuncionarioEncontrado }}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </form>
+      <div class="form-group">
+        <label class="bold">CPF do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="cpFfunc" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Nome do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="nomeFunc" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Email do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="emailFunc" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Telefone do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="telefoneFunc" />
+      </div>
+      <div class="container">
+        <div class="row">
+          <div>
+            <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
+          </div>
+          <div class="pl-1">
+            <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+          </div>
         </div>
       </div>
-      <!-- Alterar Funcionario -->
-      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-        <h6 class="title-fontsize">Alterar Funcionario</h6>
-        <form [formGroup]="formulario" (ngSubmit)="alterar()">
-          <div class="form-group">
-            <label class="bold">Id do Funcionario</label>
-            <input type="number" class="form-control form-control-sm" formControlName="IdFuncionario" />
-          </div>
-          <div class="form-group">
-            <label class="bold">CPF do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="CPFfunc" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Nome do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="NomeFunc" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Email do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="EmailFunc" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Telefone do Funcionario</label>
-            <input type="text" class="form-control form-control-sm" formControlName="TelefoneFunc" />
-          </div>
-          <div class="container">
-            <div class="row">
-              <div>
-                <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
-              </div>
-              <div class="pl-1">
-                <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-      <!-- Excluir Funcionario -->
-      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-        <h6 class="title-fontsize">Excluir Funcionario</h6>
-        <form [formGroup]="formulario" (ngSubmit)="excluir()">
-          <div class="form-group">
-            <label class="bold">Id do Funcionario</label>
-            <input type="number" class="form-control form-control-sm" formControlName="IdFuncionario" />
-          
-          <div class="container">
-            <div class="row">
-              <div>
-                <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
-              </div>
-              <div class="pl-1">
-                <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
-              </div>
-            </div>
-          </div>
-        
+    </form>
+  </div>
 
-    
-  
+  <div class="row">
+    <!-- Buscar Funcionario por ID -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
+      <h6 class="title-fontsize">Buscar Funcionario por ID</h6>
+      <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
+        <div class="form-group">
+          <label class="bold">ID do Funcionario</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idFuncionario" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
+            </div>
+            <div class="pl-1">
+              <div *ngIf="nomeFuncionarioEncontrado">
+                <label class="bold">Nome do Funcionário Encontrado:</label>
+                {{ nomeFuncionarioEncontrado }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Alterar Funcionario -->
+  <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+    <h6 class="title-fontsize">Alterar Funcionario</h6>
+    <form [formGroup]="formulario" (ngSubmit)="alterar()">
+      <div class="form-group">
+        <label class="bold">Id do Funcionario</label>
+        <input type="number" class="form-control form-control-sm" formControlName="idFuncionario" />
+      </div>
+      <div class="form-group">
+        <label class="bold">CPF do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="cpFfunc" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Nome do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="nomeFunc" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Email do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="emailFunc" />
+      </div>
+      <div class="form-group">
+        <label class="bold">Telefone do Funcionario</label>
+        <input type="text" class="form-control form-control-sm" formControlName="telefoneFunc" />
+      </div>
+      <div class="container">
+        <div class="row">
+          <div>
+            <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
+          </div>
+          <div class="pl-1">
+            <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <!-- Excluir Funcionario -->
+  <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+    <h6 class="title-fontsize">Excluir Funcionario</h6>
+    <form [formGroup]="formulario" (ngSubmit)="excluir()">
+      <div class="form-group">
+        <label class="bold">Id do Funcionario</label>
+        <input type="number" class="form-control form-control-sm" formControlName="idFuncionario" />
+      </div>
+      <div class="container">
+        <div class="row">
+          <div>
+            <button type="submit" class="btn btn-sm btn-danger">Excluir</button>
+          </div>
+          <div class="pl-1">
+            <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
