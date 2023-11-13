@@ -1,6 +1,6 @@
 export class Pipoca {
-    IdPipoca: number = 0;
-    Sabor: string = '';
-    Tamanho: string = '';
-    Preco: number = 0;
+    idPipoca: number = 0;
+    sabor: string = '';
+    tamanho: string = '';
+    preco: number = 0;
 }

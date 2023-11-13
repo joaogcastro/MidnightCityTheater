@@ -3,41 +3,44 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observer } from 'rxjs';
 import { Pipoca } from 'src/app/Pipoca';
 import { PipocasService } from 'src/app/pipocas.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pipocas',
   templateUrl: './pipocas.component.html',
   styleUrls: ['./pipocas.component.css']
 })
+
 export class PipocasComponent {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
   ListPipocas: Pipoca[] = [];
-
+  formularioBuscar: any;
+  ObjBuscado: Pipoca | null = null;
   tamanhos = [
     { Tamanho: 'Pequeno' },
     { Tamanho: 'Medio' },
     { Tamanho: 'Grande' }
   ]
-
-  constructor(private pipocasService: PipocasService) { }
+  constructor(private pipocasService: PipocasService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
-      IdPipoca: new FormControl(null),
-      Sabor: new FormControl(null),
-      Tamanho: new FormControl(null),
-      Preco: new FormControl(null),
+      idPipoca: new FormControl(null),
+      sabor: new FormControl(null),
+      tamanho: new FormControl(null),
+      preco: new FormControl(null),
     });
-    this.listar();
+    this.formularioBuscar = new FormGroup({
+      idPipoca: new FormControl(null)
+    });
+    this.titleService.setTitle('Pipoca MidnightCity');
   }
 
   listar(): void {
     this.pipocasService.listar().subscribe(
       (pipocas: Pipoca[]) => {
         this.ListPipocas = pipocas;
-        console.log("Array Back pipocas;:", pipocas);
-        console.log("Array Front pipocas:", this.ListPipocas);
       },
       (error) => {
         console.error(error);
@@ -46,31 +49,27 @@ export class PipocasComponent {
     );
   }
 
-  /*buscar(): void {
-    const id: number = this.formulario.get('Idpipoca').value;
+  buscar(): void {
+    const id: number = this.formularioBuscar.get('idPipoca').value;
     if (id) {
       this.pipocasService.buscar(id).subscribe(
-        (resultadoBusca: pipoca) => {
-          if (resultadoBusca) {
-            this.formulario.patchValue(resultadoBusca);
-            alert('Filme encontrado: ' + resultadoBusca.Idpipoca);
-          } else {
-            alert('Id não encontrado.');
-          }
+        (resultadoBusca: any) => {
+          this.formularioBuscar.get('idPipoca')?.setValue(resultadoBusca.idPipoca);
+          this.ObjBuscado = resultadoBusca;
         },
         (error) => {
           console.error(error);
-          alert('Erro na busca!');
+          alert('Erro, pipoca não encontrado!');
         }
       );
     } else {
       alert('Por favor, insira um ID válido para buscar.');
     }
   }
-*/
+
   cadastrar(): void {
     const pipoca: Pipoca = this.formulario.value;
-    if (!pipoca.IdPipoca) { pipoca.IdPipoca = 0 }
+    if (!pipoca.idPipoca) { pipoca.idPipoca = 0 }
     const observer: Observer<Pipoca> = {
       next(_result): void {
         alert('Pipoca cadastrada com sucesso.');
@@ -83,14 +82,13 @@ export class PipocasComponent {
       },
     };
     this.pipocasService.cadastrar(pipoca).subscribe(observer);
-    this.reloadPage()
   }
 
   alterar(): void {
     const pipoca: Pipoca = this.formulario.value;
-    if (!pipoca.Sabor) { pipoca.Sabor = "string" }
-    if (!pipoca.Tamanho) { pipoca.Tamanho = "string" }
-    if (!pipoca.Preco || isNaN(pipoca.Preco)) { pipoca.Preco = 0; }
+    if (!pipoca.sabor) { pipoca.sabor = "string" }
+    if (!pipoca.tamanho) { pipoca.tamanho = "string" }
+    if (!pipoca.preco || isNaN(pipoca.preco)) { pipoca.preco = 0; }
 
     const observer: Observer<Pipoca> = {
       next(_result): void {
@@ -103,7 +101,6 @@ export class PipocasComponent {
       complete(): void { },
     };
     this.pipocasService.alterar(pipoca).subscribe(observer);
-    this.reloadPage();
   }
 
   excluir(): void {
@@ -119,8 +116,7 @@ export class PipocasComponent {
       complete(): void {
       },
     };
-    this.pipocasService.excluir(pipoca.IdPipoca).subscribe(observer);
-    this.reloadPage()
+    this.pipocasService.excluir(pipoca.idPipoca).subscribe(observer);
   }
 
   reloadPage(): void {

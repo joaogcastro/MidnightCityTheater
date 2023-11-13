@@ -1,5 +1,5 @@
 export class Doce {
-    IdDoce: number = 0;
-    Nome: string = '';
-    Preco: number = 0;
+    idDoce: number = 0;
+    nome: string = '';
+    preco: number = 0;
 }

@@ -1,3 +1,6 @@
+<header>
+  <h1 class="page-title">CRUD Bebida</h1>
+</header>
 <div class="container p-5">
   <div class="row">
     <!--Listar-->
@@ -14,29 +17,71 @@
         </thead>
         <tbody>
           <tr *ngFor="let bebida of ListBebidas">
-            <td>{{ bebida?.IdBebida }}</td>
-            <td>{{ bebida?.Sabor }}</td>
-            <td>{{ bebida?.Tamanho }}</td>
-            <td>{{ bebida?.Preco }}</td>
+            <td>{{ bebida.idBebida}}</td>
+            <td>{{ bebida.sabor }}</td>
+            <td>{{ bebida.tamanho }}</td>
+            <td>R${{ bebida.preco }}</td>
           </tr>
         </tbody>
       </table>
+      <div class="form-group">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button" class="btn btn-primary" (click)="listar()">Listar</button>
+        </div>
+      </div>
     </div>
-    <!--Cadastrar Bebida-->
+    <!-- Buscar por ID -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
+      <h6 class="title-fontsize">Buscar Bebida por ID</h6>
+      <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
+        <div class="form-group">
+          <label class="bold">ID da Bebida</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idBebida" />
+        </div>
+        <div class="form-group">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <table class="table table-striped" *ngIf="ObjBuscado">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Sabor</th>
+                  <th>Tamanho</th>
+                  <th>Preço</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="ObjBuscado">
+                  <td>{{ ObjBuscado.idBebida}}</td>
+                  <td>{{ ObjBuscado.sabor }}</td>
+                  <td>{{ ObjBuscado.tamanho }}</td>
+                  <td>{{ ObjBuscado.preco }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+    <!--Cadastrar-->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Cadastrar Bebida</h6>
       <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
         <div class="form-group">
-          <label class="bold">IdBebida</label>
+          <label class="bold">IdPipoca</label>
           <div>Preenchido automaticamente</div>
         </div>
         <div class="form-group">
           <label class="bold">Sabor</label>
-          <input type="text" class="form-control form-control-sm" formControlName="Sabor" />
+          <input type="text" class="form-control form-control-sm" formControlName="sabor" />
         </div>
         <div class="form-group">
           <label class="bold">Tamanho</label>
-          <select class="form-control form-control-sm" formControlName="Tamanho">
+          <select class="form-control form-control-sm" formControlName="tamanho">
             <option *ngFor="let tamanho of tamanhos" [value]="tamanho.Tamanho">
               {{ tamanho.Tamanho }}
             </option>
@@ -44,7 +89,7 @@
         </div>
         <div class="form-group">
           <label class="bold">Preço</label>
-          <input type="number" class="form-control form-control-sm" formControlName="Preco" />
+          <input type="number" class="form-control form-control-sm" formControlName="preco" />
         </div>
         <div class="container">
           <div class="row">
@@ -52,7 +97,8 @@
               <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
             </div>
             <div class="pl-1">
-              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+              <button type="button" #cancelarButton (click)="reloadPage()"
+                class="btn btn-sm btn-light">Cancelar</button>
             </div>
           </div>
         </div>
@@ -60,19 +106,19 @@
     </div>
     <!--Alterar-->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-      <h6 class="title-fontsize">Alterar Bebida</h6>
+      <h6 class="title-fontsize">Alterar Bebidas</h6>
       <form [formGroup]="formulario" (ngSubmit)="alterar()">
         <div class="form-group">
           <label class="bold">IdBebida</label>
-          <input type="number" class="form-control form-control-sm" formControlName="IdBebida" />
+          <input type="number" class="form-control form-control-sm" formControlName="idBebida" />
         </div>
         <div class="form-group">
           <label class="bold">Sabor</label>
-          <input type="text" class="form-control form-control-sm" formControlName="Sabor" />
+          <input type="text" class="form-control form-control-sm" formControlName="sabor" />
         </div>
         <div class="form-group">
           <label class="bold">Tamanho</label>
-          <select class="form-control form-control-sm" formControlName="Tamanho">
+          <select class="form-control form-control-sm" formControlName="tamanho">
             <option *ngFor="let tamanho of tamanhos" [value]="tamanho.Tamanho">
               {{ tamanho.Tamanho }}
             </option>
@@ -80,7 +126,7 @@
         </div>
         <div class="form-group">
           <label class="bold">Preço</label>
-          <input type="number" class="form-control form-control-sm" formControlName="Preco" />
+          <input type="number" class="form-control form-control-sm" formControlName="preco" />
         </div>
         <div class="container">
           <div class="row">
@@ -88,7 +134,8 @@
               <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
             </div>
             <div class="pl-1">
-              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+              <button type="button" #cancelarButton (click)="reloadPage()"
+                class="btn btn-sm btn-light">Cancelar</button>
             </div>
           </div>
         </div>
@@ -100,7 +147,7 @@
       <form [formGroup]="formulario" (ngSubmit)="excluir()">
         <div class="form-group">
           <label class="bold">IdBebida</label>
-          <input type="number" class="form-control form-control-sm" formControlName="IdBebida" />
+          <input type="number" class="form-control form-control-sm" formControlName="idBebida" />
         </div>
         <div class="container">
           <div class="row">
@@ -108,7 +155,8 @@
               <button type="submit" class="btn btn-sm btn-primary">Excluir</button>
             </div>
             <div class="pl-1">
-              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+              <button type="button" #cancelarButton (click)="reloadPage()"
+                class="btn btn-sm btn-light">Cancelar</button>
             </div>
           </div>
         </div>

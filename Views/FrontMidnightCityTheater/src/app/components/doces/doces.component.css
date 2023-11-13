@@ -5,4 +5,9 @@
   }
 .bold {
     font-weight: bold;
-}  
+} 
+.page-title {
+  margin-top: 50px; /* Ajuste o valor conforme necessário para mover o título para baixo */
+        text-align: center;
+        padding: 10px;
+}

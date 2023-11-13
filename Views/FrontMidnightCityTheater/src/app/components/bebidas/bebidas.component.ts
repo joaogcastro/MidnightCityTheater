@@ -1,8 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Observer } from 'rxjs';
-import { BebidasService } from 'src/app/bebidas.service';
 import { Bebida } from 'src/app/Bebida';
+import { BebidasService } from 'src/app/bebidas.service';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-bebidas',
@@ -14,31 +15,32 @@ export class BebidasComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
   ListBebidas: Bebida[] = [];
-
+  formularioBuscar: any;
+  ObjBuscado: Bebida | null = null;
   tamanhos = [
     { Tamanho: 'Pequeno' },
     { Tamanho: 'Medio' },
     { Tamanho: 'Grande' }
   ]
-
-  constructor(private bebidasService: BebidasService) { }
+  constructor(private bebidasService: BebidasService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
-      IdBebida: new FormControl(null),
-      Sabor: new FormControl(null),
-      Tamanho: new FormControl(null),
-      Preco: new FormControl(null),
+      idBebida: new FormControl(null),
+      sabor: new FormControl(null),
+      tamanho: new FormControl(null),
+      preco: new FormControl(null),
     });
-    this.listar();
+    this.formularioBuscar = new FormGroup({
+      idBebida: new FormControl(null)
+    });
+    this.titleService.setTitle('Bebida MidnightCity');
   }
 
   listar(): void {
     this.bebidasService.listar().subscribe(
       (bebidas: Bebida[]) => {
         this.ListBebidas = bebidas;
-        console.log("Array Back Bebidas;:",bebidas);
-        console.log("Array Front Bebidas:",this.ListBebidas);
       },
       (error) => {
         console.error(error);
@@ -47,31 +49,27 @@ export class BebidasComponent implements OnInit {
     );
   }
 
-  /*buscar(): void {
-    const id: number = this.formulario.get('IdBebida').value;
+  buscar(): void {
+    const id: number = this.formularioBuscar.get('idBebida').value;
     if (id) {
       this.bebidasService.buscar(id).subscribe(
-        (resultadoBusca: Bebida) => {
-          if (resultadoBusca) {
-            this.formulario.patchValue(resultadoBusca);
-            alert('Filme encontrado: ' + resultadoBusca.IdBebida);
-          } else {
-            alert('Id não encontrado.');
-          }
+        (resultadoBusca: any) => {
+          this.formularioBuscar.get('idBebida')?.setValue(resultadoBusca.idBebida);
+          this.ObjBuscado = resultadoBusca;
         },
         (error) => {
           console.error(error);
-          alert('Erro na busca!');
+          alert('Erro, bebida não encontrado!');
         }
       );
     } else {
       alert('Por favor, insira um ID válido para buscar.');
     }
   }
-*/
+
   cadastrar(): void {
     const bebida: Bebida = this.formulario.value;
-    if (!bebida.IdBebida) {bebida.IdBebida=0}
+    if (!bebida.idBebida) { bebida.idBebida = 0 }
     const observer: Observer<Bebida> = {
       next(_result): void {
         alert('Bebida cadastrada com sucesso.');
@@ -84,15 +82,14 @@ export class BebidasComponent implements OnInit {
       },
     };
     this.bebidasService.cadastrar(bebida).subscribe(observer);
-    this.reloadPage()
   }
 
   alterar(): void {
     const bebida: Bebida = this.formulario.value;
-    if (!bebida.Sabor) {bebida.Sabor = "string"}
-    if (!bebida.Tamanho) {bebida.Tamanho = "string"}
-    if (!bebida.Preco || isNaN(bebida.Preco)) {bebida.Preco = 0;}
-  
+    if (!bebida.sabor) { bebida.sabor = "string" }
+    if (!bebida.tamanho) { bebida.tamanho = "string" }
+    if (!bebida.preco || isNaN(bebida.preco)) { bebida.preco = 0; }
+
     const observer: Observer<Bebida> = {
       next(_result): void {
         alert('Bebida alterada com sucesso.');
@@ -101,11 +98,10 @@ export class BebidasComponent implements OnInit {
         console.error(error);
         alert('Erro ao alterar!');
       },
-      complete(): void {},
+      complete(): void { },
     };
     this.bebidasService.alterar(bebida).subscribe(observer);
-    this.reloadPage();
-  }  
+  }
 
   excluir(): void {
     const bebida: Bebida = this.formulario.value;
@@ -120,8 +116,7 @@ export class BebidasComponent implements OnInit {
       complete(): void {
       },
     };
-    this.bebidasService.excluir(bebida.IdBebida).subscribe(observer);
-    this.reloadPage()
+    this.bebidasService.excluir(bebida.idBebida).subscribe(observer);
   }
 
   reloadPage(): void {

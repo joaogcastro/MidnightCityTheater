@@ -60,10 +60,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "FrontMidnightCityTheater:build:production"
+              "buildTarget": "FrontMidnightCityTheater:build:production"
             },
             "development": {
-              "browserTarget": "FrontMidnightCityTheater:build:development"
+              "buildTarget": "FrontMidnightCityTheater:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -71,7 +71,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "FrontMidnightCityTheater:build"
+            "buildTarget": "FrontMidnightCityTheater:build"
           }
         },
         "test": {
