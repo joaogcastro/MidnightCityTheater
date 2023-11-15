@@ -3,6 +3,7 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { Observer } from 'rxjs';
 import { FilmesService } from 'src/app/filmes.service';
 import { Filme } from 'src/app/Filme';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-filmes',
@@ -15,14 +16,14 @@ export class FilmesComponent implements OnInit {
   formulario: any;
   formularioBuscar: any;
   filmes: Filme[] = [];
-  nomeFilmeEncontrado: string = '';
+  nomeFilmeEncontrado: Filme | null = null;
 
-  constructor(private filmesService: FilmesService) { }
+  constructor(private filmesService: FilmesService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
-      idfilme: new FormControl(null),
-      nomefilme: new FormControl(null),
+      idFilme: new FormControl(null),
+      nomeFilme: new FormControl(null),
       duracao: new FormControl(null),
       classificacao: new FormControl(null),
       diretor: new FormControl(null),
@@ -32,6 +33,7 @@ export class FilmesComponent implements OnInit {
     this.formularioBuscar = new FormGroup({
       idfilme: new FormControl(null)
     });
+    this.titleService.setTitle('Filme MidnightCity');
 
   }
 
@@ -40,13 +42,11 @@ export class FilmesComponent implements OnInit {
     if (!filme.idFilme) {filme.idFilme=0}
     const observer: Observer<Filme> = {
       next(_result): void {
-        alert('Filme cadastrado com sucesso.' + filme.idFilme + filme.nomeFilme + filme.duracao + filme.classificacao + filme.diretor + filme.categoria);
+        alert('Filme cadastrado com sucesso.');
       },
       error(error): void {
-        alert('Erro de cadastro.' + filme.idFilme + filme.nomeFilme + filme.duracao + filme.classificacao + filme.diretor + filme.categoria);
         console.error(error);
-        
-        alert('Erro ao cadastrar!');
+        alert('Erro de cadastro.');
       },
       complete(): void {
       },
@@ -73,14 +73,9 @@ export class FilmesComponent implements OnInit {
     if (idFilme) {
       this.filmesService.buscar(idFilme).subscribe(
         (filmeEncontrado: Filme) => {
-          if (filmeEncontrado) {
+          console.log(filmeEncontrado);
             this.formularioBuscar.get('idfilme')?.setValue(filmeEncontrado.idFilme);
-            this.nomeFilmeEncontrado = filmeEncontrado.nomeFilme;
-            
-          } else {
-            this.nomeFilmeEncontrado = '';
-            alert('Filme não encontrado.');
-          }
+            this.nomeFilmeEncontrado = filmeEncontrado  
         },
         (error) => {
           console.error(error);
@@ -88,7 +83,6 @@ export class FilmesComponent implements OnInit {
         }
       );
     } else {
-      this.nomeFilmeEncontrado = '';
       alert('Por favor, insira um ID válido para buscar.');
     }
   }
@@ -115,7 +109,7 @@ export class FilmesComponent implements OnInit {
   }  
 
   excluir(): void {
-    const idFilme: number = this.formulario.get('idfilme').value;
+    const idFilme: number = this.formulario.get('idFilme').value;
   
     if (idFilme) {
       if (confirm('Tem certeza que deseja excluir o filme?')) {

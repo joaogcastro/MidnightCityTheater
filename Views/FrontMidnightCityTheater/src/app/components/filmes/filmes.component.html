@@ -1,23 +1,25 @@
+<header>
+  <h1 class="page-title">CRUD Filme</h1>
+</header>
 <div class="container p-5">
-  
   <div class="row">
+    <!--Listar-->
     <div class="col-12 border border-light rounded p-5 shadow">
-      <h6 class="title-fontsize">Lista de Filmes</h6>
-      
-      <table class="table table-striped">
+      <h6 class="title-fontsize">Lista Filmes</h6>
+      <table class="table table-striped" *ngIf="filmes && filmes.length > 0">
         <thead>
           <tr>
             <th>Id</th>
             <th>Nome</th>
             <th>Duração</th>
             <th>Classificação</th>
-            <th>Diretor</th>
+            <th>Direção</th>
             <th>Categoria</th>
           </tr>
         </thead>
         <tbody>
           <tr *ngFor="let filme of filmes">
-            <td>{{ filme.idFilme }}</td>
+            <td>{{ filme.idFilme}}</td>
             <td>{{ filme.nomeFilme }}</td>
             <td>{{ filme.duracao }}</td>
             <td>{{ filme.classificacao }}</td>
@@ -26,8 +28,50 @@
           </tr>
         </tbody>
       </table>
+      <div class="form-group">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button" class="btn btn-primary" (click)="listar()">Listar</button>
+        </div>
+      </div>
     </div>
-  </div>
+    <!-- Buscar por ID -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
+      <h6 class="title-fontsize">Buscar Filme por ID</h6>
+      <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
+        <div class="form-group">
+          <label class="bold">ID do Filme</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idfilme" />
+        </div>
+        <div class="form-group">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <table class="table table-striped" *ngIf="nomeFilmeEncontrado">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Nome</th>
+                  <th>Preço</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="nomeFilmeEncontrado">
+                  <td>{{ nomeFilmeEncontrado.idFilme}}</td>
+                  <td>{{ nomeFilmeEncontrado.nomeFilme }}</td>
+                  <td>{{ nomeFilmeEncontrado.duracao }}</td>
+                  <td>{{ nomeFilmeEncontrado.classificacao }}</td>
+                  <td>{{ nomeFilmeEncontrado.diretor }}</td>
+                  <td>{{ nomeFilmeEncontrado.categoria }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
     <!-- Cadastrar Filme -->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Cadastrar Filme</h6>
@@ -38,7 +82,7 @@
         </div>
         <div class="form-group">
           <label class="bold">Nome do Filme</label>
-          <input type="text" class="form-control form-control-sm" formControlName="nomefilme" />
+          <input type="text" class="form-control form-control-sm" formControlName="nomeFilme" />
         </div>
         <div class="form-group">
           <label class="bold">Duração</label>
@@ -68,42 +112,17 @@
         </div>
       </form>
     </div>
-    <div class="row">
-      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
-        <h6 class="title-fontsize">Buscar Filme por ID</h6>
-        <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
-          <div class="form-group">
-            <label class="bold">ID do Filme</label>
-            <input type="number" class="form-control form-control-sm" formControlName="idfilme" />
-          </div>
-          <div class="container">
-            <div class="row">
-              <div>
-                <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
-              </div>
-              <div class="pl-1">
-                <!-- Adicione esta div para exibir o nome do filme encontrado -->
-                <div *ngIf="nomeFilmeEncontrado" class="mt-2">
-                  <label class="bold">Nome do Filme Encontrado:</label>
-                  <input type="text" class="form-control form-control-sm" [value]="nomeFilmeEncontrado" readonly />
-                </div>
-              </div>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
     <!-- Alterar Filme -->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Alterar Filme</h6>
       <form [formGroup]="formulario" (ngSubmit)="alterar()">
         <div class="form-group">
           <label class="bold">Id do Filme</label>
-          <input type="number" class="form-control form-control-sm" formControlName="idfilme" />
+          <input type="number" class="form-control form-control-sm" formControlName="idFilme" />
         </div>
         <div class="form-group">
           <label class="bold">Nome do filme</label>
-          <input type="text" class="form-control form-control-sm" formControlName="nomefilme" />
+          <input type="text" class="form-control form-control-sm" formControlName="nomeFilme" />
         </div>
         <div class="form-group">
           <label class="bold">Duração</label>
@@ -139,7 +158,7 @@
       <form [formGroup]="formulario" (ngSubmit)="excluir()">
         <div class="form-group">
           <label class="bold">Id do Filme</label>
-          <input type="number" class="form-control form-control-sm" formControlName="idfilme" />
+          <input type="number" class="form-control form-control-sm" formControlName="idFilme" />
         </div>
         <div class="container">
           <div class="row">

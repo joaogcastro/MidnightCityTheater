@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Observer } from 'rxjs';
 import { Sala } from 'src/app/Sala';
 import { SalasService } from 'src/app/salas.service';
@@ -13,10 +14,10 @@ export class SalasComponent implements OnInit {
   @ViewChild('cancelarButton') cancelarButton!: ElementRef;
   formulario: any;
   formularioBuscar: any;
-  Salas: Sala[] = [];
-  nomeSalaEncontrado: string = '';
+  ListSalas: Sala[] = [];
+  nomeSalaEncontrado: Sala | null = null;
 
-  constructor(private salasService: SalasService) { }
+  constructor(private salasService: SalasService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
@@ -28,6 +29,7 @@ export class SalasComponent implements OnInit {
     this.formularioBuscar = new FormGroup({
       idSala: new FormControl(null),
     });
+    this.titleService.setTitle('Funcionario MidnightCity');
   }
 
   cadastrar(): void {
@@ -37,12 +39,11 @@ export class SalasComponent implements OnInit {
     }
     const observer: Observer<Sala> = {
       next(_result): void {
-        alert('Sala cadastrada com sucesso.' + sala.idSala + sala.capacidade + sala.tipoSala);
+        alert('Sala cadastrada com sucesso.');
       },
       error(error): void {
-        alert('Erro de cadastro.' + sala.idSala + sala.capacidade + sala.tipoSala);
         console.error(error);
-        alert('Erro ao cadastrar!');
+        alert('Erro de cadastro, verifique se todos os campos foram preenchidos corretamente.');
       },
       complete(): void {},
     };
@@ -52,9 +53,7 @@ export class SalasComponent implements OnInit {
   listar(): void {
     this.salasService.listar().subscribe(
       (salas: Sala[]) => {
-        this.Salas = salas;
-        console.log(salas);
-        console.log(this.Salas);
+        this.ListSalas = salas;
       },
       (error) => {
         console.error(error);
@@ -70,14 +69,8 @@ export class SalasComponent implements OnInit {
       this.salasService.buscar(idSala).subscribe(
         (salaEncontrado: any) => {
           console.log(salaEncontrado);
-          if (salaEncontrado) {
-            this.formularioBuscar.get('idSala')?.setValue(salaEncontrado.idSala);
-            this.nomeSalaEncontrado = salaEncontrado.tipoSala;
-            
-          } else {
-            this.nomeSalaEncontrado = '';
-            alert('Sala não encontrada.');
-          }
+          this.formularioBuscar.get('idSala')?.setValue(salaEncontrado.idSala);
+          this.nomeSalaEncontrado = salaEncontrado;    
         },
         (error) => {
           console.error(error);
@@ -85,7 +78,6 @@ export class SalasComponent implements OnInit {
         }
       );
     } else {
-      this.nomeSalaEncontrado = '';
       alert('Por favor, insira um ID válido para buscar.');
     }
   }

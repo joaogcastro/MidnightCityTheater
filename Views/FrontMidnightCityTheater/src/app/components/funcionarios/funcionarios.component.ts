@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Title } from '@angular/platform-browser';
 import { Observer } from 'rxjs';
 import { Funcionario } from 'src/app/funcionarios';
 import { FuncionariosService } from 'src/app/funcionarios.service';
@@ -14,9 +15,9 @@ export class FuncionariosComponent implements OnInit {
   formulario: any;
   formularioBuscar: any;
   Funcionarios: Funcionario[] = [];
-  nomeFuncionarioEncontrado: string = '';
+  nomeFuncionarioEncontrado: Funcionario | null = null;
 
-  constructor(private funcionariosService: FuncionariosService) { }
+  constructor(private funcionariosService: FuncionariosService, private titleService: Title) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
@@ -30,6 +31,7 @@ export class FuncionariosComponent implements OnInit {
     this.formularioBuscar = new FormGroup({
       idFuncionario: new FormControl(null),
     });
+    this.titleService.setTitle('Funcionario MidnightCity');
 
   }
 
@@ -40,11 +42,9 @@ export class FuncionariosComponent implements OnInit {
     }
     const observer: Observer<Funcionario> = {
       next(_result): void {
-        alert('Funcionário cadastrado com sucesso.' + funcionario.idFuncionario + funcionario.cpFfunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
-        
+        alert('Funcionário cadastrado com sucesso.');
       },
       error(error): void {
-        alert('Erro de cadastro.' + funcionario.idFuncionario + funcionario.cpFfunc + funcionario.nomeFunc + funcionario.emailFunc + funcionario.telefoneFunc);
         console.error(error);
         alert('Erro ao cadastrar!');
       },
@@ -74,14 +74,8 @@ export class FuncionariosComponent implements OnInit {
       this.funcionariosService.buscar(idFuncionario).subscribe(
         (funcionarioEncontrado: any) => {
           console.log(funcionarioEncontrado);
-          if (funcionarioEncontrado) {
             this.formularioBuscar.get('idFuncionario')?.setValue(funcionarioEncontrado.idFuncionario);
-            this.nomeFuncionarioEncontrado = funcionarioEncontrado.nomeFunc;
-            
-          } else {
-            this.nomeFuncionarioEncontrado = '';
-            alert('Funcionario não encontrado.');
-          }
+            this.nomeFuncionarioEncontrado = funcionarioEncontrado
         },
         (error) => {
           console.error(error);
@@ -89,7 +83,6 @@ export class FuncionariosComponent implements OnInit {
         }
       );
     } else {
-      this.nomeFuncionarioEncontrado = '';
       alert('Por favor, insira um ID válido para buscar.');
     }
   }
