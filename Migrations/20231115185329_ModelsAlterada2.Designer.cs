@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MidnightCityTheater.Data;
 
@@ -10,9 +11,11 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115185329_ModelsAlterada2")]
+    partial class ModelsAlterada2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -121,12 +124,7 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("SalaIdSala")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("IdFilme");
-
-                    b.HasIndex("SalaIdSala");
 
                     b.ToTable("Filme");
                 });
@@ -230,11 +228,25 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("FilmeId")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("FuncionarioIdFuncionario")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<int?>("IdFuncionario")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("TipoSala")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdSala");
+
+                    b.HasIndex("FilmeId")
+                        .IsUnique();
+
+                    b.HasIndex("FuncionarioIdFuncionario");
 
                     b.ToTable("Sala");
                 });
@@ -278,15 +290,6 @@ namespace MidnightCityTheater.Migrations
                         .HasForeignKey("SnackIdSnack");
                 });
 
-            modelBuilder.Entity("MidnightCityTheater.Models.Filme", b =>
-                {
-                    b.HasOne("MidnightCityTheater.Models.Sala", "Sala")
-                        .WithMany()
-                        .HasForeignKey("SalaIdSala");
-
-                    b.Navigation("Sala");
-                });
-
             modelBuilder.Entity("MidnightCityTheater.Models.Ingresso", b =>
                 {
                     b.HasOne("MidnightCityTheater.Models.Filme", "Filme")
@@ -319,6 +322,26 @@ namespace MidnightCityTheater.Migrations
                     b.HasOne("MidnightCityTheater.Models.Snack", null)
                         .WithMany("Pipocas")
                         .HasForeignKey("SnackIdSnack");
+                });
+
+            modelBuilder.Entity("MidnightCityTheater.Models.Sala", b =>
+                {
+                    b.HasOne("MidnightCityTheater.Models.Filme", "Filme")
+                        .WithOne("Sala")
+                        .HasForeignKey("MidnightCityTheater.Models.Sala", "FilmeId");
+
+                    b.HasOne("MidnightCityTheater.Models.Funcionario", "Funcionario")
+                        .WithMany()
+                        .HasForeignKey("FuncionarioIdFuncionario");
+
+                    b.Navigation("Filme");
+
+                    b.Navigation("Funcionario");
+                });
+
+            modelBuilder.Entity("MidnightCityTheater.Models.Filme", b =>
+                {
+                    b.Navigation("Sala");
                 });
 
             modelBuilder.Entity("MidnightCityTheater.Models.Snack", b =>

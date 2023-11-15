@@ -1,3 +1,5 @@
+import { Sala } from "./Sala";
+
 export class Filme {
   idFilme: number = 0;
   nomeFilme: string = '';
@@ -5,4 +7,6 @@ export class Filme {
   classificacao: string = '';
   diretor: string = '';
   categoria: string = '';
+  idSala: number = 0;
+  sala: Sala | null = null;
 }

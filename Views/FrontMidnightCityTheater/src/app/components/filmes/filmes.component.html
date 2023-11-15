@@ -15,6 +15,7 @@
             <th>Classificação</th>
             <th>Direção</th>
             <th>Categoria</th>
+            <th>Sala</th> <!-- Adicionado -->
           </tr>
         </thead>
         <tbody>
@@ -25,6 +26,7 @@
             <td>{{ filme.classificacao }}</td>
             <td>{{ filme.diretor }}</td>
             <td>{{ filme.categoria }}</td>
+            <td>{{ filme.sala?.tipoSala }}</td>
           </tr>
         </tbody>
       </table>
@@ -35,7 +37,7 @@
       </div>
     </div>
     <!-- Buscar por ID -->
-    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
+    <div class="col-12 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
       <h6 class="title-fontsize">Buscar Filme por ID</h6>
       <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
         <div class="form-group">
@@ -54,7 +56,11 @@
                 <tr>
                   <th>Id</th>
                   <th>Nome</th>
-                  <th>Preço</th>
+                  <th>Duração</th>
+                  <th>Classificação</th>
+                  <th>Direção</th>
+                  <th>Categoria</th>
+                  <th>Sala</th> <!-- Adicionado -->
                 </tr>
               </thead>
               <tbody>
@@ -65,6 +71,7 @@
                   <td>{{ nomeFilmeEncontrado.classificacao }}</td>
                   <td>{{ nomeFilmeEncontrado.diretor }}</td>
                   <td>{{ nomeFilmeEncontrado.categoria }}</td>
+                  <td>{{ nomeFilmeEncontrado.sala?.tipoSala }}</td> <!-- Adicionado -->
                 </tr>
               </tbody>
             </table>
@@ -73,45 +80,51 @@
       </form>
     </div>
     <!-- Cadastrar Filme -->
-    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-      <h6 class="title-fontsize">Cadastrar Filme</h6>
-      <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
-        <div class="form-group">
-          <label class="bold">idfilme</label>
-          <div>Preenchido automaticamente</div>
-        </div>
-        <div class="form-group">
-          <label class="bold">Nome do Filme</label>
-          <input type="text" class="form-control form-control-sm" formControlName="nomeFilme" />
-        </div>
-        <div class="form-group">
-          <label class="bold">Duração</label>
-          <input type="text" class="form-control form-control-sm" formControlName="duracao" />
-        </div>
-        <div class="form-group">
-          <label class="bold">Classificação</label>
-          <input type="text" class="form-control form-control-sm" formControlName="classificacao" />
-        </div>
-        <div class="form-group">
-          <label class="bold">Diretor</label>
-          <input type="text" class="form-control form-control-sm" formControlName="diretor" />
-        </div>
-        <div class="form-group">
-          <label class="bold">Categoria</label>
-          <input type="text" class="form-control form-control-sm" formControlName="categoria" />
-        </div>
-        <div class="container">
-          <div class="row">
-            <div>
-              <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
-            </div>
-            <div class="pl-1">
-              <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
-            </div>
-          </div>
-        </div>
-      </form>
+<div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+  <h6 class="title-fontsize">Cadastrar Filme</h6>
+  <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+    <div class="form-group">
+      <label class="bold">idfilme</label>
+      <div>Preenchido automaticamente</div>
     </div>
+    <div class="form-group">
+      <label class="bold">Nome do Filme</label>
+      <input type="text" class="form-control form-control-sm" formControlName="nomeFilme" />
+    </div>
+    <div class="form-group">
+      <label class="bold">Duração</label>
+      <input type="text" class="form-control form-control-sm" formControlName="duracao" />
+    </div>
+    <div class="form-group">
+      <label class="bold">Classificação</label>
+      <input type="text" class="form-control form-control-sm" formControlName="classificacao" />
+    </div>
+    <div class="form-group">
+      <label class="bold">Diretor</label>
+      <input type="text" class="form-control form-control-sm" formControlName="diretor" />
+    </div>
+    <div class="form-group">
+      <label class="bold">Categoria</label>
+      <input type="text" class="form-control form-control-sm" formControlName="categoria" />
+    </div>
+    <div class="form-group">
+      <label class="bold">Sala</label>
+      <select class="form-control form-control-sm" formControlName="idSala">
+        <option *ngFor="let sala of ListSalas" [value]="sala.idSala">{{ sala.tipoSala }}</option>
+      </select>
+    </div>
+    <div class="container">
+      <div class="row">
+        <div>
+          <button type="submit" class="btn btn-sm btn-primary">Cadastrar</button>
+        </div>
+        <div class="pl-1">
+          <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
     <!-- Alterar Filme -->
     <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
       <h6 class="title-fontsize">Alterar Filme</h6>
@@ -139,6 +152,12 @@
         <div class="form-group">
           <label class="bold">Categoria</label>
           <input type="text" class="form-control form-control-sm" formControlName="categoria" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Sala</label>
+          <select class="form-control form-control-sm" formControlName="idSala">
+            <option *ngFor="let sala of ListSalas" [value]="sala.idSala">{{ sala.tipoSala }}</option>
+          </select>
         </div>
         <div class="container">
           <div class="row">
