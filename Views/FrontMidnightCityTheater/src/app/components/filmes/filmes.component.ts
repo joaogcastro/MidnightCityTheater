@@ -128,7 +128,6 @@ export class FilmesComponent implements OnInit {
   alterar(): void {
     const filme: Filme = this.formulario.value;
   
-    // Se o valor da sala selecionada não for nulo, atribua ao filme
     const idSalaSelecionada: number | null = this.formulario.get('idSala')?.value;
     if (idSalaSelecionada !== null) {
       filme.idSala = idSalaSelecionada;

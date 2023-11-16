@@ -59,18 +59,24 @@ namespace WebApiFindWorks.Controllers
             return Created("", filme);
         }
 
-        [HttpPut()]
-        [Route("alterar")]
-         public async Task<ActionResult> Alterar(Filme filme)
+        [HttpPut("alterar")]
+        public async Task<ActionResult> Alterar(Filme filme)
         {
         if (_dbContext is null)
             return NotFound(ErrorResponse.DBisUnavailable);
-        if (filme is null) return BadRequest(ErrorResponse.ObjectisNull);
+        
+        if (filme is null)
+            return BadRequest(ErrorResponse.ObjectisNull);
 
         var existingFilme = await _dbContext.Filme.FindAsync(filme.IdFilme);
 
         if (existingFilme is null)
             return UnprocessableEntity(ErrorResponse.EntityNotFound);
+
+        if (!string.IsNullOrEmpty(filme.nomeFilme))
+        {
+            existingFilme.nomeFilme = filme.nomeFilme;
+        }
 
         if (filme.Duracao != "string" && filme.Duracao != null)
         {
@@ -93,10 +99,10 @@ namespace WebApiFindWorks.Controllers
         }
 
 
-        // Marque o registro como modificado no contexto do EF
+
         _dbContext.Entry(existingFilme).State = EntityState.Modified;
 
-        // Salve as alterações no banco de dados
+
         await _dbContext.SaveChangesAsync();
 
         return Ok();
