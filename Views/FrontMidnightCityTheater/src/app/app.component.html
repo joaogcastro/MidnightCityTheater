@@ -1,1 +1,40 @@
-<router-outlet></router-outlet>
+<!-- app.component.html -->
+<div class="container mt-4">
+    <h1>Bem-vindo à Midnight City Theater!</h1>
+    <p>Escolha uma opção abaixo:</p>
+  
+    <div class="row">
+      <div class="col-md-3 mb-3">
+        <button routerLink="/filmes" class="btn btn-primary btn-block">Filmes</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Funcionario" class="btn btn-primary btn-block">Funcionários</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Clientes" class="btn btn-primary btn-block">Clientes</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Bebidas" class="btn btn-primary btn-block">Bebidas</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Doces" class="btn btn-primary btn-block">Doces</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Pipocas" class="btn btn-primary btn-block">Pipocas</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Snacks" class="btn btn-primary btn-block">Snacks</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Salas" class="btn btn-primary btn-block">Salas</button>
+      </div>
+      <div class="col-md-3 mb-3">
+        <button routerLink="/Ingressos" class="btn btn-primary btn-block">Ingressos</button>
+      </div>
+      <!-- Adicione mais botões conforme necessário para suas outras rotas -->
+  
+    </div>
+  
+    <!-- Roteador de saída para carregar os componentes associados às rotas -->
+    <router-outlet></router-outlet>
+  </div>

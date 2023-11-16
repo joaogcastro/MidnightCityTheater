@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MidnightCityTheater.Data;
 
@@ -10,9 +11,11 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231115212908_ModelAlterada10")]
+    partial class ModelAlterada10
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -188,8 +191,7 @@ namespace MidnightCityTheater.Migrations
 
                     b.HasIndex("SalaId");
 
-                    b.HasIndex("VendaId")
-                        .IsUnique();
+                    b.HasIndex("VendaId");
 
                     b.ToTable("Ingresso");
                 });
@@ -260,23 +262,7 @@ namespace MidnightCityTheater.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int?>("ClienteIdCliente")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("TEXT");
-
-                    b.Property<double>("PrecoTotalVenda")
-                        .HasColumnType("REAL");
-
-                    b.Property<int?>("SnackIdSnack")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("IdVenda");
-
-                    b.HasIndex("ClienteIdCliente");
-
-                    b.HasIndex("SnackIdSnack");
 
                     b.ToTable("Venda");
                 });
@@ -319,8 +305,8 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired();
 
                     b.HasOne("MidnightCityTheater.Models.Venda", "Venda")
-                        .WithOne("Ingresso")
-                        .HasForeignKey("MidnightCityTheater.Models.Ingresso", "VendaId")
+                        .WithMany()
+                        .HasForeignKey("VendaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -338,36 +324,6 @@ namespace MidnightCityTheater.Migrations
                         .HasForeignKey("SnackIdSnack");
                 });
 
-            modelBuilder.Entity("MidnightCityTheater.Models.Sala", b =>
-                {
-                    b.HasOne("MidnightCityTheater.Models.Filme", "Filme")
-                        .WithMany()
-                        .HasForeignKey("FilmeId");
-
-                    b.HasOne("MidnightCityTheater.Models.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioIdFuncionario");
-
-                    b.Navigation("Filme");
-
-                    b.Navigation("Funcionario");
-                });
-
-            modelBuilder.Entity("MidnightCityTheater.Models.Venda", b =>
-                {
-                    b.HasOne("MidnightCityTheater.Models.Cliente", "Cliente")
-                        .WithMany()
-                        .HasForeignKey("ClienteIdCliente");
-
-                    b.HasOne("MidnightCityTheater.Models.Snack", "Snack")
-                        .WithMany()
-                        .HasForeignKey("SnackIdSnack");
-
-                    b.Navigation("Cliente");
-
-                    b.Navigation("Snack");
-                });
-
             modelBuilder.Entity("MidnightCityTheater.Models.Snack", b =>
                 {
                     b.Navigation("Bebidas");
@@ -375,11 +331,6 @@ namespace MidnightCityTheater.Migrations
                     b.Navigation("Doces");
 
                     b.Navigation("Pipocas");
-                });
-
-            modelBuilder.Entity("MidnightCityTheater.Models.Venda", b =>
-                {
-                    b.Navigation("Ingresso");
                 });
 #pragma warning restore 612, 618
         }

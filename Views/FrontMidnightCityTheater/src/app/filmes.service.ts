@@ -34,4 +34,5 @@ export class FilmesService {
     const url = `${this.apiUrl}/excluir/${idFilme}`;
     return this.http.delete<string>(url, httpOptions);
   }
+
 }
