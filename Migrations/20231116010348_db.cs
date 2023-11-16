@@ -28,23 +28,6 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Filme",
-                columns: table => new
-                {
-                    IdFilme = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true),
-                    NomeFilme = table.Column<string>(type: "TEXT", nullable: false),
-                    Duracao = table.Column<string>(type: "TEXT", nullable: false),
-                    Classificacao = table.Column<string>(type: "TEXT", nullable: true),
-                    Diretor = table.Column<string>(type: "TEXT", nullable: true),
-                    Categoria = table.Column<string>(type: "TEXT", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Filme", x => x.IdFilme);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Funcionario",
                 columns: table => new
                 {
@@ -61,6 +44,20 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Sala",
+                columns: table => new
+                {
+                    IdSala = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Capacidade = table.Column<string>(type: "TEXT", nullable: false),
+                    TipoSala = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sala", x => x.IdSala);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Snack",
                 columns: table => new
                 {
@@ -74,30 +71,27 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sala",
+                name: "Filme",
                 columns: table => new
                 {
-                    IdSala = table.Column<int>(type: "INTEGER", nullable: false)
+                    IdFilme = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    Capacidade = table.Column<string>(type: "TEXT", nullable: false),
-                    TipoSala = table.Column<string>(type: "TEXT", nullable: false),
-                    FuncionarioIdFuncionario = table.Column<int>(type: "INTEGER", nullable: true),
-                    IdFuncionario = table.Column<int>(type: "INTEGER", nullable: true),
-                    FilmeId = table.Column<int>(type: "INTEGER", nullable: true)
+                    NomeFilme = table.Column<string>(type: "TEXT", nullable: false),
+                    Duracao = table.Column<string>(type: "TEXT", nullable: false),
+                    Classificacao = table.Column<string>(type: "TEXT", nullable: true),
+                    Diretor = table.Column<string>(type: "TEXT", nullable: true),
+                    Categoria = table.Column<string>(type: "TEXT", nullable: true),
+                    IdSala = table.Column<int>(type: "INTEGER", nullable: true),
+                    SalaIdSala = table.Column<int>(type: "INTEGER", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Sala", x => x.IdSala);
+                    table.PrimaryKey("PK_Filme", x => x.IdFilme);
                     table.ForeignKey(
-                        name: "FK_Sala_Filme_FilmeId",
-                        column: x => x.FilmeId,
-                        principalTable: "Filme",
-                        principalColumn: "IdFilme");
-                    table.ForeignKey(
-                        name: "FK_Sala_Funcionario_FuncionarioIdFuncionario",
-                        column: x => x.FuncionarioIdFuncionario,
-                        principalTable: "Funcionario",
-                        principalColumn: "IdFuncionario");
+                        name: "FK_Filme_Sala_SalaIdSala",
+                        column: x => x.SalaIdSala,
+                        principalTable: "Sala",
+                        principalColumn: "IdSala");
                 });
 
             migrationBuilder.CreateTable(
@@ -171,7 +165,7 @@ namespace MidnightCityTheater.Migrations
                     Data = table.Column<DateTime>(type: "TEXT", nullable: false),
                     ClienteIdCliente = table.Column<int>(type: "INTEGER", nullable: true),
                     SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true),
-                    PrecoTotal = table.Column<double>(type: "REAL", nullable: false)
+                    PrecoTotalVenda = table.Column<double>(type: "REAL", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -241,6 +235,11 @@ namespace MidnightCityTheater.Migrations
                 column: "SnackIdSnack");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Filme_SalaIdSala",
+                table: "Filme",
+                column: "SalaIdSala");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Ingresso_FilmeId",
                 table: "Ingresso",
                 column: "FilmeId");
@@ -260,16 +259,6 @@ namespace MidnightCityTheater.Migrations
                 name: "IX_Pipoca_SnackIdSnack",
                 table: "Pipoca",
                 column: "SnackIdSnack");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sala_FilmeId",
-                table: "Sala",
-                column: "FilmeId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sala_FuncionarioIdFuncionario",
-                table: "Sala",
-                column: "FuncionarioIdFuncionario");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Venda_ClienteIdCliente",
@@ -292,22 +281,22 @@ namespace MidnightCityTheater.Migrations
                 name: "Doce");
 
             migrationBuilder.DropTable(
+                name: "Funcionario");
+
+            migrationBuilder.DropTable(
                 name: "Ingresso");
 
             migrationBuilder.DropTable(
                 name: "Pipoca");
 
             migrationBuilder.DropTable(
-                name: "Sala");
+                name: "Filme");
 
             migrationBuilder.DropTable(
                 name: "Venda");
 
             migrationBuilder.DropTable(
-                name: "Filme");
-
-            migrationBuilder.DropTable(
-                name: "Funcionario");
+                name: "Sala");
 
             migrationBuilder.DropTable(
                 name: "Cliente");

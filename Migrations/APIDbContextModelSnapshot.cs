@@ -338,21 +338,6 @@ namespace MidnightCityTheater.Migrations
                         .HasForeignKey("SnackIdSnack");
                 });
 
-            modelBuilder.Entity("MidnightCityTheater.Models.Sala", b =>
-                {
-                    b.HasOne("MidnightCityTheater.Models.Filme", "Filme")
-                        .WithMany()
-                        .HasForeignKey("FilmeId");
-
-                    b.HasOne("MidnightCityTheater.Models.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioIdFuncionario");
-
-                    b.Navigation("Filme");
-
-                    b.Navigation("Funcionario");
-                });
-
             modelBuilder.Entity("MidnightCityTheater.Models.Venda", b =>
                 {
                     b.HasOne("MidnightCityTheater.Models.Cliente", "Cliente")

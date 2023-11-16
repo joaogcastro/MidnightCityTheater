@@ -11,7 +11,7 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20231116004306_db")]
+    [Migration("20231116010348_db")]
     partial class db
     {
         /// <inheritdoc />
@@ -117,11 +117,19 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("IdSala")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("NomeFilme")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("SalaIdSala")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("IdFilme");
+
+                    b.HasIndex("SalaIdSala");
 
                     b.ToTable("Filme");
                 });
@@ -226,24 +234,11 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("FilmeId")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("FuncionarioIdFuncionario")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<int?>("IdFuncionario")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("TipoSala")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.HasKey("IdSala");
-
-                    b.HasIndex("FilmeId");
-
-                    b.HasIndex("FuncionarioIdFuncionario");
 
                     b.ToTable("Sala");
                 });
@@ -274,7 +269,7 @@ namespace MidnightCityTheater.Migrations
                     b.Property<DateTime>("Data")
                         .HasColumnType("TEXT");
 
-                    b.Property<double>("PrecoTotal")
+                    b.Property<double>("PrecoTotalVenda")
                         .HasColumnType("REAL");
 
                     b.Property<int?>("SnackIdSnack")
@@ -301,6 +296,15 @@ namespace MidnightCityTheater.Migrations
                     b.HasOne("MidnightCityTheater.Models.Snack", null)
                         .WithMany("Doces")
                         .HasForeignKey("SnackIdSnack");
+                });
+
+            modelBuilder.Entity("MidnightCityTheater.Models.Filme", b =>
+                {
+                    b.HasOne("MidnightCityTheater.Models.Sala", "Sala")
+                        .WithMany()
+                        .HasForeignKey("SalaIdSala");
+
+                    b.Navigation("Sala");
                 });
 
             modelBuilder.Entity("MidnightCityTheater.Models.Ingresso", b =>
@@ -335,21 +339,6 @@ namespace MidnightCityTheater.Migrations
                     b.HasOne("MidnightCityTheater.Models.Snack", null)
                         .WithMany("Pipocas")
                         .HasForeignKey("SnackIdSnack");
-                });
-
-            modelBuilder.Entity("MidnightCityTheater.Models.Sala", b =>
-                {
-                    b.HasOne("MidnightCityTheater.Models.Filme", "Filme")
-                        .WithMany()
-                        .HasForeignKey("FilmeId");
-
-                    b.HasOne("MidnightCityTheater.Models.Funcionario", "Funcionario")
-                        .WithMany()
-                        .HasForeignKey("FuncionarioIdFuncionario");
-
-                    b.Navigation("Filme");
-
-                    b.Navigation("Funcionario");
                 });
 
             modelBuilder.Entity("MidnightCityTheater.Models.Venda", b =>
