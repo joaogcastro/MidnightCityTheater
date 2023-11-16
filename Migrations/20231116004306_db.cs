@@ -1,11 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 namespace MidnightCityTheater.Migrations
 {
     /// <inheritdoc />
-    public partial class ModelAlterada1 : Migration
+    public partial class db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -70,18 +71,6 @@ namespace MidnightCityTheater.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Snack", x => x.IdSnack);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Venda",
-                columns: table => new
-                {
-                    IdVenda = table.Column<int>(type: "INTEGER", nullable: false)
-                        .Annotation("Sqlite:Autoincrement", true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Venda", x => x.IdVenda);
                 });
 
             migrationBuilder.CreateTable(
@@ -174,6 +163,32 @@ namespace MidnightCityTheater.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Venda",
+                columns: table => new
+                {
+                    IdVenda = table.Column<int>(type: "INTEGER", nullable: false)
+                        .Annotation("Sqlite:Autoincrement", true),
+                    Data = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    ClienteIdCliente = table.Column<int>(type: "INTEGER", nullable: true),
+                    SnackIdSnack = table.Column<int>(type: "INTEGER", nullable: true),
+                    PrecoTotal = table.Column<double>(type: "REAL", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Venda", x => x.IdVenda);
+                    table.ForeignKey(
+                        name: "FK_Venda_Cliente_ClienteIdCliente",
+                        column: x => x.ClienteIdCliente,
+                        principalTable: "Cliente",
+                        principalColumn: "IdCliente");
+                    table.ForeignKey(
+                        name: "FK_Venda_Snack_SnackIdSnack",
+                        column: x => x.SnackIdSnack,
+                        principalTable: "Snack",
+                        principalColumn: "IdSnack");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Ingresso",
                 columns: table => new
                 {
@@ -238,7 +253,8 @@ namespace MidnightCityTheater.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Ingresso_VendaId",
                 table: "Ingresso",
-                column: "VendaId");
+                column: "VendaId",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Pipoca_SnackIdSnack",
@@ -254,6 +270,16 @@ namespace MidnightCityTheater.Migrations
                 name: "IX_Sala_FuncionarioIdFuncionario",
                 table: "Sala",
                 column: "FuncionarioIdFuncionario");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Venda_ClienteIdCliente",
+                table: "Venda",
+                column: "ClienteIdCliente");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Venda_SnackIdSnack",
+                table: "Venda",
+                column: "SnackIdSnack");
         }
 
         /// <inheritdoc />
@@ -261,9 +287,6 @@ namespace MidnightCityTheater.Migrations
         {
             migrationBuilder.DropTable(
                 name: "Bebida");
-
-            migrationBuilder.DropTable(
-                name: "Cliente");
 
             migrationBuilder.DropTable(
                 name: "Doce");
@@ -281,13 +304,16 @@ namespace MidnightCityTheater.Migrations
                 name: "Venda");
 
             migrationBuilder.DropTable(
-                name: "Snack");
-
-            migrationBuilder.DropTable(
                 name: "Filme");
 
             migrationBuilder.DropTable(
                 name: "Funcionario");
+
+            migrationBuilder.DropTable(
+                name: "Cliente");
+
+            migrationBuilder.DropTable(
+                name: "Snack");
         }
     }
 }

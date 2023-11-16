@@ -21,9 +21,22 @@ public class VendaController : ControllerBase
     [Route("listar")]
     public async Task<ActionResult<IEnumerable<Venda>>> Listar()
     {
-        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-        return await _dbContext.Venda.ToListAsync();
+        if (_dbContext is null)
+            return NotFound(ErrorResponse.DBisUnavailable);
+
+        var vendas = await _dbContext.Venda
+            .Include(v => v.Snack)
+                .ThenInclude(s => s.Pipocas)
+            .Include(v => v.Snack)
+                .ThenInclude(s => s.Bebidas)
+            .Include(v => v.Snack)
+                .ThenInclude(s => s.Doces)
+            .Include(v => v.Cliente)
+            .ToListAsync();
+
+        return vendas;
     }
+
 
     [HttpPost]
     [Route("cadastrar")]
@@ -36,37 +49,30 @@ public class VendaController : ControllerBase
     }
 
     [HttpGet()]
-    [Route("buscar/{id}")]
-    public async Task<ActionResult<Venda>> Buscar([FromRoute] int id)
+    [Route("buscar/{cpf}")]
+    public async Task<ActionResult<IEnumerable<Venda>>> Buscar([FromRoute] string cpf)
     {
-        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-        var venda = await _dbContext.Venda.FindAsync(id);
-        if (venda is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
-        return venda;
+        if (_dbContext is null)
+            return NotFound(ErrorResponse.DBisUnavailable);
+
+        // Incluindo a propriedade Cliente na consulta
+        var vendas = await _dbContext.Venda
+            .Include(v => v.Cliente)
+            .Where(v => v.Cliente.CPF == cpf)
+            .Include(v => v.Snack)
+                    .ThenInclude(s => s.Pipocas)
+            .Include(v => v.Snack)
+                .ThenInclude(s => s.Bebidas)
+            .Include(v => v.Snack)
+                .ThenInclude(s => s.Doces)
+            .Include(v => v.Cliente)
+            .ToListAsync();
+
+        if (vendas.Count == 0)
+            return UnprocessableEntity(ErrorResponse.EntityNotFound);
+
+        return vendas;
     }
-
-    /*
-    [HttpPut()]
-    [Route("alterar")]
-    public async Task<ActionResult> Alterar(Bebida bebida)
-    {
-        if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-        if (bebida is null) return BadRequest(ErrorResponse.ObjectisNull);
-        var existingbebida = await _dbContext.Bebida.FindAsync(bebida.IdBebida);
-        if (existingbebida is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
-
-        // Atualize apenas os campos que foram fornecidos no objeto
-        
-
-        // Marque o registro como modificado no contexto do EF 
-        _dbContext.Entry(existingbebida).State = EntityState.Modified;
-
-        // Salve as alterações no banco de dados 
-        await _dbContext.SaveChangesAsync();
-
-        return Ok();
-    }
-    */
 
     [HttpDelete()]
     [Route("excluir/{id}")]

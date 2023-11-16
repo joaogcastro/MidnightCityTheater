@@ -11,8 +11,8 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    [Migration("20231108123031_ModelAlterada1")]
-    partial class ModelAlterada1
+    [Migration("20231116004306_db")]
+    partial class db
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -183,7 +183,8 @@ namespace MidnightCityTheater.Migrations
 
                     b.HasIndex("SalaId");
 
-                    b.HasIndex("VendaId");
+                    b.HasIndex("VendaId")
+                        .IsUnique();
 
                     b.ToTable("Ingresso");
                 });
@@ -267,7 +268,23 @@ namespace MidnightCityTheater.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<int?>("ClienteIdCliente")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<DateTime>("Data")
+                        .HasColumnType("TEXT");
+
+                    b.Property<double>("PrecoTotal")
+                        .HasColumnType("REAL");
+
+                    b.Property<int?>("SnackIdSnack")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("IdVenda");
+
+                    b.HasIndex("ClienteIdCliente");
+
+                    b.HasIndex("SnackIdSnack");
 
                     b.ToTable("Venda");
                 });
@@ -301,8 +318,8 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired();
 
                     b.HasOne("MidnightCityTheater.Models.Venda", "Venda")
-                        .WithMany()
-                        .HasForeignKey("VendaId")
+                        .WithOne("Ingresso")
+                        .HasForeignKey("MidnightCityTheater.Models.Ingresso", "VendaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -335,6 +352,21 @@ namespace MidnightCityTheater.Migrations
                     b.Navigation("Funcionario");
                 });
 
+            modelBuilder.Entity("MidnightCityTheater.Models.Venda", b =>
+                {
+                    b.HasOne("MidnightCityTheater.Models.Cliente", "Cliente")
+                        .WithMany()
+                        .HasForeignKey("ClienteIdCliente");
+
+                    b.HasOne("MidnightCityTheater.Models.Snack", "Snack")
+                        .WithMany()
+                        .HasForeignKey("SnackIdSnack");
+
+                    b.Navigation("Cliente");
+
+                    b.Navigation("Snack");
+                });
+
             modelBuilder.Entity("MidnightCityTheater.Models.Snack", b =>
                 {
                     b.Navigation("Bebidas");
@@ -342,6 +374,11 @@ namespace MidnightCityTheater.Migrations
                     b.Navigation("Doces");
 
                     b.Navigation("Pipocas");
+                });
+
+            modelBuilder.Entity("MidnightCityTheater.Models.Venda", b =>
+                {
+                    b.Navigation("Ingresso");
                 });
 #pragma warning restore 612, 618
         }

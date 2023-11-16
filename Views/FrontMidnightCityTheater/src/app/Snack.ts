@@ -3,9 +3,9 @@ import {Bebida} from "./Bebida";
 import {Doce} from "./Doce";
 
 export class Snack {
-    IdSnack: number = 0;
-    Pipocas: Array<Pipoca> = [];
-    Bebidas: Array<Bebida> = [];
-    Doces: Array<Doce> = [];
-    PrecoTotal: number = 0;
+    idSnack: number = 0;
+    pipocas: Array<Pipoca> = [];
+    bebidas: Array<Bebida> = [];
+    doces: Array<Doce> = [];
+    precoTotal: number = 0;
 }

@@ -12,7 +12,7 @@ const httpOptions = {
   providedIn: 'root'
 })
 export class SnacksService {
-  apiUrl = 'http://localhost:5000/snack';
+  apiUrl = 'http://localhost:5000/Snack';
   constructor(private http: HttpClient) { }
   listar(): Observable<Snack[]> {
     const url = `${this.apiUrl}/listar`;
@@ -31,7 +31,7 @@ export class SnacksService {
     return this.http.put<Snack>(url, snack, httpOptions);
   }
   excluir(idSnack: number): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${idSnack}`;
+    const url = `${this.apiUrl}/excluir/${idSnack}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }
