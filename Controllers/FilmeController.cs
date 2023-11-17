@@ -43,17 +43,10 @@ namespace WebApiFindWorks.Controllers
 
         [HttpPost]
         [Route("cadastrar")]
-        public async Task<IActionResult> Cadastrar([FromBody] Filme filme)
+        public async Task<IActionResult> Cadastrar(Filme filme)
         {
-            if (_dbContext is null)
-                return NotFound(ErrorResponse.DBisUnavailable);
-
-            // Verifique a validade do modelo
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
+            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
+            if (filme.nomeFilme is null || filme.Duracao is null || filme.Classificacao is null || filme.Diretor is null || filme.Categoria is null) return BadRequest(ErrorResponse.AttributeisNull);
             _dbContext.Add(filme);
             await _dbContext.SaveChangesAsync();
             return Created("", filme);
@@ -78,10 +71,15 @@ namespace WebApiFindWorks.Controllers
             existingFilme.nomeFilme = filme.nomeFilme;
         }
 
-        if (filme.Duracao != "string" && filme.Duracao != null)
+        if (!string.IsNullOrEmpty(filme.Duracao))
         {
             existingFilme.Duracao = filme.Duracao;
         }
+
+        /*if (filme.Duracao != "string" && filme.Duracao != null)
+        {
+            existingFilme.Duracao = filme.Duracao;
+        }*/
 
         if (filme.Classificacao != "string" && filme.Classificacao != null)
         {

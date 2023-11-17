@@ -31,7 +31,7 @@ export class FuncionariosComponent implements OnInit {
     this.formularioBuscar = new FormGroup({
       idFuncionario: new FormControl(null),
     });
-    this.titleService.setTitle('Funcionario MidnightCity');
+    this.titleService.setTitle('Funcionários MidnightCity');
 
   }
 

@@ -23,13 +23,14 @@ export class SalasComponent implements OnInit {
     this.formulario = new FormGroup({
       idSala: new FormControl(null),
       capacidade: new FormControl(null),
-      tipoSala: new FormControl(null)
+      tipoSala: new FormControl(null),
+      preco: new FormControl(null)
     });
     this.listar();
     this.formularioBuscar = new FormGroup({
       idSala: new FormControl(null),
     });
-    this.titleService.setTitle('Funcionario MidnightCity');
+    this.titleService.setTitle('Salas MidnightCity');
   }
 
   cadastrar(): void {
@@ -94,6 +95,7 @@ export class SalasComponent implements OnInit {
     if (!sala.tipoSala) {
       sala.tipoSala = 'string';
     }
+    if (!sala.preco || isNaN(sala.preco)) { sala.preco = 0; }
   
     const observer: Observer<Sala> = {
       next(_result): void {

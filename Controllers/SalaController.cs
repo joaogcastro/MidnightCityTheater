@@ -37,7 +37,7 @@ namespace WebApiFindWorks.Controllers
         public async Task<IActionResult> Cadastrar(Sala sala)
         {
             if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-            if (sala.Capacidade is null || sala.TipoSala is null) return BadRequest(ErrorResponse.AttributeisNull);
+            if (sala.Capacidade is null || sala.TipoSala is null || sala.Preco == 0) return BadRequest(ErrorResponse.AttributeisNull);
             _dbContext.Add(sala);
             await _dbContext.SaveChangesAsync();
             return Created("", sala);
@@ -74,6 +74,11 @@ namespace WebApiFindWorks.Controllers
         if (sala.TipoSala != "string" && sala.TipoSala != null)
         {
             existingSala.TipoSala = sala.TipoSala;
+        }
+
+        if (sala!.Preco != 0)
+        {
+            existingSala.Preco = sala.Preco;
         }
 
 

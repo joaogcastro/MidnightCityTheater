@@ -31,7 +31,7 @@ export class FilmesComponent implements OnInit {
       classificacao: new FormControl(null),
       diretor: new FormControl(null),
       categoria: new FormControl(null),
-      idSala: new FormControl(null), // Adicione esta linha
+      idSala: new FormControl(null),
     });
     this.listar();
     this.salasService.listar().subscribe(salas => {
@@ -44,6 +44,7 @@ export class FilmesComponent implements OnInit {
       idfilme: new FormControl(null)
     });
     this.titleService.setTitle('Filme MidnightCity');
+
 
   }
 
@@ -127,13 +128,27 @@ export class FilmesComponent implements OnInit {
 
   alterar(): void {
     const filme: Filme = this.formulario.value;
-  
-    const idSalaSelecionada: number | null = this.formulario.get('idSala')?.value;
-    if (idSalaSelecionada !== null) {
-      filme.idSala = idSalaSelecionada;
+    if (filme.idFilme === null) {
+      alert('Por favor, busque um filme antes de tentar alterar.');
+      return;
+    }
+    if (!filme.nomeFilme) {
+      filme.nomeFilme = 'string';
+    }
+    if (!filme.duracao) {
+      filme.duracao = 'string';
+    }
+    if (!filme.classificacao) {
+      filme.classificacao = 'string';
+    }
+    if (!filme.diretor) {
+      filme.diretor = 'string';
+    }
+    if (!filme.categoria) {
+      filme.categoria = 'string';
     }
   
-    const observer: Observer<Filme> = {
+    const observer: Observer<Sala> = {
       next(_result): void {
         alert('Filme alterado com sucesso.');
       },
@@ -143,7 +158,6 @@ export class FilmesComponent implements OnInit {
       },
       complete(): void {},
     };
-  
     this.filmesService.alterar(filme).subscribe(observer);
   }
 
@@ -171,4 +185,5 @@ export class FilmesComponent implements OnInit {
   reloadPage(): void {
     window.location.reload();
   }
+  
 }
