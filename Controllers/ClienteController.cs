@@ -57,6 +57,22 @@ public class ClienteController : ControllerBase
         return cliente;
     }
 
+    [HttpGet("buscar2/{cpf}")]
+    public async Task<ActionResult<Cliente>> BuscarCPF([FromRoute] string cpf)
+    {
+        cpf = CPFUtils.FormatCPF(cpf);
+        if (_dbContext == null)
+        {
+            return StatusCode(500, ErrorResponse.DBisUnavailable);
+        }
+        var cliente = await _dbContext.Cliente.FirstOrDefaultAsync(c => c.CPF == cpf);
+        if (cliente == null)
+        {
+            return NotFound(ErrorResponse.EntityNotFound);
+        }
+        return Ok(cliente);
+    }
+
     [HttpPut()]
     [Route("alterar")]
     public async Task<ActionResult> Alterar(Cliente cliente)

@@ -24,16 +24,20 @@ export class ClientesService {
     const url = `${this.apiUrl}/buscar/${idCliente}`;
     return this.http.get<Cliente>(url);
   }
-  cadastrar(Cliente: Cliente): Observable<any> {
+  buscar2(cpf: string): Observable<Cliente> {
+    const url = `${this.apiUrl}/buscar2/${cpf}`;
+    return this.http.get<Cliente>(url);
+  }
+  cadastrar(doce: Cliente): Observable<any> {
     const url = `${this.apiUrl}/cadastrar`;
-    return this.http.post<Cliente>(url, Cliente, httpOptions);
+    return this.http.post<Cliente>(url, doce, httpOptions);
   }
-  atualizar(Cliente: Cliente): Observable<any> {
-    const url = `${this.apiUrl}/atualizar`;
-    return this.http.put<Cliente>(url, Cliente, httpOptions);
+  alterar(doce: Cliente): Observable<any> {
+    const url = `${this.apiUrl}/alterar`;
+    return this.http.put<Cliente>(url, doce, httpOptions);
   }
-  excluir(idCliente: string): Observable<any> {
-    const url = `${this.apiUrl}/buscar/${idCliente}`;
+  excluir(idCliente: number): Observable<any> {
+    const url = `${this.apiUrl}/excluir/${idCliente}`;
     return this.http.delete<string>(url, httpOptions);
   }
 }

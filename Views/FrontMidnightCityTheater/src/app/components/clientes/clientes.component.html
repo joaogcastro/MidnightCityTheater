@@ -1,56 +1,214 @@
+<header>
+  <h1 class="page-title">CRUD Cliente</h1>
+</header>
 <div class="container p-5">
-    <div class="row">
-      <div
-        class="col-6 border border-light rounded p-5 shadow"
-        *ngIf="formulario"
-      >
-        <h6>{{ tituloFormulario }}</h6>
-        <form [formGroup]="formulario" (ngSubmit)="enviarFormulario()">
-          <div class="form-group">
-            <label>CPF</label>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              formControlName="CPF"
-            />
-            </div>
-          <div class="form-group">
-            <label>Nome</label>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              formControlName="Nome"
-            />
-            </div>
-          <div class="form-group">
-            <label>Email</label>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              formControlName="Email"
-            />
-            </div>
-          <div class="form-group">
-            <label>Telefone</label>
-            <input
-              type="text"
-              class="form-control form-control-sm"
-              formControlName="Telefone"
-            />
-          </div>
-          <div class="container">
-            <div class="row">
-              <div>
-                <button type="submit" class="btn btn-sm btn-outline-secondary">
-                  Salvar
-                </button>
-              </div>
-              <div class="pl-1">
-                <button type="button" class="btn btn-sm btn-light">Voltar</button>
-              </div>
-            </div>
-          </div>
-        </form>
+  <div class="row">
+    <!--Listar -->
+    <div class="col-12 border border-light rounded p-5 shadow">
+      <h6 class="title-fontsize">Lista Clientes</h6>
+      <table class="table table-striped" *ngIf="ListClientes && ListClientes.length > 0">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Nome</th>
+            <th>CPF</th>
+            <th>Email</th>
+            <th>Telefone</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let cliente of ListClientes">
+            <td>{{ cliente.idCliente }}</td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.cpf }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.telefone }}</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="form-group">
+        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <button type="button" class="btn btn-primary" (click)="listar()">Listar</button>
+        </div>
       </div>
     </div>
+
+    <!-- Buscar por CPF -->
+    <div class="col-12 border border-light rounded p-5 shadow" *ngIf="formularioBuscar2">
+      <h6 class="title-fontsize">Buscar Cliente por CPF</h6>
+      <form [formGroup]="formularioBuscar2" (ngSubmit)="buscar()">
+        <div class="form-group">
+          <label class="bold">CPF do Cliente</label>
+          <input type="string" class="form-control form-control-sm" formControlName="cpf" />
+        </div>
+        <div class="form-group">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-sm btn-primary" (click)="buscar2()">Buscar</button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <table class="table table-striped" *ngIf="ObjBuscado2">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="ObjBuscado2">
+                  <td>{{ ObjBuscado2.idCliente }}</td>
+                  <td>{{ ObjBuscado2.nome }}</td>
+                  <td>{{ ObjBuscado2.cpf }}</td>
+                  <td>{{ ObjBuscado2.email }}</td>
+                  <td>{{ ObjBuscado2.telefone }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Buscar por ID -->
+    <div class="col-12 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
+      <h6 class="title-fontsize">Buscar Cliente por ID</h6>
+      <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
+        <div class="form-group">
+          <label class="bold">ID do Cliente</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idCliente" />
+        </div>
+        <div class="form-group">
+          <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+            <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
+          </div>
+        </div>
+        <div class="container">
+          <div class="row">
+            <table class="table table-striped" *ngIf="ObjBuscado">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Nome</th>
+                  <th>CPF</th>
+                  <th>Email</th>
+                  <th>Telefone</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngIf="ObjBuscado">
+                  <td>{{ ObjBuscado.idCliente}}</td>
+                  <td>{{ ObjBuscado.nome }}</td>
+                  <td>{{ ObjBuscado.cpf }}</td>
+                  <td>{{ ObjBuscado.email }}</td>
+                  <td>{{ ObjBuscado.telefone }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Cadastrar -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Cadastrar Cliente</h6>
+      <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+        <div class="form-group">
+          <label class="bold">IdCliente</label>
+          <div>Preenchido automaticamente</div>
+        </div>
+        <div class="form-group">
+          <label class="bold">Nome</label>
+          <input type="text" class="form-control form-control-sm" formControlName="nome" />
+        </div>
+        <div class="form-group">
+          <label class="bold">CPF</label>
+          <input type="text" class="form-control form-control-sm" formControlName="cpf" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Email</label>
+          <input type="text" class="form-control form-control-sm" formControlName="email" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Telefone</label>
+          <input type="text" class="form-control form-control-sm" formControlName="telefone" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-primary">Cadastrar</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()"
+                class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Alterar -->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Alterar Cliente</h6>
+      <form [formGroup]="formulario" (ngSubmit)="alterar()">
+        <div class="form-group">
+          <label class="bold">IdCliente</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idCliente" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Nome</label>
+          <input type="text" class="form-control form-control-sm" formControlName="nome" />
+        </div>
+        <div class="form-group">
+          <label class="bold">CPF</label>
+          <input type="text" class="form-control form-control-sm" formControlName="cpf" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Email</label>
+          <input type="text" class="form-control form-control-sm" formControlName="email" />
+        </div>
+        <div class="form-group">
+          <label class="bold">Telefone</label>
+          <input type="text" class="form-control form-control-sm" formControlName="telefone" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-primary">Alterar</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()"
+                class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!--Excluir-->
+    <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+      <h6 class="title-fontsize">Excluir Cliente</h6>
+      <form [formGroup]="formulario" (ngSubmit)="excluir()">
+        <div class="form-group">
+          <label class="bold">IdCliente</label>
+          <input type="number" class="form-control form-control-sm" formControlName="idCliente" />
+        </div>
+        <div class="container">
+          <div class="row">
+            <div>
+              <button type="submit" class="btn btn-sm btn-primary">Excluir</button>
+            </div>
+            <div class="pl-1">
+              <button type="button" #cancelarButton (click)="reloadPage()"
+                class="btn btn-sm btn-light">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
   </div>
+</div>
