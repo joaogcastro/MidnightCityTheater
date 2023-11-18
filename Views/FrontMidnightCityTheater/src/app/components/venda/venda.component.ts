@@ -2,6 +2,8 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Title } from '@angular/platform-browser';
 import { Observer } from 'rxjs';
+import { Filme } from 'src/app/Filme';
+import { Sala } from 'src/app/Sala';
 import { Venda } from 'src/app/Venda';
 import { VendaService } from 'src/app/venda.service';
 
@@ -15,7 +17,13 @@ export class VendaComponent implements OnInit {
   formulario: any;
   formularioBuscar: any;
   ListVenda: Venda[] = [];
+  ListFilmes: Filme[] = [];
+  ListSalas: Sala[] = [];
   nomeVendaEncontrado: Venda | null = null;
+  tiposingresso = [
+    { tipoIngresso: 'Meia' },
+    { tipoIngresso: 'Inteira' }
+  ]
 
   constructor(private vendaService: VendaService, private titleService: Title) { }
 
@@ -136,6 +144,21 @@ export class VendaComponent implements OnInit {
       }
     } else {
       alert('Por favor, insira um ID válido para excluir.');
+    }
+  }
+
+  meiaentrada(): void {
+    const tipoIngresso: string = this.formulario.get('tipoIngresso').value;
+    const sala: Sala | null = this.nomeVendaEncontrado?.ingresso?.filme?.sala || null;
+  
+    if (sala) {
+      if (tipoIngresso.toLowerCase() === 'Meia') {
+        this.formulario.get('precoTotal').setValue(sala.preco / 2);
+      } else {
+        this.formulario.get('precoTotal').setValue(sala.preco);
+      }
+    } else {
+      console.error('Erro: Sala não encontrada para o filme associado à venda.');
     }
   }
 

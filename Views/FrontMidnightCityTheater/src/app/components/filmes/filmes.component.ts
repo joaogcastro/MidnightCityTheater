@@ -18,7 +18,7 @@ export class FilmesComponent implements OnInit {
   formulario: any;
   formularioBuscar: any;
   filmes: Filme[] = [];
-  ListSalas: Array<Sala> | undefined;
+  ListSalas: Sala[] = [];
   nomeFilmeEncontrado: Filme | null = null;
 
   constructor(private filmesService: FilmesService, private titleService: Title, private salasService : SalasService) { }
@@ -41,7 +41,7 @@ export class FilmesComponent implements OnInit {
       }
     });
     this.formularioBuscar = new FormGroup({
-      idfilme: new FormControl(null)
+      idFilme: new FormControl(null)
     });
     this.titleService.setTitle('Filme MidnightCity');
 
@@ -71,8 +71,8 @@ export class FilmesComponent implements OnInit {
       (filmes: Filme[]) => {
         this.filmes = filmes.map(filme => {
           // Verificar se idSala é null antes de procurar a sala correspondente
-          if (filme.idSala !== null && filme.idSala !== undefined) {
-            const salaEncontrada = this.ListSalas?.find(sala => sala.idSala === filme.idSala);
+          if (filme.sala !== null && filme.sala !== undefined) {
+            const salaEncontrada = this.ListSalas?.find(sala => sala.idSala === filme.sala?.idSala);
             // Certificar-se de que a propriedade 'sala' esteja sendo preenchida
             return {
               ...filme,
@@ -95,14 +95,14 @@ export class FilmesComponent implements OnInit {
   }
 
   buscar(): void {
-    const idFilme: number = this.formularioBuscar.get('idfilme')?.value;
+    const idFilme: number = this.formularioBuscar.get('idFilme')?.value;
   
     if (idFilme) {
       this.filmesService.buscar(idFilme).subscribe(
         (filme: Filme) => {
           // Verificar se idSala é null antes de procurar a sala correspondente
-          if (filme.idSala !== null && filme.idSala !== undefined) {
-            const salaEncontrada = this.ListSalas?.find(sala => sala.idSala === filme.idSala);
+          if (filme.sala !== null && filme.sala !== undefined) {
+            const salaEncontrada = this.ListSalas?.find(sala => sala.idSala === filme.sala?.idSala);
             // Certificar-se de que a propriedade 'sala' esteja sendo preenchida
             this.nomeFilmeEncontrado = {
               ...filme,

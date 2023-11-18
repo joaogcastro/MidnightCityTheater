@@ -3,81 +3,81 @@
 </header>
 <div class="container p-5">
   <div class="row">
-    <!--Listar-->
-    <div class="col-12 border border-light rounded p-5 shadow">
-      <h6 class="title-fontsize">Lista Filmes</h6>
-      <table class="table table-striped" *ngIf="filmes && filmes.length > 0">
-        <thead>
-          <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>Duração</th>
-            <th>Classificação</th>
-            <th>Direção</th>
-            <th>Categoria</th>
-            <th>Sala</th> <!-- Adicionado -->
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let filme of filmes">
-            <td>{{ filme.idFilme}}</td>
-            <td>{{ filme.nomeFilme }}</td>
-            <td>{{ filme.duracao }}</td>
-            <td>{{ filme.classificacao }}</td>
-            <td>{{ filme.diretor }}</td>
-            <td>{{ filme.categoria }}</td>
-            <td>{{ filme.sala?.tipoSala }}</td>
-          </tr>
-        </tbody>
-      </table>
-      <div class="form-group">
-        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-          <button type="button" class="btn btn-primary" (click)="listar()">Listar</button>
-        </div>
-      </div>
+    <!-- Lista Filmes -->
+<div class="col-12 border border-light rounded p-5 shadow">
+  <h6 class="title-fontsize">Lista Filmes</h6>
+  <table class="table table-striped" *ngIf="filmes && filmes.length > 0">
+    <thead>
+      <tr>
+        <th>Id</th>
+        <th>Nome</th>
+        <th>Duração</th>
+        <th>Classificação</th>
+        <th>Direção</th>
+        <th>Categoria</th>
+        <th>Sala</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let filme of filmes">
+        <td>{{ filme.idFilme}}</td>
+        <td>{{ filme.nomeFilme }}</td>
+        <td>{{ filme.duracao }}</td>
+        <td>{{ filme.classificacao }}</td>
+        <td>{{ filme.diretor }}</td>
+        <td>{{ filme.categoria }}</td>
+        <td>{{ filme.sala?.tipoSala }}</td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="form-group">
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+      <button type="button" class="btn btn-primary" (click)="listar()">Listar</button>
     </div>
+  </div>
+</div>
     <!-- Buscar por ID -->
     <div class="col-12 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
       <h6 class="title-fontsize">Buscar Filme por ID</h6>
       <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
         <div class="form-group">
           <label class="bold">ID do Filme</label>
-          <input type="number" class="form-control form-control-sm" formControlName="idfilme" />
+          <input type="number" class="form-control form-control-sm" formControlName="idFilme" />
         </div>
         <div class="form-group">
           <div class="d-grid gap-2 d-md-flex justify-content-md-end">
             <button type="button" class="btn btn-sm btn-primary" (click)="buscar()">Buscar por ID</button>
           </div>
         </div>
-        <div class="container">
-          <div class="row">
-            <table class="table table-striped" *ngIf="nomeFilmeEncontrado">
-              <thead>
-                <tr>
-                  <th>Id</th>
-                  <th>Nome</th>
-                  <th>Duração</th>
-                  <th>Classificação</th>
-                  <th>Direção</th>
-                  <th>Categoria</th>
-                  <th>Sala</th> <!-- Adicionado -->
-                </tr>
-              </thead>
-              <tbody>
-                <tr *ngIf="nomeFilmeEncontrado">
-                  <td>{{ nomeFilmeEncontrado.idFilme}}</td>
-                  <td>{{ nomeFilmeEncontrado.nomeFilme }}</td>
-                  <td>{{ nomeFilmeEncontrado.duracao }}</td>
-                  <td>{{ nomeFilmeEncontrado.classificacao }}</td>
-                  <td>{{ nomeFilmeEncontrado.diretor }}</td>
-                  <td>{{ nomeFilmeEncontrado.categoria }}</td>
-                  <td>{{ nomeFilmeEncontrado.sala?.tipoSala }}</td> <!-- Adicionado -->
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
       </form>
+      <div class="container">
+        <div class="row">
+          <table class="table table-striped" *ngIf="nomeFilmeEncontrado">
+            <thead>
+              <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th>Duração</th>
+                <th>Classificação</th>
+                <th>Direção</th>
+                <th>Categoria</th>
+                <th>Sala</th> <!-- Adicionado -->
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngIf="nomeFilmeEncontrado">
+                <td>{{ nomeFilmeEncontrado.idFilme}}</td>
+                <td>{{ nomeFilmeEncontrado.nomeFilme }}</td>
+                <td>{{ nomeFilmeEncontrado.duracao }}</td>
+                <td>{{ nomeFilmeEncontrado.classificacao }}</td>
+                <td>{{ nomeFilmeEncontrado.diretor }}</td>
+                <td>{{ nomeFilmeEncontrado.categoria }}</td>
+                <td>{{ nomeFilmeEncontrado.sala?.tipoSala }}</td> <!-- Adicionado -->
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
     <!-- Cadastrar Filme -->
 <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">

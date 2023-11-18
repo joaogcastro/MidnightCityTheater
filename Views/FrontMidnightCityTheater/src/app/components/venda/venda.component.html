@@ -64,34 +64,48 @@
         </form>
       </div>
       <!--Cadastrar-->
-      <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
-        <h6 class="title-fontsize">Cadastrar Venda</h6>
-        <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
-          <div class="form-group">
-            <label class="bold">Id Venda</label>
-            <div>Preenchido automaticamente</div>
-          </div>
-          <div class="form-group">
-            <label class="bold">Data da Venda</label>
-            <input type="text" class="form-control form-control-sm" formControlName="data" />
-          </div>
-          <div class="form-group">
-            <label class="bold">Preço Total</label>
-            <input type="number" class="form-control form-control-sm" formControlName="precoTotalVenda" />
-          </div>
-          <div class="container">
-            <div class="row">
-              <div>
-                <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
-              </div>
-              <div class="pl-1">
-                <button type="button" #cancelarButton (click)="reloadPage()"
-                  class="btn btn-sm btn-light">Cancelar</button>
-              </div>
-            </div>
-          </div>
-        </form>
+<div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
+  <h6 class="title-fontsize">Cadastrar Venda</h6>
+  <form [formGroup]="formulario" (ngSubmit)="cadastrar()">
+    <div class="form-group">
+      <label class="bold">Id Venda</label>
+      <div>Preenchido automaticamente</div>
+    </div>
+    <div class="form-group">
+      <label class="bold">Data da Venda</label>
+      <input type="text" class="form-control form-control-sm" formControlName="data" />
+    </div>
+    <div class="form-group">
+      <label class="bold">Filme</label>
+      <!-- Adicione um dropdown para selecionar o filme -->
+      <select class="form-control form-control-sm" formControlName="ingresso.filme.idFilme">
+        <option *ngFor="let filme of ListFilmes" [value]="filme.idFilme">{{ filme.nomeFilme }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="bold">Tipo de Ingresso</label>
+      <!-- Adicione um dropdown para selecionar o tipo de ingresso -->
+      <select class="form-control form-control-sm" formControlName="ingresso.tipoIngresso">
+        <option *ngFor="let tipo of tiposingresso" [value]="tipo.tipoIngresso">{{ tipo.tipoIngresso }}</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="bold">Preço Total</label>
+      <!-- Adicione um campo de leitura apenas para mostrar o preço total -->
+      <input type="text" class="form-control form-control-sm" formControlName="precoTotal" readonly />
+    </div>
+    <div class="container">
+      <div class="row">
+        <div>
+          <button type="cadastrar" class="btn btn-sm btn-primary">Cadastrar</button>
+        </div>
+        <div class="pl-1">
+          <button type="button" #cancelarButton (click)="reloadPage()" class="btn btn-sm btn-light">Cancelar</button>
+        </div>
       </div>
+    </div>
+  </form>
+</div>
       <!-- Excluir Sala -->
       <div class="col-6 border border-light rounded p-5 shadow" *ngIf="formulario">
         <h6 class="title-fontsize">Excluir Venda</h6>

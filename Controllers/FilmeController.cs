@@ -24,21 +24,44 @@ namespace WebApiFindWorks.Controllers
         [Route("listar")]
         public async Task<ActionResult<IEnumerable<Filme>>> Listar()
         {
-            if (_dbContext is null)
+            /*if (_dbContext is null)
                 return NotFound(ErrorResponse.DBisUnavailable);
 
             var filmeList = await _dbContext.Filme.ToListAsync();
-            return Ok(filmeList);
+            return Ok(filmeList);*/
+
+            if (_dbContext is null)
+            return NotFound(ErrorResponse.DBisUnavailable);
+
+        var filmes = await _dbContext.Filme
+            .Include(v => v.Sala)
+            .ToListAsync();
+            
+
+        return filmes;
+
+            
         }
 
         [HttpGet()]
         [Route("buscar/{id}")]
         public async Task<ActionResult<Filme>> Buscar([FromRoute] int id)
         {
-            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-            var movie = await _dbContext.Filme.FindAsync(id);
-            if (movie is null) return UnprocessableEntity(ErrorResponse.EntityNotFound);
-            return movie;
+            if (_dbContext is null)
+            {
+                return NotFound(ErrorResponse.DBisUnavailable);
+            }
+
+            var filme = await _dbContext.Filme
+                .Include(f => f.Sala) // Inclua a relação com Sala diretamente no Filme
+                .FirstOrDefaultAsync(f => f.IdFilme == id);
+
+            if (filme == null)
+            {
+                return UnprocessableEntity(ErrorResponse.EntityNotFound);
+            }
+
+            return filme;
         }
 
         [HttpPost]
