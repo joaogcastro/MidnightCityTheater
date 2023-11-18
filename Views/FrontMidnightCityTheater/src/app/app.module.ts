@@ -26,6 +26,8 @@ import { SalasComponent } from './components/salas/salas.component';
 import { IngressosService } from './ingressos.service';
 import { IngressosComponent } from './components/ingressos/ingressos.component';
 import { FuncionariosComponent } from './components/funcionarios/funcionarios.component';
+import { VendaService } from './venda.service';
+import { VendaComponent } from './components/venda/venda.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { FuncionariosComponent } from './components/funcionarios/funcionarios.co
     SnacksComponent,
     SalasComponent,
     IngressosComponent,
-    FuncionariosComponent
+    FuncionariosComponent,
+    VendaComponent
   ],
   imports: [
     BrowserModule,
@@ -59,7 +62,8 @@ import { FuncionariosComponent } from './components/funcionarios/funcionarios.co
   PipocasService,
   SnacksService,
   SalasService,
-  IngressosService
+  IngressosService,
+  VendaService
   ],
   bootstrap: [AppComponent]
 })

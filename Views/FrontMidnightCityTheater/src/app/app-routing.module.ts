@@ -9,6 +9,7 @@ import { SnacksComponent } from './components/snacks/snacks.component';
 import { SalasComponent } from './components/salas/salas.component';
 import { IngressosComponent } from './components/ingressos/ingressos.component';
 import { FuncionariosComponent } from './components/funcionarios/funcionarios.component';
+import { VendaComponent } from './components/venda/venda.component';
 
 const routes: Routes = [
   {path: 'filmes', component:FilmesComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: 'Pipocas', component: PipocasComponent},
   {path: 'Snacks', component: SnacksComponent},
   {path: 'Salas', component: SalasComponent},
-  {path: 'Ingressos', component: IngressosComponent}
+  {path: 'Ingressos', component: IngressosComponent},
+  {path: 'Vendas', component: VendaComponent}
 ];
 
 @NgModule({
