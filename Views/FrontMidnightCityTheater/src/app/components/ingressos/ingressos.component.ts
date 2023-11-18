@@ -22,6 +22,10 @@ export class IngressosComponent implements OnInit {
   ListIngressos: Ingresso[] = [];
   ListFilmes: Filme[] = [];
   nomeIngressoEncontrado: Sala | null = null;
+  tiposingresso = [
+    { tipoIngresso: 'Meia' },
+    { tipoIngresso: 'Inteira' }
+  ]
 
   constructor(private ingressosService: IngressosService, private titleService: Title) { }
 
