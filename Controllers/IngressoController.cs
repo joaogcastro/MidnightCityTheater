@@ -38,7 +38,7 @@ namespace WebApiFindWorks.Controllers
         public async Task<IActionResult> Cadastrar(Ingresso ingresso)
         {
             if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-            if (ingresso.TipoIngresso is null || ingresso.Data is null || ingresso.Preco is null) return BadRequest(ErrorResponse.AttributeisNull);
+            if (ingresso.TipoIngresso is null || ingresso.PrecoIng is null) return BadRequest(ErrorResponse.AttributeisNull);
             _dbContext.Add(ingresso);
             await _dbContext.SaveChangesAsync();
             return Created("", ingresso);
@@ -67,35 +67,15 @@ namespace WebApiFindWorks.Controllers
         if (existingIngresso is null)
             return UnprocessableEntity(ErrorResponse.EntityNotFound);
 
-        if (ingresso.Data != "string"  && ingresso.Data != null)
-        {
-            existingIngresso.Data = ingresso.Data;
-        }
-
         if (ingresso.TipoIngresso != "string" && ingresso.TipoIngresso != null)
         {
             existingIngresso.TipoIngresso = ingresso.TipoIngresso;
         }
 
-        if (ingresso.Preco != "string" && ingresso.Preco != null)
+        if (ingresso!.PrecoIng != 0)
         {
-            existingIngresso.Preco = ingresso.Preco;
+            existingIngresso.PrecoIng = ingresso.PrecoIng;
         }
-
-        /*if (ingresso.VendaId != "int")
-        {
-            existingIngresso.VendaId = ingresso.VendaId;
-        }
-
-        if (ingresso.Venda != "venda")
-        {
-            existingIngresso.Venda = ingresso.Venda;
-        }
-        
-        (♠ Parte comentada por não saber como resolver :D)
-
-        */
-
 
         // Marque o registro como modificado no contexto do EF
         _dbContext.Entry(existingIngresso).State = EntityState.Modified;

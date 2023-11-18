@@ -8,5 +8,5 @@ export class Venda {
     cliente: Cliente = new Cliente();
     ingresso: Ingresso = new Ingresso();
     snack: Snack = new Snack();
-    precoTotal: number = 0;
+    precoTotalVenda: number = 0;
 }

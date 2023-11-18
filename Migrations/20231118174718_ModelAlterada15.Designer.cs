@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MidnightCityTheater.Data;
 
@@ -10,9 +11,11 @@ using MidnightCityTheater.Data;
 namespace MidnightCityTheater.Migrations
 {
     [DbContext(typeof(APIDbContext))]
-    partial class APIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20231118174718_ModelAlterada15")]
+    partial class ModelAlterada15
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.11");
@@ -114,6 +117,9 @@ namespace MidnightCityTheater.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int?>("IdSala")
+                        .HasColumnType("INTEGER");
+
                     b.Property<int?>("SalaIdSala")
                         .HasColumnType("INTEGER");
 
@@ -158,9 +164,6 @@ namespace MidnightCityTheater.Migrations
                     b.Property<int>("IdIngresso")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
-
-                    b.Property<DateTime>("Data")
-                        .HasColumnType("TEXT");
 
                     b.Property<int?>("FilmeIdFilme")
                         .HasColumnType("INTEGER");

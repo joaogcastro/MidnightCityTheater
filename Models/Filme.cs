@@ -19,7 +19,7 @@ namespace MidnightCityTheater.Models
         public string? Diretor { get; set; }
 
         public string? Categoria { get; set; }
-        public int? IdSala { get; set; }
+        
         public Sala? Sala { get; set; }
     }
 }

@@ -103,7 +103,7 @@ export class VendaComponent implements OnInit {
     /*if (!venda.snack) {
       venda.snack = 'string';
     }*/
-    if (!venda.precoTotal || isNaN(venda.precoTotal)) { venda.precoTotal = 0; }
+    if (!venda.precoTotalVenda || isNaN(venda.precoTotalVenda)) { venda.precoTotalVenda = 0; }
   
     const observer: Observer<Venda> = {
       next(_result): void {

@@ -32,7 +32,11 @@ public class VendaController : ControllerBase
             .Include(v => v.Snack)
                 .ThenInclude(s => s.Doces)
             .Include(v => v.Cliente)
+            .Include(v => v.Ingresso)
+                .ThenInclude(i => i.Filme)
+                .ThenInclude(f => f.Sala)
             .ToListAsync();
+            
 
         return vendas;
     }
