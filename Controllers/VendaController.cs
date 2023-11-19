@@ -62,7 +62,7 @@ public class VendaController : ControllerBase
         // Incluindo a propriedade Cliente na consulta
         var vendas = await _dbContext.Venda
             .Include(v => v.Cliente)
-            .Where(v => v.Cliente.CPF == cpf)
+            //.Where(v => v.Cliente.CPF == cpf)
             .Include(v => v.Snack)
                     .ThenInclude(s => s.Pipocas)
             .Include(v => v.Snack)

@@ -9,6 +9,7 @@ import { ClientesService } from 'src/app/clientes.service';
 import { SnacksService } from 'src/app/snacks.service';
 import { VendaService } from 'src/app/venda.service';
 import { ClientesComponent } from '../clientes/clientes.component';
+import { FilmesService } from 'src/app/filmes.service';
 
 @Component({
   selector: 'app-venda',
@@ -27,14 +28,16 @@ export class VendaComponent implements OnInit {
     { tipoIngresso: 'Meia' },
     { tipoIngresso: 'Inteira' }
   ]
+  clientesComponent: any;
+  filmeSelecionado: Filme | null = null;
 
-  constructor(private vendaService: VendaService, private titleService: Title, private snackSerive: SnacksService, private clienteComponent: ClientesComponent) { }
+  constructor(private vendaService: VendaService,private filmesService: FilmesService, private titleService: Title, private snackSerive: SnacksService, /*private clienteComponent: ClientesComponent,*/ private clientesService: ClientesService) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
       idVenda: new FormControl(null),
       cpfCliente: new FormControl(null),
-      //ingresso: new FormControl(null),
+      ingresso: new FormControl(null),
       //snack: new FormControl(null),
       precoTotal: new FormControl(null)
     });
@@ -42,13 +45,23 @@ export class VendaComponent implements OnInit {
       idVenda: new FormControl(null),
     });
     this.titleService.setTitle('Venda MidnightCity');
+    this.filmesService.listar().subscribe(
+      (filmes: Filme[]) => {
+        this.ListFilmes = filmes;
+      },
+      (error) => {
+        console.error(error);
+        // Trate o erro conforme necessário
+      }
+    );
+  
   }
 
   cadastrar(): void {
     const venda: Venda = new Venda();
     venda.idVenda = 0;
-    //Carregar o Cliente a partir do CPF usando o metodo da classe ClienteComponent
-    venda.cliente = this.clienteComponent.buscarCPFVenda(this.formulario.cpfCliente);
+    venda.cliente = this.clientesComponent.buscar2(this.formulario.cpfCliente);
+    venda.ingresso.filme = this.filmeSelecionado;
     const observer: Observer<Venda> = {
       next(_result): void {
         alert('Venda cadastrada com sucesso.');

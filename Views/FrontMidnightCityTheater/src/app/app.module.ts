@@ -41,7 +41,7 @@ import { VendaComponent } from './components/venda/venda.component';
     SalasComponent,
     IngressosComponent,
     FuncionariosComponent,
-    VendaComponent
+    VendaComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,7 +63,7 @@ import { VendaComponent } from './components/venda/venda.component';
   SnacksService,
   SalasService,
   IngressosService,
-  VendaService
+  VendaService,
   ],
   bootstrap: [AppComponent]
 })

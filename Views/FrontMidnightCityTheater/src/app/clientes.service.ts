@@ -28,13 +28,13 @@ export class ClientesService {
     const url = `${this.apiUrl}/buscar2/${cpf}`;
     return this.http.get<Cliente>(url);
   }
-  cadastrar(doce: Cliente): Observable<any> {
+  cadastrar(cliente: Cliente): Observable<any> {
     const url = `${this.apiUrl}/cadastrar`;
-    return this.http.post<Cliente>(url, doce, httpOptions);
+    return this.http.post<Cliente>(url, cliente, httpOptions);
   }
-  alterar(doce: Cliente): Observable<any> {
+  alterar(cliente: Cliente): Observable<any> {
     const url = `${this.apiUrl}/alterar`;
-    return this.http.put<Cliente>(url, doce, httpOptions);
+    return this.http.put<Cliente>(url, cliente, httpOptions);
   }
   excluir(idCliente: number): Observable<any> {
     const url = `${this.apiUrl}/excluir/${idCliente}`;

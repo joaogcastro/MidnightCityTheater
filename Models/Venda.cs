@@ -14,6 +14,8 @@ public class Venda
     // Relacionamento um-para-um com Ingresso
     public Ingresso? Ingresso { get; set; }
 
+    public List<Filme>? Filmes { get; set; }
+
     // Relacionamento um-para-um com Snack
     public Snack? Snack { get; set; }
 
