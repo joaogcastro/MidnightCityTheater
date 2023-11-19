@@ -8,4 +8,5 @@ export class Filme {
   diretor: string = '';
   categoria: string = '';
   sala: Sala | null = null;
+  idSala?: number =  0;
 }

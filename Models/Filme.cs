@@ -8,10 +8,8 @@ namespace MidnightCityTheater.Models
         [Key]
         public int IdFilme { get; set; }
 
-        [Required]
         public string? nomeFilme { get; set; }
 
-        [Required]
         public string? Duracao { get; set; }
 
         public string? Classificacao { get; set; }
@@ -19,7 +17,9 @@ namespace MidnightCityTheater.Models
         public string? Diretor { get; set; }
 
         public string? Categoria { get; set; }
-        
+
+        public int IdSala { get; set; }
+
         public Sala? Sala { get; set; }
     }
 }

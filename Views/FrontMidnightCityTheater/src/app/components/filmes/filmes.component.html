@@ -37,9 +37,12 @@
   </div>
 </div>
     <!-- Buscar por ID -->
-    <div class="col-12 border border-light rounded p-5 shadow" *ngIf="formularioBuscar">
-      <h6 class="title-fontsize">Buscar Filme por ID</h6>
-      <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
+    <div
+  class="col-12 border border-light rounded p-5 shadow"
+  *ngIf="formularioBuscar"
+>
+  <h6 class="title-fontsize">Buscar Filme por ID</h6>
+  <form [formGroup]="formularioBuscar" (ngSubmit)="buscar()">
         <div class="form-group">
           <label class="bold">ID do Filme</label>
           <input type="number" class="form-control form-control-sm" formControlName="idFilme" />
@@ -110,9 +113,9 @@
     <div class="form-group">
       <label class="bold">Sala</label>
       <select class="form-control form-control-sm" formControlName="idSala">
-        <option *ngFor="let sala of ListSalas" [value]="sala.idSala">{{ sala.tipoSala }}</option>
+          <option *ngFor="let sala of ListSalas" [value]="sala.idSala">{{ sala.tipoSala }}</option>
       </select>
-    </div>
+  </div>
     <div class="container">
       <div class="row">
         <div>
@@ -153,6 +156,12 @@
           <label class="bold">Categoria</label>
           <input type="text" class="form-control form-control-sm" formControlName="categoria" />
         </div>
+        <div class="form-group">
+          <label class="bold">Sala</label>
+          <select class="form-control form-control-sm" formControlName="idSala">
+              <option *ngFor="let sala of ListSalas" [value]="sala.idSala">{{ sala.tipoSala }}</option>
+          </select>
+      </div>
         <div class="container">
           <div class="row">
             <div>

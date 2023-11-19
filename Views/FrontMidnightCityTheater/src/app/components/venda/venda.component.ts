@@ -37,7 +37,10 @@ export class VendaComponent implements OnInit {
     this.formulario = new FormGroup({
       idVenda: new FormControl(null),
       cpfCliente: new FormControl(null),
-      ingresso: new FormControl(null),
+      ingresso: new FormGroup({
+        tipoIngresso: new FormControl(null),
+      }),
+      data: new FormControl(this.getCurrentDateTime()), // Preencher automaticamente com a data atual
       //snack: new FormControl(null),
       precoTotal: new FormControl(null)
     });
@@ -142,6 +145,17 @@ export class VendaComponent implements OnInit {
     } else {
       console.error('Erro: Sala não encontrada para o filme associado à venda.');
     }
+  }
+
+  private getCurrentDateTime(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = (now.getMonth() + 1).toString().padStart(2, '0');
+    const day = now.getDate().toString().padStart(2, '0');
+    const hours = now.getHours().toString().padStart(2, '0');
+    const minutes = now.getMinutes().toString().padStart(2, '0');
+
+    return `${year}-${month}-${day}T${hours}:${minutes}`;
   }
 
   reloadPage(): void {

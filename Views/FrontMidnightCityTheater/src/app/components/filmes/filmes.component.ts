@@ -20,6 +20,8 @@ export class FilmesComponent implements OnInit {
   filmes: Filme[] = [];
   ListSalas: Sala[] = [];
   nomeFilmeEncontrado: Filme | null = null;
+  nomeSalaEncontrado: Sala | null = null;
+  salas: any;
 
   constructor(private filmesService: FilmesService, private titleService: Title, private salasService : SalasService) { }
 
@@ -31,7 +33,7 @@ export class FilmesComponent implements OnInit {
       classificacao: new FormControl(null),
       diretor: new FormControl(null),
       categoria: new FormControl(null),
-      idSala: new FormControl(null),
+      idSala: new FormControl(undefined),
     });
     this.salasService.listar().subscribe(salas => {
       this.ListSalas = salas;
@@ -48,10 +50,46 @@ export class FilmesComponent implements OnInit {
   }
 
   cadastrar(): void {
-    const filme: Filme = this.formulario.value;
+    const filme: Filme = { ...this.formulario.value };
+  
+    this.salasService.listar().subscribe(salas => {
+      this.ListSalas = salas;
+      console.log('Lista de Salas:', this.ListSalas);
+      if (this.ListSalas && this.ListSalas.length > 0) {
+        this.formulario.get('idSala')?.setValue(this.ListSalas[0].idSala);
+      }
+    });
+  
+    if (filme.idSala !== null && filme.idSala !== undefined) {
+      filme.idSala = +filme.idSala;
+    } else {
+      filme.idSala = undefined;
+    }
+  
+    console.log('Filme antes de cadastrar:', filme);
+  
     if (!filme.idFilme) {
       filme.idFilme = 0;
     }
+  
+    const salaIdSelecionada = this.formulario.get('idSala')?.value;
+  
+    // Converta o id da sala para um número
+    const salaIdNumerico = +salaIdSelecionada;
+  
+    if (typeof salaIdNumerico === 'number' && !isNaN(salaIdNumerico)) {
+      const salaSelecionada = this.ListSalas.find(sala => sala.idSala === salaIdNumerico);
+  
+      if (salaSelecionada) {
+        filme.idSala = salaSelecionada.idSala; // Certifique-se de definir o idSala no filme
+        filme.sala = salaSelecionada;
+      } else {
+        console.log('Sala não encontrada:', salaIdNumerico);
+      }
+    } else {
+      console.log('ID da Sala inválido:', salaIdNumerico);
+    }
+  
     const observer: Observer<Filme> = {
       next(_result): void {
         alert('Filme cadastrado com sucesso.');
@@ -62,6 +100,7 @@ export class FilmesComponent implements OnInit {
       },
       complete(): void {},
     };
+  
     this.filmesService.cadastrar(filme).subscribe(observer);
   }
 
@@ -126,28 +165,33 @@ export class FilmesComponent implements OnInit {
   }
 
   alterar(): void {
-    const filme: Filme = this.formulario.value;
+    const filme: Filme = { ...this.formulario.value };
+    const salaIdSelecionada = this.formulario.get('idSala')?.value;
+  
     if (filme.idFilme === null) {
       alert('Por favor, busque um filme antes de tentar alterar.');
       return;
     }
-    if (!filme.nomeFilme) {
-      filme.nomeFilme = 'string';
-    }
-    if (!filme.duracao) {
-      filme.duracao = 'string';
-    }
-    if (!filme.classificacao) {
-      filme.classificacao = 'string';
-    }
-    if (!filme.diretor) {
-      filme.diretor = 'string';
-    }
-    if (!filme.categoria) {
-      filme.categoria = 'string';
+    if (!filme.nomeFilme) {filme.nomeFilme = "string"}
+    if (!filme.duracao) {filme.duracao = "string"}
+    if (!filme.classificacao) {filme.classificacao = "string"}
+    if (!filme.diretor) {filme.diretor = "string"}
+    if (!filme.categoria) {filme.categoria = "string"}
+
+    // Verifica se idSala é null antes de convertê-lo
+    if (salaIdSelecionada !== null && salaIdSelecionada !== undefined) {
+      filme.idSala = +salaIdSelecionada;
+    } else {
+      filme.idSala = undefined;
     }
   
-    const observer: Observer<Sala> = {
+    // Encontrar a sala selecionada pelo id
+    const salaSelecionada = this.ListSalas.find(sala => sala.idSala === filme.idSala);
+  
+    // Definir a sala selecionada para o filme
+    filme.sala = salaSelecionada || null;
+  
+    const observer: Observer<Filme> = {
       next(_result): void {
         alert('Filme alterado com sucesso.');
       },
@@ -157,6 +201,7 @@ export class FilmesComponent implements OnInit {
       },
       complete(): void {},
     };
+  
     this.filmesService.alterar(filme).subscribe(observer);
   }
 
@@ -184,5 +229,6 @@ export class FilmesComponent implements OnInit {
   reloadPage(): void {
     window.location.reload();
   }
+
   
 }

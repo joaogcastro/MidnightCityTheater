@@ -34,7 +34,7 @@ namespace WebApiFindWorks.Controllers
             return NotFound(ErrorResponse.DBisUnavailable);
 
         var filmes = await _dbContext.Filme
-            .Include(v => v.Sala)
+            .Include(f => f.Sala)
             .ToListAsync();
             
 
@@ -68,41 +68,79 @@ namespace WebApiFindWorks.Controllers
         [Route("cadastrar")]
         public async Task<IActionResult> Cadastrar(Filme filme)
         {
-            if (_dbContext is null) return NotFound(ErrorResponse.DBisUnavailable);
-            if (filme.nomeFilme is null || filme.Duracao is null || filme.Classificacao is null || filme.Diretor is null || filme.Categoria is null) return BadRequest(ErrorResponse.AttributeisNull);
+            if (_dbContext is null)
+                return NotFound(ErrorResponse.DBisUnavailable);
+
+            if (filme.nomeFilme is null || filme.Duracao is null || filme.Classificacao is null || filme.Diretor is null || filme.Categoria is null)
+                return BadRequest(ErrorResponse.AttributeisNull);
+
+            // Verifica se a sala existe
+            if (filme.Sala != null)
+            {
+                var existingSala = await _dbContext.Sala.FindAsync(filme.Sala.IdSala);
+
+                if (existingSala != null)
+                {
+                    // Atualiza as propriedades da sala existente com os valores da sala do filme
+                    _dbContext.Entry(existingSala).CurrentValues.SetValues(filme.Sala);
+
+                    // Associa a sala existente ao filme
+                    filme.Sala = existingSala;
+                }
+                else
+                {
+                    // Se a sala não existe, você pode cadastrar ela antes de associar ao filme
+                    _dbContext.Sala.Add(filme.Sala);
+                }
+            }
+
             _dbContext.Add(filme);
             await _dbContext.SaveChangesAsync();
             return Created("", filme);
         }
 
-        [HttpPut("alterar")]
+        [HttpPut()]
+        [Route("alterar")]
         public async Task<ActionResult> Alterar(Filme filme)
         {
-        if (_dbContext is null)
-            return NotFound(ErrorResponse.DBisUnavailable);
-        
-        if (filme is null)
-            return BadRequest(ErrorResponse.ObjectisNull);
+            if (_dbContext is null)
+                return NotFound(ErrorResponse.DBisUnavailable);
 
-        var existingFilme = await _dbContext.Filme.FindAsync(filme.IdFilme);
+            if (filme is null)
+                return BadRequest(ErrorResponse.ObjectisNull);
 
-        if (existingFilme is null)
-            return UnprocessableEntity(ErrorResponse.EntityNotFound);
+            var existingFilme = await _dbContext.Filme
+                .Include(f => f.Sala)
+                .FirstOrDefaultAsync(f => f.IdFilme == filme.IdFilme);
 
-        if (!string.IsNullOrEmpty(filme.nomeFilme))
+            if (existingFilme is null)
+                return UnprocessableEntity(ErrorResponse.EntityNotFound);
+
+            // Trate a associação da sala da mesma forma que no método de cadastro
+            if (filme.Sala != null)
+            {
+                var existingSala = await _dbContext.Sala.FindAsync(filme.Sala.IdSala);
+
+                if (existingSala != null)
+                {
+                    _dbContext.Entry(existingSala).CurrentValues.SetValues(filme.Sala);
+                    filme.Sala = existingSala;
+                }
+                else
+                {
+                    _dbContext.Sala.Add(filme.Sala);
+                }
+            }
+
+            if (filme.nomeFilme != "string" && filme.nomeFilme != null)
         {
             existingFilme.nomeFilme = filme.nomeFilme;
         }
 
-        if (!string.IsNullOrEmpty(filme.Duracao))
+        if (filme.Duracao != "string" && filme.Duracao != null)
         {
             existingFilme.Duracao = filme.Duracao;
         }
-
-        /*if (filme.Duracao != "string" && filme.Duracao != null)
-        {
-            existingFilme.Duracao = filme.Duracao;
-        }*/
 
         if (filme.Classificacao != "string" && filme.Classificacao != null)
         {
@@ -119,15 +157,13 @@ namespace WebApiFindWorks.Controllers
             existingFilme.Categoria = filme.Categoria;
         }
 
+            // Atualize as propriedades do filme
+            _dbContext.Entry(existingFilme).CurrentValues.SetValues(filme);
 
+            await _dbContext.SaveChangesAsync();
 
-        _dbContext.Entry(existingFilme).State = EntityState.Modified;
-
-
-        await _dbContext.SaveChangesAsync();
-
-        return Ok();
-    }
+            return Ok();
+        }
 
         [HttpDelete()]
         [Route("excluir/{id}")]
