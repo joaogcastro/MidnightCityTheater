@@ -12,110 +12,23 @@ import { Title } from '@angular/platform-browser';
 })
 
 export class SnacksComponent {
-  /*@ViewChild('cancelarButton') cancelarButton!: ElementRef;
-  formulario: any;
-  ListSnacks: Snack[] = [];
-  formularioBuscar: any;
-  ObjBuscado: Snack | null = null;
+  calcularPrecoSnacks (snack: Snack): number {
+    let precoTotalSnacks=0;
 
-  constructor(private snacksService: SnacksService, private titleService: Title) { }
-
-  ngOnInit(): void {
-    this.formulario = new FormGroup({
-      idSnack: new FormControl(null),
-      sabor: new FormControl(null),
-      tamanho: new FormControl(null),
-      preco: new FormControl(null),
-    });
-    this.formularioBuscar = new FormGroup({
-      idBebida: new FormControl(null)
-    });
-    this.titleService.setTitle('Bebida MidnightCity');
+    // Somando os preços das pipocas
+  for (const pipoca of snack.pipocas) {
+    precoTotalSnacks += pipoca.preco;
   }
 
-  listar(): void {
-    this.bebidasService.listar().subscribe(
-      (bebidas: Bebida[]) => {
-        this.ListBebidas = bebidas;
-      },
-      (error) => {
-        console.error(error);
-        alert('Erro ao carregar a lista de Bebidas!');
-      }
-    );
+  // Somando os preços das bebidas
+  for (const bebida of snack.bebidas) {
+    precoTotalSnacks += bebida.preco;
   }
 
-  buscar(): void {
-    const id: number = this.formularioBuscar.get('idBebida').value;
-    if (id) {
-      this.bebidasService.buscar(id).subscribe(
-        (resultadoBusca: any) => {
-          this.formularioBuscar.get('idBebida')?.setValue(resultadoBusca.idBebida);
-          this.ObjBuscado = resultadoBusca;
-        },
-        (error) => {
-          console.error(error);
-          alert('Erro, bebida não encontrado!');
-        }
-      );
-    } else {
-      alert('Por favor, insira um ID válido para buscar.');
-    }
+  // Somando os preços dos doces
+  for (const doce of snack.doces) {
+    precoTotalSnacks += doce.preco;
   }
-
-  cadastrar(): void {
-    const bebida: Bebida = this.formulario.value;
-    if (!bebida.idBebida) { bebida.idBebida = 0 }
-    const observer: Observer<Bebida> = {
-      next(_result): void {
-        alert('Bebida cadastrada com sucesso.');
-      },
-      error(error): void {
-        console.error(error);
-        alert('Erro ao cadastrar!');
-      },
-      complete(): void {
-      },
-    };
-    this.bebidasService.cadastrar(bebida).subscribe(observer);
+    return precoTotalSnacks;
   }
-
-  alterar(): void {
-    const bebida: Bebida = this.formulario.value;
-    if (!bebida.sabor) { bebida.sabor = "string" }
-    if (!bebida.tamanho) { bebida.tamanho = "string" }
-    if (!bebida.preco || isNaN(bebida.preco)) { bebida.preco = 0; }
-
-    const observer: Observer<Bebida> = {
-      next(_result): void {
-        alert('Bebida alterada com sucesso.');
-      },
-      error(error): void {
-        console.error(error);
-        alert('Erro ao alterar!');
-      },
-      complete(): void { },
-    };
-    this.bebidasService.alterar(bebida).subscribe(observer);
-  }
-
-  excluir(): void {
-    const bebida: Bebida = this.formulario.value;
-    const observer: Observer<Bebida> = {
-      next(_result): void {
-        alert('Bebida excluída com sucesso.');
-      },
-      error(error): void {
-        console.error(error);
-        alert('Erro ao excluir!');
-      },
-      complete(): void {
-      },
-    };
-    this.bebidasService.excluir(bebida.idBebida).subscribe(observer);
-  }
-
-  reloadPage(): void {
-    window.location.reload();
-  }*/
 }

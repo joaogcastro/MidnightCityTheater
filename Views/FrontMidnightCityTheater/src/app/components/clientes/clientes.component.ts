@@ -41,7 +41,7 @@ export class ClientesComponent implements OnInit {
   listar(): void {
     this.clientesService.listar().subscribe(
       (cliente: Cliente[]) => {
-        this.ListClientes= cliente;
+        this.ListClientes = cliente;
       },
       (error) => {
         console.error(error);
@@ -87,6 +87,33 @@ export class ClientesComponent implements OnInit {
     }
   }
 
+  buscarCPFVenda(cpf: string): Cliente {
+    let cliente: Cliente | null = null;
+  
+    if (cpf) {
+      this.clientesService.buscar2(cpf).subscribe(
+        (resultadoBusca: any) => {
+          this.formularioBuscar2.get('cpf')?.setValue(resultadoBusca.cpf);
+          cliente = resultadoBusca;
+        },
+        (error) => {
+          console.error(error);
+          alert('Erro, cliente não encontrado!');
+        }
+      );
+    } else {
+      alert('Por favor, insira um CPF válido para buscar.');
+    }
+  
+    // Verifica se a variável cliente foi atribuída antes de retorná-la
+    if (cliente !== null) {
+      return cliente;
+    } else {
+      // Ou, se preferir, você pode lançar um erro, retornar null ou fazer algo mais apropriado ao seu caso.
+      throw new Error('Cliente não encontrado ou operação não concluída.');
+    }
+  }  
+
   cadastrar(): void {
     const cliente: Cliente = this.formulario.value;
     if (!cliente.idCliente) { cliente.idCliente = 0; }
@@ -101,17 +128,17 @@ export class ClientesComponent implements OnInit {
       complete(): void {
       },
     };
-  
+
     this.clientesService.cadastrar(cliente).subscribe(observer);
   }
-  
+
   alterar(): void {
     const cliente: Cliente = this.formulario.value;
     if (!cliente.cpf) { cliente.cpf = "string"; }
     if (!cliente.nome) { cliente.nome = "string"; }
     if (!cliente.email) { cliente.email = "string"; }
     if (!cliente.telefone) { cliente.telefone = "string"; }
-  
+
     const observer: Observer<Cliente> = {
       next(_result): void {
         alert('Cliente alterado com sucesso.');
@@ -124,7 +151,7 @@ export class ClientesComponent implements OnInit {
     };
     this.clientesService.alterar(cliente).subscribe(observer);
   }
-  
+
   excluir(): void {
     const cliente: Cliente = this.formulario.value;
     const observer: Observer<Cliente> = {
@@ -140,7 +167,7 @@ export class ClientesComponent implements OnInit {
     };
     this.clientesService.excluir(cliente.idCliente).subscribe(observer);
   }
-  
+
   reloadPage(): void {
     window.location.reload();
   }

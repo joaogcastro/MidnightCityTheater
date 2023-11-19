@@ -26,7 +26,6 @@ export class SalasComponent implements OnInit {
       tipoSala: new FormControl(null),
       preco: new FormControl(null)
     });
-    this.listar();
     this.formularioBuscar = new FormGroup({
       idSala: new FormControl(null),
     });

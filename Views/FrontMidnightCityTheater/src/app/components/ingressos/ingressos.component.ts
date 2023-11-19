@@ -37,7 +37,6 @@ export class IngressosComponent implements OnInit {
       idSala: new FormControl(null),
       idFilme: new FormControl(null)
     });
-    this.listar();
     this.formularioBuscar = new FormGroup({
       idIngresso: new FormControl(null),
     });

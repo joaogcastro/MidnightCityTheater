@@ -5,7 +5,10 @@ import { Observer } from 'rxjs';
 import { Filme } from 'src/app/Filme';
 import { Sala } from 'src/app/Sala';
 import { Venda } from 'src/app/Venda';
+import { ClientesService } from 'src/app/clientes.service';
+import { SnacksService } from 'src/app/snacks.service';
 import { VendaService } from 'src/app/venda.service';
+import { ClientesComponent } from '../clientes/clientes.component';
 
 @Component({
   selector: 'app-venda',
@@ -25,18 +28,16 @@ export class VendaComponent implements OnInit {
     { tipoIngresso: 'Inteira' }
   ]
 
-  constructor(private vendaService: VendaService, private titleService: Title) { }
+  constructor(private vendaService: VendaService, private titleService: Title, private snackSerive: SnacksService, private clienteComponent: ClientesComponent) { }
 
   ngOnInit(): void {
     this.formulario = new FormGroup({
       idVenda: new FormControl(null),
-      //data: new FormControl(null),
-      //cliente: new FormControl(null),
+      cpfCliente: new FormControl(null),
       //ingresso: new FormControl(null),
       //snack: new FormControl(null),
       precoTotal: new FormControl(null)
     });
-    this.listar();
     this.formularioBuscar = new FormGroup({
       idVenda: new FormControl(null),
     });
@@ -44,10 +45,10 @@ export class VendaComponent implements OnInit {
   }
 
   cadastrar(): void {
-    const venda: Venda = this.formulario.value;
-    if (!venda.idVenda) {
-      venda.idVenda = 0;
-    }
+    const venda: Venda = new Venda();
+    venda.idVenda = 0;
+    //Carregar o Cliente a partir do CPF usando o metodo da classe ClienteComponent
+    venda.cliente = this.clienteComponent.buscarCPFVenda(this.formulario.cpfCliente);
     const observer: Observer<Venda> = {
       next(_result): void {
         alert('Venda cadastrada com sucesso.');
@@ -92,39 +93,6 @@ export class VendaComponent implements OnInit {
       alert('Por favor, insira um ID válido para buscar.');
     }
   }
-
-  alterar(): void {
-    const venda: Venda = this.formulario.value;
-    if (venda.idVenda === null) {
-      alert('Por favor, busque uma venda antes de tentar alterar.');
-      return;
-    }
-    /*if (!venda.data) {
-      venda.data = 'date';
-    }*/
-    /*if (!venda.cliente) {
-      venda.cliente = 'string';
-    }*/
-    /*if (!venda.ingresso) {
-      venda.ingresso = 'string';
-    }*/
-    /*if (!venda.snack) {
-      venda.snack = 'string';
-    }*/
-    if (!venda.precoTotalVenda || isNaN(venda.precoTotalVenda)) { venda.precoTotalVenda = 0; }
-  
-    const observer: Observer<Venda> = {
-      next(_result): void {
-        alert('Venda alterada com sucesso.');
-      },
-      error(error): void {
-        console.error(error);
-        alert('Erro ao alterar!');
-      },
-      complete(): void {},
-    };
-    this.vendaService.alterar(venda).subscribe(observer);
-  }  
 
   excluir(): void {
     const idVenda: number = this.formulario.get('idVenda').value;

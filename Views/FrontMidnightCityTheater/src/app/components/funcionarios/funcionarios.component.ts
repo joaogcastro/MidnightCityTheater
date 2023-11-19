@@ -27,7 +27,6 @@ export class FuncionariosComponent implements OnInit {
       emailFunc: new FormControl(null),
       telefoneFunc: new FormControl(null)
     });
-    this.listar();
     this.formularioBuscar = new FormGroup({
       idFuncionario: new FormControl(null),
     });

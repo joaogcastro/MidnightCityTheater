@@ -33,7 +33,6 @@ export class FilmesComponent implements OnInit {
       categoria: new FormControl(null),
       idSala: new FormControl(null),
     });
-    this.listar();
     this.salasService.listar().subscribe(salas => {
       this.ListSalas = salas;
       if (this.ListSalas && this.ListSalas.length > 0) {
