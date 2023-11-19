@@ -60,7 +60,8 @@ export class VendaComponent implements OnInit {
   cadastrar(): void {
     const venda: Venda = new Venda();
     venda.idVenda = 0;
-    venda.cliente = this.clientesComponent.buscar2(this.formulario.cpfCliente);
+    console.log(this.clientesComponent.buscarCPFVenda(this.formulario.cpfCliente))
+    venda.cliente = this.clientesComponent.buscarCPFVenda(this.formulario.cpfCliente);
     venda.ingresso.filme = this.filmeSelecionado;
     const observer: Observer<Venda> = {
       next(_result): void {
