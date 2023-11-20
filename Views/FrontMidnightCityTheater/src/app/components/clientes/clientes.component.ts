@@ -87,33 +87,6 @@ export class ClientesComponent implements OnInit {
     }
   }
 
-  buscarCPFVenda(cpf: string): Cliente {
-    let cliente: Cliente | null = null;
-  
-    if (cpf) {
-      this.clientesService.buscar2(cpf).subscribe(
-        (resultadoBusca: any) => {
-          this.formularioBuscar2.get('cpf')?.setValue(resultadoBusca.cpf);
-          cliente = resultadoBusca;
-        },
-        (error) => {
-          console.error(error);
-          alert('Erro, cliente não encontrado!');
-        }
-      );
-    } else {
-      alert('Por favor, insira um CPF válido para buscar.');
-    }
-  
-    // Verifica se a variável cliente foi atribuída antes de retorná-la
-    if (cliente !== null) {
-      return cliente;
-    } else {
-      // Ou, se preferir, você pode lançar um erro, retornar null ou fazer algo mais apropriado ao seu caso.
-      throw new Error('Cliente não encontrado ou operação não concluída.');
-    }
-  }  
-
   cadastrar(): void {
     const cliente: Cliente = this.formulario.value;
     if (!cliente.idCliente) { cliente.idCliente = 0; }
